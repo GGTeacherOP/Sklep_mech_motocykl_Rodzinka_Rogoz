@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MotoShop - Twój kompleksowy sklep motocyklowy</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>tailwind.config = { theme: { extend: { colors: { primary: '#e63946', secondary: '#457b9d' }, borderRadius: { 'none': '0px', 'sm': '4px', DEFAULT: '8px', 'md': '12px', 'lg': '16px', 'xl': '20px', '2xl': '24px', '3xl': '32px', 'full': '9999px', 'button': '8px' } } } }</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <link rel="stylesheet" href="mainStyles.css">
+</head>
+
+<body class="bg-gray-50">
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <a href="#" class="text-3xl font-['Pacifico'] text-primary">MotoShop</a>
+                <div class="hidden md:flex items-center w-1/3 relative">
+                    <input type="text" placeholder="Szukaj produktów..."
+                        class="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-primary text-sm">
+                    <div class="absolute right-3 w-5 h-5 flex items-center justify-center">
+                        <i class="ri-search-line text-gray-500"></i>
+                    </div>
+                </div>
+                <nav class="hidden md:flex items-center space-x-6">
+                    <a href="#" class="text-gray-700 hover:text-primary font-medium whitespace-nowrap">Sklep</a>
+                    <a href="#" class="text-gray-700 hover:text-primary font-medium whitespace-nowrap">Serwis</a>
+                    <a href="#" class="text-gray-700 hover:text-primary font-medium whitespace-nowrap">Motocykle
+                        Używane</a>
+                    <a href="#" class="text-gray-700 hover:text-primary font-medium whitespace-nowrap">Kontakt</a>
+                </nav>
+                <div class="flex items-center space-x-4">
+                    <div class="w-10 h-10 flex items-center justify-center cursor-pointer relative">
+                        <i class="ri-user-line text-gray-700 ri-lg"></i>
+                    </div>
+                    <div class="w-10 h-10 flex items-center justify-center cursor-pointer relative">
+                        <i class="ri-heart-line text-gray-700 ri-lg"></i>
+                        <span
+                            class="absolute -top-1 -right-1 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">2</span>
+                    </div>
+                    <div id="cartIcon" class="w-10 h-10 flex items-center justify-center cursor-pointer relative">
+                        <i class="ri-shopping-cart-line text-gray-700 ri-lg"></i>
+                        <span id="cartCount"
+                            class="absolute -top-1 -right-1 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+                        <div id="cartDropdown"
+                            class="hidden absolute top-full right-0 mt-2 w-80 bg-white rounded-lg shadow-lg z-50 p-4">
+                            <div id="cartItems" class="max-h-96 overflow-y-auto">
+                                <div class="cart-item flex items-center gap-3 py-3 border-b">
+                                    <img src="https://readdy.ai/api/search-image?query=High-quality%20motorcycle%20helmet%20with%20visor%2C%20sleek%20design%2C%20professional%20product%20photography%20on%20clean%20white%20background%2C%20detailed%20texture%20visible%2C%20premium%20finish%2C%20safety%20certified%2C%20modern%20style&width=80&height=80&seq=2&orientation=squarish"
+                                        alt="Kask HJC RPHA 11 Carbon" class="w-16 h-16 object-cover rounded">
+                                    <div class="flex-1">
+                                        <h4 class="text-sm font-medium">Kask HJC RPHA 11 Carbon</h4>
+                                        <div class="flex items-center mt-1">
+                                            <div class="flex border rounded">
+                                                <button class="px-2 py-1 hover:bg-gray-100"
+                                                    onclick="updateQuantity(1, 'decrease')">-</button>
+                                                <input type="number" value="1" min="1" class="w-12 text-center border-x"
+                                                    onchange="updateQuantity(1, 'input')">
+                                                <button class="px-2 py-1 hover:bg-gray-100"
+                                                    onclick="updateQuantity(1, 'increase')">+</button>
+                                            </div>
+                                            <span class="ml-auto font-medium">2 499 zł</span>
+                                        </div>
+                                    </div>
+                                    <button class="text-gray-400 hover:text-primary" onclick="removeItem(1)">
+                                        <i class="ri-delete-bin-line"></i>
+                                    </button>
+                                </div>
+                                <div class="cart-item flex items-center gap-3 py-3 border-b">
+                                    <img src="https://readdy.ai/api/search-image?query=Motorcycle%20leather%20jacket%2C%20black%20with%20red%20accents%2C%20professional%20product%20photography%20on%20clean%20white%20background%2C%20detailed%20stitching%20visible%2C%20premium%20quality%20leather%2C%20protective%20padding%2C%20modern%20style&width=80&height=80&seq=3&orientation=squarish"
+                                        alt="Kurtka skórzana Dainese" class="w-16 h-16 object-cover rounded">
+                                    <div class="flex-1">
+                                        <h4 class="text-sm font-medium">Kurtka skórzana Dainese</h4>
+                                        <div class="flex items-center mt-1">
+                                            <div class="flex border rounded">
+                                                <button class="px-2 py-1 hover:bg-gray-100"
+                                                    onclick="updateQuantity(2, 'decrease')">-</button>
+                                                <input type="number" value="1" min="1" class="w-12 text-center border-x"
+                                                    onchange="updateQuantity(2, 'input')">
+                                                <button class="px-2 py-1 hover:bg-gray-100"
+                                                    onclick="updateQuantity(2, 'increase')">+</button>
+                                            </div>
+                                            <span class="ml-auto font-medium">1 699 zł</span>
+                                        </div>
+                                    </div>
+                                    <button class="text-gray-400 hover:text-primary" onclick="removeItem(2)">
+                                        <i class="ri-delete-bin-line"></i>
+                                    </button>
+                                </div>
+                                <div class="cart-item flex items-center gap-3 py-3">
+                                    <img src="https://readdy.ai/api/search-image?query=Motorcycle%20gloves%2C%20professional%20racing%20style%2C%20black%20and%20red%20color%20scheme%2C%20protective%20padding%2C%20professional%20product%20photography%20on%20clean%20white%20background%2C%20detailed%20stitching%20visible%2C%20premium%20materials&width=80&height=80&seq=4&orientation=squarish"
+                                        alt="Rękawice Alpinestars GP Pro R3" class="w-16 h-16 object-cover rounded">
+                                    <div class="flex-1">
+                                        <h4 class="text-sm font-medium">Rękawice Alpinestars GP Pro R3</h4>
+                                        <div class="flex items-center mt-1">
+                                            <div class="flex border rounded">
+                                                <button class="px-2 py-1 hover:bg-gray-100"
+                                                    onclick="updateQuantity(3, 'decrease')">-</button>
+                                                <input type="number" value="1" min="1" class="w-12 text-center border-x"
+                                                    onchange="updateQuantity(3, 'input')">
+                                                <button class="px-2 py-1 hover:bg-gray-100"
+                                                    onclick="updateQuantity(3, 'increase')">+</button>
+                                            </div>
+                                            <span class="ml-auto font-medium">599 zł</span>
+                                        </div>
+                                    </div>
+                                    <button class="text-gray-400 hover:text-primary" onclick="removeItem(3)">
+                                        <i class="ri-delete-bin-line"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="mt-4 pt-4 border-t">
+                                <div class="flex justify-between text-sm mb-2">
+                                    <span class="font-medium">Suma częściowa:</span>
+                                    <span class="font-medium">4 797 zł</span>
+                                </div>
+                                <div class="flex justify-between text-sm mb-4">
+                                    <span class="font-medium">Dostawa:</span>
+                                    <span class="text-gray-600">Za darmo</span>
+                                </div>
+                                <div class="flex justify-between font-bold mb-6">
+                                    <span>Razem:</span>
+                                    <span>4 797 zł</span>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <a href="#"
+                                        class="bg-primary text-white text-center py-2 rounded-button font-medium hover:bg-opacity-90 transition">Zamów
+                                        teraz</a>
+                                    <a href="#"
+                                        class="bg-gray-100 text-gray-800 text-center py-2 rounded-button font-medium hover:bg-gray-200 transition">Przejdź
+                                        do koszyka</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:hidden w-10 h-10 flex items-center justify-center cursor-pointer">
+                        <i class="ri-menu-line text-gray-700 ri-lg"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-3 relative md:hidden">
+                <input type="text" placeholder="Szukaj produktów..."
+                    class="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-primary text-sm">
+                <div
+                    class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 flex items-center justify-center">
+                    <i class="ri-search-line text-gray-500"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section class="hero-section relative"
+        style="background-image: url('https://readdy.ai/api/search-image?query=A%20professional%20motorcycle%20shop%20with%20modern%20motorcycles%20on%20display%2C%20soft%20lighting%2C%20high-end%20motorcycle%20gear%20and%20accessories%20visible%20in%20the%20background%2C%20clean%20and%20spacious%20interior%2C%20premium%20atmosphere%2C%20warm%20lighting%20highlighting%20the%20motorcycles%2C%20blurred%20background%20with%20motorcycle%20parts&width=1920&height=800&seq=1&orientation=landscape');">
+        <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+        <div class="container mx-auto px-4 py-20 md:py-32 relative z-10">
+            <div class="max-w-2xl">
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">Twój kompleksowy sklep motocyklowy</h1>
+                <p class="text-lg text-white mb-8">Oferujemy najwyższej jakości części, akcesoria, serwis oraz motocykle
+                    używane. Wszystko w jednym miejscu dla pasjonatów dwóch kółek.</p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#"
+                        class="bg-primary text-white px-6 py-3 rounded-button font-medium hover:bg-opacity-90 transition whitespace-nowrap">Odwiedź
+                        sklep</a>
+                    <a href="#"
+                        class="bg-white text-primary px-6 py-3 rounded-button font-medium hover:bg-gray-100 transition whitespace-nowrap">Umów
+                        serwis</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">Popularne kategorie</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+                <a href="#"
+                    class="flex flex-col items-center p-6 rounded-lg border border-gray-100 hover:shadow-md transition group">
+                    <div
+                        class="w-16 h-16 flex items-center justify-center bg-gray-100 rounded-full mb-4 group-hover:bg-primary/10 transition">
+                        <i class="ri-motorcycle-line text-primary ri-2x"></i>
+                    </div>
+                    <h3 class="font-medium text-gray-800 text-center">Kaski</h3>
+                </a>
+                <a href="#"
+                    class="flex flex-col items-center p-6 rounded-lg border border-gray-100 hover:shadow-md transition group">
+                    <div
+                        class="w-16 h-16 flex items-center justify-center bg-gray-100 rounded-full mb-4 group-hover:bg-primary/10 transition">
+                        <i class="ri-t-shirt-line text-primary ri-2x"></i>
+                    </div>
+                    <h3 class="font-medium text-gray-800 text-center">Odzież</h3>
+                </a>
+                <a href="#"
+                    class="flex flex-col items-center p-6 rounded-lg border border-gray-100 hover:shadow-md transition group">
+                    <div
+                        class="w-16 h-16 flex items-center justify-center bg-gray-100 rounded-full mb-4 group-hover:bg-primary/10 transition">
+                        <i class="ri-tools-line text-primary ri-2x"></i>
+                    </div>
+                    <h3 class="font-medium text-gray-800 text-center">Części</h3>
+                </a>
+                <a href="#"
+                    class="flex flex-col items-center p-6 rounded-lg border border-gray-100 hover:shadow-md transition group">
+                    <div
+                        class="w-16 h-16 flex items-center justify-center bg-gray-100 rounded-full mb-4 group-hover:bg-primary/10 transition">
+                        <i class="ri-oil-line text-primary ri-2x"></i>
+                    </div>
+                    <h3 class="font-medium text-gray-800 text-center">Oleje</h3>
+                </a>
+                <a href="#"
+                    class="flex flex-col items-center p-6 rounded-lg border border-gray-100 hover:shadow-md transition group">
+                    <div
+                        class="w-16 h-16 flex items-center justify-center bg-gray-100 rounded-full mb-4 group-hover:bg-primary/10 transition">
+                        <i class="ri-battery-2-charge-line text-primary ri-2x"></i>
+                    </div>
+                    <h3 class="font-medium text-gray-800 text-center">Akumulatory</h3>
+                </a>
+                <a href="#"
+                    class="flex flex-col items-center p-6 rounded-lg border border-gray-100 hover:shadow-md transition group">
+                    <div
+                        class="w-16 h-16 flex items-center justify-center bg-gray-100 rounded-full mb-4 group-hover:bg-primary/10 transition">
+                        <i class="ri-steering-2-line text-primary ri-2x"></i>
+                    </div>
+                    <h3 class="font-medium text-gray-800 text-center">Akcesoria</h3>
+                </a>
+            </div>
+        </div>
+    </section>
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center mb-10">
+                <h2 class="text-3xl font-bold">Polecane produkty</h2>
+                <a href="https://readdy.ai/home/75b309ba-d11f-4116-99ad-0a9691952f9a/8a3be152-d9d9-41a0-975e-6d322d2d7420"
+                    data-readdy="true" class="text-primary font-medium flex items-center">
+                    Zobacz wszystkie
+                    <i class="ri-arrow-right-line ml-1"></i>
+                </a>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition">
+                    <div class="relative">
+                        <img src="https://readdy.ai/api/search-image?query=High-quality%20motorcycle%20helmet%20with%20visor%2C%20sleek%20design%2C%20professional%20product%20photography%20on%20clean%20white%20background%2C%20detailed%20texture%20visible%2C%20premium%20finish%2C%20safety%20certified%2C%20modern%20style&width=400&height=300&seq=2&orientation=squarish"
+                            alt="Kask motocyklowy" class="w-full h-60 object-cover object-top">
+                        <span
+                            class="absolute top-3 left-3 bg-primary text-white text-xs font-medium px-2 py-1 rounded">Nowość</span>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-medium text-gray-900 mb-2">Kask HJC RPHA 11 Carbon</h3>
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-half-fill"></i>
+                            </div>
+                            <span class="text-gray-500 text-sm ml-2">(24)</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-gray-900">2 499 zł</span>
+                            <button
+                                class="w-10 h-10 flex items-center justify-center bg-primary text-white rounded-full hover:bg-primary/90 transition !rounded-button">
+                                <i class="ri-shopping-cart-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition">
+                    <div class="relative">
+                        <img src="https://readdy.ai/api/search-image?query=Motorcycle%20leather%20jacket%2C%20black%20with%20red%20accents%2C%20professional%20product%20photography%20on%20clean%20white%20background%2C%20detailed%20stitching%20visible%2C%20premium%20quality%20leather%2C%20protective%20padding%2C%20modern%20style&width=400&height=300&seq=3&orientation=squarish"
+                            alt="Kurtka motocyklowa" class="w-full h-60 object-cover object-top">
+                        <span
+                            class="absolute top-3 left-3 bg-secondary text-white text-xs font-medium px-2 py-1 rounded">-15%</span>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-medium text-gray-900 mb-2">Kurtka skórzana Dainese</h3>
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-line"></i>
+                            </div>
+                            <span class="text-gray-500 text-sm ml-2">(18)</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="text-lg font-bold text-gray-900">1 699 zł</span>
+                                <span class="text-sm text-gray-500 line-through ml-2">1 999 zł</span>
+                            </div>
+                            <button
+                                class="w-10 h-10 flex items-center justify-center bg-primary text-white rounded-full hover:bg-primary/90 transition !rounded-button">
+                                <i class="ri-shopping-cart-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition">
+                    <div class="relative">
+                        <img src="https://readdy.ai/api/search-image?query=Motorcycle%20gloves%2C%20professional%20racing%20style%2C%20black%20and%20red%20color%20scheme%2C%20protective%20padding%2C%20professional%20product%20photography%20on%20clean%20white%20background%2C%20detailed%20stitching%20visible%2C%20premium%20materials&width=400&height=300&seq=4&orientation=squarish"
+                            alt="Rękawice motocyklowe" class="w-full h-60 object-cover object-top">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-medium text-gray-900 mb-2">Rękawice Alpinestars GP Pro R3</h3>
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                            </div>
+                            <span class="text-gray-500 text-sm ml-2">(32)</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-gray-900">599 zł</span>
+                            <button
+                                class="w-10 h-10 flex items-center justify-center bg-primary text-white rounded-full hover:bg-primary/90 transition !rounded-button">
+                                <i class="ri-shopping-cart-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition">
+                    <div class="relative">
+                        <img src="https://readdy.ai/api/search-image?query=Motorcycle%20boots%2C%20racing%20style%2C%20black%20with%20protective%20elements%2C%20professional%20product%20photography%20on%20clean%20white%20background%2C%20detailed%20texture%20visible%2C%20premium%20materials%2C%20safety%20features&width=400&height=300&seq=5&orientation=squarish"
+                            alt="Buty motocyklowe" class="w-full h-60 object-cover object-top">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-medium text-gray-900 mb-2">Buty TCX RT-Race Pro Air</h3>
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-half-fill"></i>
+                            </div>
+                            <span class="text-gray-500 text-sm ml-2">(15)</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-gray-900">1 299 zł</span>
+                            <button
+                                class="w-10 h-10 flex items-center justify-center bg-primary text-white rounded-full hover:bg-primary/90 transition !rounded-button">
+                                <i class="ri-shopping-cart-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">Nasze usługi</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 rounded-lg p-8 text-center hover:shadow-md transition">
+                    <div class="w-16 h-16 flex items-center justify-center bg-primary/10 rounded-full mx-auto mb-6">
+                        <i class="ri-store-3-line text-primary ri-2x"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Sklep online</h3>
+                    <p class="text-gray-600 mb-6">Szeroki wybór akcesoriów, części i odzieży motocyklowej od najlepszych
+                        producentów. Szybka dostawa i profesjonalne doradztwo.</p>
+                    <a href="#" class="text-primary font-medium inline-flex items-center">
+                        Przejdź do sklepu
+                        <i class="ri-arrow-right-line ml-1"></i>
+                    </a>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-8 text-center hover:shadow-md transition">
+                    <div class="w-16 h-16 flex items-center justify-center bg-primary/10 rounded-full mx-auto mb-6">
+                        <i class="ri-tools-fill text-primary ri-2x"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Serwis motocyklowy</h3>
+                    <p class="text-gray-600 mb-6">Profesjonalny serwis wykonywany przez doświadczonych mechaników.
+                        Przeglądy, naprawy, diagnostyka i konserwacja wszystkich marek.</p>
+                    <a href="#" class="text-primary font-medium inline-flex items-center">
+                        Umów wizytę
+                        <i class="ri-arrow-right-line ml-1"></i>
+                    </a>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-8 text-center hover:shadow-md transition">
+                    <div class="w-16 h-16 flex items-center justify-center bg-primary/10 rounded-full mx-auto mb-6">
+                        <i class="ri-motorcycle-fill text-primary ri-2x"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Motocykle używane</h3>
+                    <p class="text-gray-600 mb-6">Sprawdzone motocykle używane z gwarancją. Każdy pojazd przechodzi
+                        dokładną kontrolę techniczną przed wystawieniem na sprzedaż.</p>
+                    <a href="#" class="text-primary font-medium inline-flex items-center">
+                        Zobacz oferty
+                        <i class="ri-arrow-right-line ml-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">Co mówią nasi klienci</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <div class="flex text-yellow-400 mb-4">
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                    </div>
+                    <p class="text-gray-600 mb-6">"Najlepszy sklep motocyklowy w jakim byłem. Profesjonalna obsługa,
+                        szeroki wybór produktów i szybka realizacja zamówień. Serwis również na najwyższym poziomie."
+                    </p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center mr-4">
+                            <i class="ri-user-line text-gray-500"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium">Marek Kowalski</h4>
+                            <p class="text-sm text-gray-500">Warszawa</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <div class="flex text-yellow-400 mb-4">
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                    </div>
+                    <p class="text-gray-600 mb-6">"Kupiłem u nich używaną Hondę CBR. Motocykl był dokładnie opisany, w
+                        świetnym stanie technicznym. Proces zakupu przebiegł sprawnie i bez żadnych niespodzianek."</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center mr-4">
+                            <i class="ri-user-line text-gray-500"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium">Piotr Nowak</h4>
+                            <p class="text-sm text-gray-500">Kraków</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <div class="flex text-yellow-400 mb-4">
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-half-fill"></i>
+                    </div>
+                    <p class="text-gray-600 mb-6">"Regularnie korzystam z ich serwisu. Mechanicy znają się na rzeczy, a
+                        ceny są uczciwe. Dodatkowo zawsze można liczyć na fachowe doradztwo przy wyborze części."</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center mr-4">
+                            <i class="ri-user-line text-gray-500"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium">Anna Wiśniewska</h4>
+                            <p class="text-sm text-gray-500">Wrocław</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">Współpracujemy z najlepszymi markami</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8">
+                <div class="flex items-center justify-center grayscale hover:grayscale-0 transition">
+                    <div class="w-12 h-12 flex items-center justify-center mr-2">
+                        <i class="ri-motorbike-fill text-gray-700 ri-2x"></i>
+                    </div>
+                    <span class="font-medium text-gray-700">Honda</span>
+                </div>
+                <div class="flex items-center justify-center grayscale hover:grayscale-0 transition">
+                    <div class="w-12 h-12 flex items-center justify-center mr-2">
+                        <i class="ri-motorbike-fill text-gray-700 ri-2x"></i>
+                    </div>
+                    <span class="font-medium text-gray-700">Yamaha</span>
+                </div>
+                <div class="flex items-center justify-center grayscale hover:grayscale-0 transition">
+                    <div class="w-12 h-12 flex items-center justify-center mr-2">
+                        <i class="ri-motorbike-fill text-gray-700 ri-2x"></i>
+                    </div>
+                    <span class="font-medium text-gray-700">Kawasaki</span>
+                </div>
+                <div class="flex items-center justify-center grayscale hover:grayscale-0 transition">
+                    <div class="w-12 h-12 flex items-center justify-center mr-2">
+                        <i class="ri-motorbike-fill text-gray-700 ri-2x"></i>
+                    </div>
+                    <span class="font-medium text-gray-700">Suzuki</span>
+                </div>
+                <div class="flex items-center justify-center grayscale hover:grayscale-0 transition">
+                    <div class="w-12 h-12 flex items-center justify-center mr-2">
+                        <i class="ri-motorbike-fill text-gray-700 ri-2x"></i>
+                    </div>
+                    <span class="font-medium text-gray-700">BMW</span>
+                </div>
+                <div class="flex items-center justify-center grayscale hover:grayscale-0 transition">
+                    <div class="w-12 h-12 flex items-center justify-center mr-2">
+                        <i class="ri-motorbike-fill text-gray-700 ri-2x"></i>
+                    </div>
+                    <span class="font-medium text-gray-700">Ducati</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="py-16 bg-gray-900 text-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto text-center">
+                <h2 class="text-3xl font-bold mb-6">Dołącz do naszego newslettera</h2>
+                <p class="text-gray-300 mb-8">Bądź na bieżąco z nowościami, promocjami i wydarzeniami. Zapisz się do
+                    naszego newslettera i otrzymaj 10% zniżki na pierwsze zamówienie.</p>
+                <div class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+                    <input type="email" placeholder="Twój adres email"
+                        class="flex-grow py-3 px-4 rounded-button border-none focus:outline-none focus:ring-2 focus:ring-primary text-gray-900">
+                    <button
+                        class="bg-primary text-white py-3 px-6 rounded-button font-medium hover:bg-opacity-90 transition whitespace-nowrap">Zapisz
+                        się</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="bg-gray-800 text-white pt-16 pb-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <h3 class="text-xl font-bold mb-6">O nas</h3>
+                    <p class="text-gray-400 mb-6">MotoShop to kompleksowy sklep motocyklowy oferujący części, akcesoria,
+                        serwis oraz motocykle używane. Jesteśmy na rynku od 2005 roku.</p>
+                    <div class="flex space-x-4">
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary transition">
+                            <i class="ri-facebook-fill"></i>
+                        </a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary transition">
+                            <i class="ri-instagram-line"></i>
+                        </a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary transition">
+                            <i class="ri-youtube-line"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Sklep</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Kaski</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Odzież</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Części</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Oleje i chemia</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Akcesoria</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Promocje</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Usługi</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Serwis motocyklowy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Przeglądy okresowe</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Motocykle używane</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Doradztwo techniczne</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Transport motocykli</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Kontakt</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <div class="w-5 h-5 flex items-center justify-center mt-1 mr-3">
+                                <i class="ri-map-pin-line text-primary"></i>
+                            </div>
+                            <span class="text-gray-400">ul. Motocyklowa 123<br>00-001 Warszawa</span>
+                        </li>
+                        <li class="flex items-center">
+                            <div class="w-5 h-5 flex items-center justify-center mr-3">
+                                <i class="ri-phone-line text-primary"></i>
+                            </div>
+                            <span class="text-gray-400">+48 123 456 789</span>
+                        </li>
+                        <li class="flex items-center">
+                            <div class="w-5 h-5 flex items-center justify-center mr-3">
+                                <i class="ri-mail-line text-primary"></i>
+                            </div>
+                            <span class="text-gray-400">kontakt@motoshop.pl</span>
+                        </li>
+                        <li class="flex items-center">
+                            <div class="w-5 h-5 flex items-center justify-center mr-3">
+                                <i class="ri-time-line text-primary"></i>
+                            </div>
+                            <span class="text-gray-400">Pon-Pt: 9:00 - 18:00<br>Sob: 9:00 - 14:00</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-gray-700 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm mb-4 md:mb-0">© 2025 MotoShop. Wszelkie prawa zastrzeżone.</p>
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white text-sm transition">Polityka prywatności</a>
+                    <a href="#" class="text-gray-400 hover:text-white text-sm transition">Regulamin</a>
+                    <a href="#" class="text-gray-400 hover:text-white text-sm transition">Mapa strony</a>
+                </div>
+                <div class="flex items-center space-x-3 mt-4 md:mt-0">
+                    <div class="w-8 h-5 flex items-center justify-center">
+                        <i class="ri-visa-fill text-gray-400 ri-lg"></i>
+                    </div>
+                    <div class="w-8 h-5 flex items-center justify-center">
+                        <i class="ri-mastercard-fill text-gray-400 ri-lg"></i>
+                    </div>
+                    <div class="w-8 h-5 flex items-center justify-center">
+                        <i class="ri-paypal-fill text-gray-400 ri-lg"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.querySelector('.ri-menu-line');
+            if (menuToggle) {
+                menuToggle.addEventListener('click', function () {
+                    alert('Menu mobilne zostanie zaimplementowane');
+                });
+            }
+
+            const cartIcon = document.getElementById('cartIcon');
+            const cartDropdown = document.getElementById('cartDropdown');
+            let isCartOpen = false;
+
+            document.addEventListener('click', function (event) {
+                if (cartIcon.contains(event.target)) {
+                    isCartOpen = !isCartOpen;
+                    cartDropdown.classList.toggle('hidden');
+                } else if (!cartDropdown.contains(event.target)) {
+                    isCartOpen = false;
+                    cartDropdown.classList.add('hidden');
+                }
+            });
+
+            window.updateQuantity = function (itemId, action) {
+                const item = document.querySelector([onclick *= "updateQuantity(${itemId}"]).closest('.cart-item');
+                const input = item.querySelector('input');
+                let value = parseInt(input.value);
+
+                if (action === 'increase') {
+                    value++;
+                } else if (action === 'decrease') {
+                    value = Math.max(1, value - 1);
+                } else if (action === 'input') {
+                    value = Math.max(1, value);
+                }
+
+                input.value = value;
+                updateCartTotal();
+            };
+
+            window.removeItem = function (itemId) {
+                const item = document.querySelector([onclick *= "removeItem(${itemId}"]).closest('.cart-item');
+                item.remove();
+                updateCartCount();
+                updateCartTotal();
+            };
+
+            function updateCartCount() {
+                const cartCount = document.getElementById('cartCount');
+                const itemCount = document.querySelectorAll('.cart-item').length;
+                cartCount.textContent = itemCount;
+                if (itemCount === 0) {
+                    cartDropdown.classList.add('hidden');
+                    isCartOpen = false;
+                }
+            }
+
+            function updateCartTotal() {
+                const items = document.querySelectorAll('.cart-item');
+                let total = 0;
+
+                items.forEach(item => {
+                    const price = parseInt(item.querySelector('.font-medium').textContent.replace(/[^\d]/g, ''));
+                    const quantity = parseInt(item.querySelector('input').value);
+                    total += price * quantity;
+                });
+
+                const totalElement = document.querySelector('.font-bold span:last-child');
+                totalElement.textContent = total.toLocaleString() + ' zł';
+
+                const subtotalElement = document.querySelector('.text-sm .font-medium:last-child');
+                subtotalElement.textContent = total.toLocaleString() + ' zł';
+            }
+        });
+    </script>
+</body>
+
+</html>
