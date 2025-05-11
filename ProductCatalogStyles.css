@@ -1,0 +1,133 @@
+:where([class^="ri-"])::before { content: "\f3c2"; }
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+            appearance: textfield;
+        }
+        .custom-checkbox {
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        .custom-checkbox input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .checkmark {
+            position: relative;
+            height: 18px;
+            width: 18px;
+            background-color: #fff;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        .custom-checkbox input:checked ~ .checkmark {
+            background-color: #e63946;
+            border-color: #e63946;
+        }
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+        .custom-checkbox input:checked ~ .checkmark:after {
+            display: block;
+        }
+        .custom-checkbox .checkmark:after {
+            left: 5px;
+            top: 1px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+        .price-range-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 4px;
+            background: #ddd;
+            border-radius: 5px;
+            outline: none;
+        }
+        .price-range-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #e63946;
+            cursor: pointer;
+        }
+        .price-range-slider::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #e63946;
+            cursor: pointer;
+            border: none;
+        }
+        .star-rating input {
+            display: none;
+        }
+        .star-rating label {
+            cursor: pointer;
+            color: #ddd;
+        }
+        .star-rating input:checked ~ label {
+            color: #ffb800;
+        }
+        .star-rating label:hover,
+        .star-rating label:hover ~ label {
+            color: #ffb800;
+        }
+        .star-rating input:checked + label:hover,
+        .star-rating input:checked ~ label:hover,
+        .star-rating label:hover ~ input:checked ~ label,
+        .star-rating input:checked ~ label:hover ~ label {
+            color: #ffb800;
+        }
+        .view-toggle input {
+            display: none;
+        }
+        .view-toggle label {
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+        }
+        .view-toggle input:checked + label {
+            background-color: rgba(230, 57, 70, 0.1);
+            color: #e63946;
+        }
+        .pagination-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            background-color: #fff;
+            border: 1px solid #e5e7eb;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .pagination-btn:hover {
+            background-color: #f3f4f6;
+        }
+        .pagination-btn.active {
+            background-color: #e63946;
+            color: white;
+            border-color: #e63946;
+        }
