@@ -60,6 +60,126 @@ document.addEventListener('DOMContentLoaded', function() {
             mileage: 3200,
             image: 'https://readdy.ai/api/search-image?query=Ducati%20Panigale%20V4%20motorcycle%20on%20white%20background%20professional%20photography&width=400&height=300&seq=6',
             condition: 'Used'
+        },
+        {
+            id: 7,
+            make: 'Triumph',
+            model: 'Street Triple',
+            year: 2021,
+            price: 38500,
+            mileage: 4800,
+            image: 'https://readdy.ai/api/search-image?query=Triumph%20Street%20Triple%20motorcycle%20on%20white%20background%20professional%20photography&width=400&height=300&seq=7',
+            condition: 'Used'
+        },
+        {
+            id: 8,
+            make: 'KTM',
+            model: '1290 Super Duke R',
+            year: 2022,
+            price: 75000,
+            mileage: 2100,
+            image: 'https://readdy.ai/api/search-image?query=KTM%201290%20Super%20Duke%20R%20motorcycle%20on%20white%20background%20professional%20photography&width=400&height=300&seq=8',
+            condition: 'Used'
+        },
+        {
+            id: 9,
+            make: 'Harley-Davidson',
+            model: 'Street Glide',
+            year: 2019,
+            price: 112000,
+            mileage: 18500,
+            image: 'https://readdy.ai/api/search-image?query=Harley-Davidson%20Street%20Glide%20motorcycle%20on%20white%20background%20professional%20photography&width=400&height=300&seq=9',
+            condition: 'Used'
+        },
+        {
+            id: 10,
+            make: 'Aprilia',
+            model: 'RSV4 Factory',
+            year: 2021,
+            price: 79900,
+            mileage: 5600,
+            image: 'https://readdy.ai/api/search-image?query=Aprilia%20RSV4%20Factory%20motorcycle%20on%20white%20background%20professional%20photography&width=400&height=300&seq=10',
+            condition: 'Used'
+        },
+        {
+            id: 11,
+            make: 'Honda',
+            model: 'Africa Twin',
+            year: 2020,
+            price: 58500,
+            mileage: 12800,
+            image: 'https://readdy.ai/api/search-image?query=Honda%20Africa%20Twin%20motorcycle%20on%20white%20background%20professional%20photography&width=400&height=300&seq=11',
+            condition: 'Used'
+        },
+        {
+            id: 12,
+            make: 'Yamaha',
+            model: 'Tracer 900 GT',
+            year: 2021,
+            price: 45900,
+            mileage: 8200,
+            image: 'https://readdy.ai/api/search-image?query=Yamaha%20Tracer%20900%20GT%20motorcycle%20on%20white%20background%20professional%20photography&width=400&height=300&seq=12',
+            condition: 'Used'
+        },
+        {
+            id: 13,
+            make: 'Kawasaki',
+            model: 'Z900',
+            year: 2022,
+            price: 39500,
+            mileage: 3400,
+            image: 'https://readdy.ai/api/search-image?query=Kawasaki%20Z900%20motorcycle%20on%20white%20background%20professional%20photography&width=400&height=300&seq=13',
+            condition: 'Used'
+        },
+        {
+            id: 14,
+            make: 'Ducati',
+            model: 'Monster 937',
+            year: 2023,
+            price: 55000,
+            mileage: 800,
+            image: 'https://readdy.ai/api/search-image?query=Ducati%20Monster%20937%20motorcycle%20on%20white%20background%20professional%20photography&width=400&height=300&seq=14',
+            condition: 'Used'
+        },
+        {
+            id: 15,
+            make: 'BMW',
+            model: 'S1000RR',
+            year: 2022,
+            price: 82500,
+            mileage: 4200,
+            image: 'https://readdy.ai/api/search-image?query=BMW%20S1000RR%20motorcycle%20on%20white%20background%20professional%20photography&width=400&height=300&seq=15',
+            condition: 'Used'
+        },
+        {
+            id: 16,
+            make: 'KTM',
+            model: '390 Duke',
+            year: 2021,
+            price: 22500,
+            mileage: 5600,
+            image: 'https://readdy.ai/api/search-image?query=KTM%20390%20Duke%20motorcycle%20on%20white%20background%20professional%20photography&width=400&height=300&seq=16',
+            condition: 'Used'
+        },
+        {
+            id: 17,
+            make: 'Suzuki',
+            model: 'V-Strom 650',
+            year: 2020,
+            price: 35900,
+            mileage: 14200,
+            image: 'https://readdy.ai/api/search-image?query=Suzuki%20V-Strom%20650%20motorcycle%20on%20white%20background%20professional%20photography&width=400&height=300&seq=17',
+            condition: 'Used'
+        },
+        {
+            id: 18,
+            make: 'Triumph',
+            model: 'Bonneville T120',
+            year: 2019,
+            price: 42000,
+            mileage: 9800,
+            image: 'https://readdy.ai/api/search-image?query=Triumph%20Bonneville%20T120%20motorcycle%20on%20white%20background%20professional%20photography&width=400&height=300&seq=18',
+            condition: 'Used'
         }
     ];
 
