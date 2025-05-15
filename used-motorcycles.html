@@ -11,136 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
-    <link rel="stylesheet" href="ProductCatalogStyles.css">
-    <style>
-        /* Custom checkboxes */
-        .custom-checkbox {
-            display: flex;
-            align-items: center;
-            position: relative;
-            padding-left: 35px;
-            cursor: pointer;
-            font-size: 14px;
-            user-select: none;
-            line-height: 1.5;
-            color: #4B5563;
-        }
-
-        .custom-checkbox input {
-            position: absolute;
-            opacity: 0;
-            cursor: pointer;
-            height: 0;
-            width: 0;
-        }
-
-        .checkmark {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 20px;
-            width: 20px;
-            background-color: #fff;
-            border: 1px solid #D1D5DB;
-            border-radius: 4px;
-        }
-
-        .custom-checkbox:hover input ~ .checkmark {
-            background-color: #F9FAFB;
-        }
-
-        .custom-checkbox input:checked ~ .checkmark {
-            background-color: #e63946;
-            border-color: #e63946;
-        }
-
-        .checkmark:after {
-            content: "";
-            position: absolute;
-            display: none;
-        }
-
-        .custom-checkbox input:checked ~ .checkmark:after {
-            display: block;
-        }
-
-        .custom-checkbox .checkmark:after {
-            left: 7px;
-            top: 3px;
-            width: 6px;
-            height: 10px;
-            border: solid white;
-            border-width: 0 2px 2px 0;
-            transform: rotate(45deg);
-        }
-
-        /* Range slider styling */
-        .price-range-slider {
-            width: 100%;
-            height: 6px;
-            -webkit-appearance: none;
-            background: #E5E7EB;
-            border-radius: 3px;
-            outline: none;
-            opacity: 0.7;
-            transition: opacity 0.2s;
-        }
-
-        .price-range-slider:hover {
-            opacity: 1;
-        }
-
-        .price-range-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: #e63946;
-            cursor: pointer;
-        }
-
-        .price-range-slider::-moz-range-thumb {
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: #e63946;
-            cursor: pointer;
-            border: none;
-        }
-
-        /* Pagination styling */
-        .pagination-btn {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid #E5E7EB;
-            background-color: #fff;
-            color: #4B5563;
-            font-size: 14px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .pagination-btn:hover:not(:disabled) {
-            border-color: #e63946;
-            color: #e63946;
-        }
-
-        .pagination-btn.active {
-            background-color: #e63946;
-            color: white;
-            border-color: #e63946;
-        }
-
-        .pagination-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-    </style>
+    <link rel="stylesheet" href="used-motorcycles.css">
 </head>
 <body class="bg-gray-50">
     <!-- Header -->
@@ -161,9 +32,9 @@
                 <!-- Navigation -->
                 <nav class="hidden md:flex items-center space-x-6">
                     <a href="ProductCatalog.html" class="text-gray-700 hover:text-primary font-medium whitespace-nowrap">Sklep</a>
-                    <a href="#" class="text-gray-700 hover:text-primary font-medium whitespace-nowrap">Serwis</a>
+                    <a href="service.html" class="text-gray-700 hover:text-primary font-medium whitespace-nowrap">Serwis</a>
                     <a href="used-motorcycles.html" class="text-gray-700 hover:text-primary font-medium whitespace-nowrap">Motocykle Używane</a>
-                    <a href="#" class="text-gray-700 hover:text-primary font-medium whitespace-nowrap">Kontakt</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-primary font-medium whitespace-nowrap">Kontakt</a>
                 </nav>
                 
                 <!-- Icons -->
@@ -449,8 +320,20 @@
             <div class="pt-8 border-t border-gray-700 flex flex-col md:flex-row justify-between items-center">
                 <p class="text-gray-400 text-sm mb-4 md:mb-0">© 2025 MotoShop. Wszelkie prawa zastrzeżone.</p>
                 <div class="flex items-center space-x-4">
-                    <a href="#" class="text-gray-400 hover:text-white text-sm transition">Polityka prywatności</a>
-                    <a href="#" class="text-gray-400 hover:text-white text-sm transition">Regulamin</a>
+                    <a href="privacy-policy.html" class="text-gray-400 hover:text-white text-sm transition">Polityka prywatności</a>
+                    <a href="terms.html" class="text-gray-400 hover:text-white text-sm transition">Regulamin</a>
+                    <a href="sitemap.html" class="text-gray-400 hover:text-white text-sm transition">Mapa strony</a>
+                </div>
+                <div class="flex items-center space-x-3 mt-4 md:mt-0">
+                    <div class="w-8 h-5 flex items-center justify-center">
+                        <i class="ri-visa-fill text-gray-400 ri-lg"></i>
+                    </div>
+                    <div class="w-8 h-5 flex items-center justify-center">
+                        <i class="ri-mastercard-fill text-gray-400 ri-lg"></i>
+                    </div>
+                    <div class="w-8 h-5 flex items-center justify-center">
+                        <i class="ri-paypal-fill text-gray-400 ri-lg"></i>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Strony - MotoShop</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>tailwind.config = { theme: { extend: { colors: { primary: '#e63946', secondary: '#457b9d' }, borderRadius: { 'none': '0px', 'sm': '4px', DEFAULT: '8px', 'md': '12px', 'lg': '16px', 'xl': '20px', '2xl': '24px', '3xl': '32px', 'full': '9999px', 'button': '8px' } } } }</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <link rel="stylesheet" href="mainStyles.css">
+</head>
+<body class="bg-gray-50">
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="text-3xl font-['Pacifico'] text-primary">MotoShop</a>
+                <nav class="hidden md:flex items-center space-x-6">
+                    <a href="ProductCatalog.html" class="text-gray-700 hover:text-primary font-medium">Sklep</a>
+                    <a href="service.html" class="text-gray-700 hover:text-primary font-medium">Serwis</a>
+                    <a href="used-motorcycles.html" class="text-gray-700 hover:text-primary font-medium">Motocykle Używane</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-primary font-medium">Kontakt</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold mb-8">Mapa Strony</h1>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div>
+                <h2 class="text-xl font-semibold mb-4">Strony główne</h2>
+                <ul class="space-y-2">
+                    <li><a href="index.html" class="text-gray-600 hover:text-primary transition">Strona główna</a></li>
+                    <li><a href="ProductCatalog.html" class="text-gray-600 hover:text-primary transition">Sklep</a></li>
+                    <li><a href="service.html" class="text-gray-600 hover:text-primary transition">Serwis</a></li>
+                    <li><a href="used-motorcycles.html" class="text-gray-600 hover:text-primary transition">Motocykle używane</a></li>
+                    <li><a href="contact.html" class="text-gray-600 hover:text-primary transition">Kontakt</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h2 class="text-xl font-semibold mb-4">Kategorie produktów</h2>
+                <ul class="space-y-2">
+                    <li><a href="ProductCatalog.html?category=helmets" class="text-gray-600 hover:text-primary transition">Kaski</a></li>
+                    <li><a href="ProductCatalog.html?category=clothing" class="text-gray-600 hover:text-primary transition">Odzież</a></li>
+                    <li><a href="ProductCatalog.html?category=parts" class="text-gray-600 hover:text-primary transition">Części</a></li>
+                    <li><a href="ProductCatalog.html?category=oils" class="text-gray-600 hover:text-primary transition">Oleje i chemia</a></li>
+                    <li><a href="ProductCatalog.html?category=accessories" class="text-gray-600 hover:text-primary transition">Akcesoria</a></li>
+                    <li><a href="ProductCatalog.html?category=promotions" class="text-gray-600 hover:text-primary transition">Promocje</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h2 class="text-xl font-semibold mb-4">Usługi</h2>
+                <ul class="space-y-2">
+                    <li><a href="service.html" class="text-gray-600 hover:text-primary transition">Serwis motocyklowy</a></li>
+                    <li><a href="service.html#periodic" class="text-gray-600 hover:text-primary transition">Przeglądy okresowe</a></li>
+                    <li><a href="service.html#consultation" class="text-gray-600 hover:text-primary transition">Doradztwo techniczne</a></li>
+                    <li><a href="service.html#transport" class="text-gray-600 hover:text-primary transition">Transport motocykli</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h2 class="text-xl font-semibold mb-4">Konto</h2>
+                <ul class="space-y-2">
+                    <li><a href="login.html" class="text-gray-600 hover:text-primary transition">Logowanie</a></li>
+                    <li><a href="register.html" class="text-gray-600 hover:text-primary transition">Rejestracja</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-primary transition">Moje zamówienia</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-primary transition">Moje dane</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h2 class="text-xl font-semibold mb-4">Informacje</h2>
+                <ul class="space-y-2">
+                    <li><a href="privacy-policy.html" class="text-gray-600 hover:text-primary transition">Polityka prywatności</a></li>
+                    <li><a href="terms.html" class="text-gray-600 hover:text-primary transition">Regulamin</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-primary transition">O nas</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-primary transition">Blog</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h2 class="text-xl font-semibold mb-4">Kontakt</h2>
+                <ul class="space-y-2">
+                    <li><a href="contact.html" class="text-gray-600 hover:text-primary transition">Formularz kontaktowy</a></li>
+                    <li><a href="tel:+48123456789" class="text-gray-600 hover:text-primary transition">+48 123 456 789</a></li>
+                    <li><a href="mailto:kontakt@motoshop.pl" class="text-gray-600 hover:text-primary transition">kontakt@motoshop.pl</a></li>
+                    <li><a href="https://maps.google.com/?q=ul.+Motocyklowa+123,+Warszawa" target="_blank" class="text-gray-600 hover:text-primary transition">ul. Motocyklowa 123, Warszawa</a></li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white pt-16 pb-8">
+        <div class="container mx-auto px-4">
+            <div class="pt-8 border-t border-gray-700 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm mb-4 md:mb-0">© 2025 MotoShop. Wszelkie prawa zastrzeżone.</p>
+                <div class="flex items-center space-x-4">
+                    <a href="privacy-policy.html" class="text-gray-400 hover:text-white text-sm transition">Polityka prywatności</a>
+                    <a href="terms.html" class="text-gray-400 hover:text-white text-sm transition">Regulamin</a>
+                    <a href="sitemap.html" class="text-gray-400 hover:text-white text-sm transition">Mapa strony</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html> 
