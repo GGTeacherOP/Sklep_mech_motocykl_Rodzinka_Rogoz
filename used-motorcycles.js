@@ -399,4 +399,33 @@ document.addEventListener('DOMContentLoaded', function() {
     setupCheckboxFilters();
     renderMotorcycles(motorcycles);
     updateFilterCount(motorcycles.length);
+
+    // Sortowanie
+    const sortSelect = document.querySelector('select');
+    if (sortSelect) {
+        sortSelect.addEventListener('change', function() {
+            const sortValue = this.value;
+            let sortedMotorcycles = [...motorcycles];
+
+            switch(sortValue) {
+                case 'newest':
+                    sortedMotorcycles.sort((a, b) => b.id - a.id);
+                    break;
+                case 'price_asc':
+                    sortedMotorcycles.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price_desc':
+                    sortedMotorcycles.sort((a, b) => b.price - a.price);
+                    break;
+                case 'year_desc':
+                    sortedMotorcycles.sort((a, b) => b.year - a.year);
+                    break;
+                case 'mileage_asc':
+                    sortedMotorcycles.sort((a, b) => a.mileage - b.mileage);
+                    break;
+            }
+
+            renderMotorcycles(sortedMotorcycles);
+        });
+    }
 });
