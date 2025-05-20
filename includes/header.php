@@ -70,12 +70,17 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <div class="flex items-center justify-between">
                 <a href="index.php" class="text-3xl font-['Pacifico'] text-primary">MotoShop</a>
                 <div class="hidden md:flex items-center w-1/3 relative">
-                    <form action="search.php" method="GET">
-                        <input type="text" name="query" placeholder="Szukaj produktów..." 
-                            class="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-primary text-sm">
-                        <button type="submit" class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 flex items-center justify-center">
-                            <i class="ri-search-line text-gray-500"></i>
-                        </button>
+                    <form action="search.php" method="GET" class="w-full">
+                        <div class="relative">
+                            <input type="text" name="query" placeholder="Szukaj produktów..." 
+                                class="w-full py-2.5 pl-4 pr-12 rounded-full border border-gray-200 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 text-sm bg-gray-50 hover:bg-white transition-colors duration-200"
+                                id="searchInput"
+                                autocomplete="off">
+                            <button type="submit" class="absolute right-3 top-1/2 transform -translate-y-1/2 w-8 h-8 flex items-center justify-center text-gray-500 hover:text-primary transition-colors duration-200">
+                                <i class="ri-search-line"></i>
+                            </button>
+                            <div id="searchPreview" class="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg shadow-lg border border-gray-200 hidden z-50 max-h-96 overflow-y-auto"></div>
+                        </div>
                     </form>
                 </div>
                 <nav class="hidden md:flex items-center space-x-6">
@@ -107,11 +112,16 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </div>
             <div class="mt-3 relative md:hidden">
                 <form action="search.php" method="GET">
-                    <input type="text" name="query" placeholder="Szukaj produktów..." 
-                        class="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-primary text-sm">
-                    <button type="submit" class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 flex items-center justify-center">
-                        <i class="ri-search-line text-gray-500"></i>
-                    </button>
+                    <div class="relative">
+                        <input type="text" name="query" placeholder="Szukaj produktów..." 
+                            class="w-full py-2.5 pl-4 pr-12 rounded-full border border-gray-200 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 text-sm bg-gray-50 hover:bg-white transition-colors duration-200"
+                            id="searchInputMobile"
+                            autocomplete="off">
+                        <button type="submit" class="absolute right-3 top-1/2 transform -translate-y-1/2 w-8 h-8 flex items-center justify-center text-gray-500 hover:text-primary transition-colors duration-200">
+                            <i class="ri-search-line"></i>
+                        </button>
+                        <div id="searchPreviewMobile" class="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg shadow-lg border border-gray-200 hidden z-50 max-h-96 overflow-y-auto"></div>
+                    </div>
                 </form>
             </div>
             
@@ -128,3 +138,75 @@ $current_page = basename($_SERVER['PHP_SELF']);
     </header>
 
     <?php displayMessage(); // Wyświetlanie komunikatów ?>
+
+<script>
+// Funkcja do obsługi wyszukiwania
+function setupSearch(inputId, previewId) {
+    const input = document.getElementById(inputId);
+    const preview = document.getElementById(previewId);
+    let timeoutId;
+
+    input.addEventListener('input', function() {
+        clearTimeout(timeoutId);
+        const query = this.value.trim();
+
+        if (query.length < 2) {
+            preview.classList.add('hidden');
+            return;
+        }
+
+        // Show loading state
+        preview.innerHTML = '<div class="p-4 text-center text-gray-500">Ładowanie...</div>';
+        preview.classList.remove('hidden');
+
+        timeoutId = setTimeout(() => {
+            fetch(`ajax/search-preview.php?query=${encodeURIComponent(query)}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        preview.innerHTML = data.html;
+                        preview.classList.remove('hidden');
+                    } else {
+                        console.error('Search error:', data.debug || data.message);
+                        preview.innerHTML = `<div class="p-4 text-center text-gray-500">
+                            <div class="text-red-500 mb-2">${data.message}</div>
+                            ${data.debug ? `<div class="text-xs text-gray-400">${data.debug}</div>` : ''}
+                        </div>`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Search error:', error);
+                    preview.innerHTML = `<div class="p-4 text-center text-gray-500">
+                        <div class="text-red-500 mb-2">Błąd wyszukiwania</div>
+                        <div class="text-xs text-gray-400">${error.message}</div>
+                    </div>`;
+                });
+        }, 300);
+    });
+
+    // Ukryj podgląd po kliknięciu poza nim
+    document.addEventListener('click', function(e) {
+        if (!input.contains(e.target) && !preview.contains(e.target)) {
+            preview.classList.add('hidden');
+        }
+    });
+
+    // Obsługa klawiszy
+    input.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            preview.classList.add('hidden');
+        }
+    });
+}
+
+// Inicjalizacja wyszukiwania dla desktop i mobile
+document.addEventListener('DOMContentLoaded', function() {
+    setupSearch('searchInput', 'searchPreview');
+    setupSearch('searchInputMobile', 'searchPreviewMobile');
+});
+</script>

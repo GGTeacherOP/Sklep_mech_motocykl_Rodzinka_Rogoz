@@ -121,7 +121,7 @@ include 'includes/header.php';
     <!-- Nagłówek -->
     <section class="relative">
         <div class="relative h-[30vh] md:h-[40vh] bg-gray-900 overflow-hidden">
-            <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://readdy.ai/api/search-image?query=Motorcycle%20showroom%20with%20multiple%20used%20motorcycles%20on%20display%2C%20clean%2C%20professional&width=1800&height=700&orientation=landscape');">
+            <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('assets/images/service-page-banner.png');">
                 <div class="absolute inset-0 bg-black opacity-40"></div>
             </div>
             <div class="absolute inset-0 flex items-center">

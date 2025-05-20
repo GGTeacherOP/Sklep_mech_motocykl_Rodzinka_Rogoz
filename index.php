@@ -58,7 +58,7 @@ include 'includes/header.php';
     <section class="relative">
         <!-- Hero Slider -->
         <div class="relative h-[50vh] md:h-[70vh] bg-gray-900 overflow-hidden">
-            <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://readdy.ai/api/search-image?query=Motorcycle%20shop%20with%20multiple%20motorcycles%20on%20display%2C%20professional%2C%20clean%2C%20well-lit%20showroom&width=1800&height=1000&orientation=landscape');">
+            <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('assets/images/hero-bg.jpg');">
                 <div class="absolute inset-0 bg-black opacity-40"></div>
             </div>
             <div class="absolute inset-0 flex items-center">
@@ -151,7 +151,7 @@ include 'includes/header.php';
                 <?php
                 if (!empty($featured_products)) {
                     foreach ($featured_products as $product) {
-                        $image = $product['image_path'] ?? 'assets/images/placeholder.jpg';
+                        $image = $product['image_path'] ?? 'assets/images/product-placeholder.jpg';
                         
                         // Oblicz procent rabatu jeśli jest
                         $discount_percentage = '';
@@ -233,7 +233,7 @@ include 'includes/header.php';
 
     <!-- Banner serwisu -->
     <section class="py-16 relative">
-        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://readdy.ai/api/search-image?query=Motorcycle%20repair%20workshop%2C%20mechanic%20working%20on%20motorcycle%2C%20professional%20tools%2C%20clean%20workspace&width=1800&height=600&orientation=landscape');">
+        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('assets/images/service-banner.jpg');">
             <div class="absolute inset-0 bg-primary opacity-75"></div>
         </div>
         <div class="container mx-auto px-4 relative">
