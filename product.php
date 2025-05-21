@@ -237,9 +237,7 @@ try {
                         </div>
                         
                         <?php if ($product['stock'] > 0): ?>
-                        <form action="cart-actions.php" method="post" class="add-to-cart-form mb-6">
-                            <input type="hidden" name="action" value="add">
-                            <input type="hidden" name="redirect" value="true">
+                        <form class="add-to-cart-form mb-6">
                             <input type="hidden" name="product_id" value="<?php echo $product_id; ?>">
                             
                             <div class="flex items-center mb-4">
@@ -257,7 +255,7 @@ try {
                             </div>
                             
                             <div class="flex space-x-3">
-                                <button type="submit" class="add-to-cart-btn flex-1 bg-primary text-white py-3 px-6 rounded-lg font-medium hover:bg-opacity-90 transition flex items-center justify-center">
+                                <button type="button" onclick="addToCart(<?php echo $product_id; ?>)" class="add-to-cart-btn flex-1 bg-primary text-white py-3 px-6 rounded-lg font-medium hover:bg-opacity-90 transition flex items-center justify-center">
                                     <i class="ri-shopping-cart-line mr-2"></i> Dodaj do koszyka
                                 </button>
                             </div>
@@ -349,7 +347,7 @@ try {
                                     <input type="hidden" name="action" value="add">
                                     <input type="hidden" name="product_id" value="<?php echo $related['id']; ?>">
                                     <input type="hidden" name="quantity" value="1">
-                                    <button type="submit" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-primary hover:text-white transition">
+                                    <button onclick="addToCart(<?php echo $related['id']; ?>)" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-primary hover:text-white transition">
                                         <i class="ri-shopping-cart-line"></i>
                                     </button>
                                 </form>
@@ -368,57 +366,44 @@ try {
 // Skrypt JS do obsługi strony produktu
 $extra_js = <<<EOT
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Obsługa przełączania między zakładkami
-    const tabButtons = document.querySelectorAll('.tab-button');
-    const tabContents = document.querySelectorAll('.tab-content');
+function addToCart(productId) {
+    const quantity = document.getElementById('quantity').value;
     
-    tabButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            // Przełączanie klas dla przycisków zakładek
-            tabButtons.forEach(btn => {
-                btn.classList.remove('border-primary', 'text-primary');
-                btn.classList.add('border-transparent', 'text-gray-500');
-            });
-            this.classList.remove('border-transparent', 'text-gray-500');
-            this.classList.add('border-primary', 'text-primary');
+    fetch('cart-actions.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'action=add&product_id=' + productId + '&quantity=' + quantity
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Aktualizacja liczby produktów w koszyku
+            const cartCount = document.getElementById('cartCount');
+            if (cartCount) {
+                cartCount.textContent = data.cart_count;
+                cartCount.classList.remove('hidden');
+            }
             
-            // Przełączanie widoczności zawartości zakładek
-            const tabId = this.dataset.tab;
-            tabContents.forEach(content => {
-                content.classList.add('hidden');
-            });
-            document.getElementById(tabId + '-content').classList.remove('hidden');
-        });
+            alert('Produkt został dodany do koszyka');
+        } else {
+            alert('Wystąpił błąd: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Wystąpił błąd podczas dodawania produktu do koszyka');
     });
-    
-    // Obsługa miniatur zdjęć
-    const thumbnails = document.querySelectorAll('.thumbnail-image');
-    const mainImage = document.getElementById('mainImage');
-    
-    if (thumbnails.length > 0 && mainImage) {
-        thumbnails.forEach(thumb => {
-            thumb.addEventListener('click', function() {
-                // Zmiana głównego zdjęcia
-                mainImage.src = this.dataset.src;
-                
-                // Aktualizacja stylu aktywnej miniatury
-                thumbnails.forEach(t => {
-                    t.classList.remove('border-primary');
-                    t.classList.add('border-transparent');
-                });
-                this.classList.remove('border-transparent');
-                this.classList.add('border-primary');
-            });
-        });
-    }
-    
-    // Obsługa ilości
+}
+
+// Obsługa przycisków +/- ilości
+document.addEventListener('DOMContentLoaded', function() {
     const incrementBtn = document.querySelector('.increment-qty');
     const decrementBtn = document.querySelector('.decrement-qty');
     const quantityInput = document.getElementById('quantity');
     
-    if (incrementBtn && quantityInput) {
+    if (incrementBtn) {
         incrementBtn.addEventListener('click', function() {
             const currentValue = parseInt(quantityInput.value);
             const maxValue = parseInt(quantityInput.getAttribute('max'));
@@ -429,7 +414,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    if (decrementBtn && quantityInput) {
+    if (decrementBtn) {
         decrementBtn.addEventListener('click', function() {
             const currentValue = parseInt(quantityInput.value);
             

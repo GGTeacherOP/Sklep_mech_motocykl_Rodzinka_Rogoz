@@ -39,16 +39,12 @@ if ($users_result && $users_result->num_rows > 0) {
 // Zamówienia
 $orders_count = 0;
 $orders_revenue = 0;
-// Nie pobieramy informacji o kolumnie z kwotą, ponieważ jej struktura może się różnić
 
-$orders_result = $conn->query("SELECT COUNT(*) as count FROM orders");
+$orders_result = $conn->query("SELECT COUNT(*) as count, SUM(total) as revenue FROM orders");
 if ($orders_result && $orders_result->num_rows > 0) {
     $orders_data = $orders_result->fetch_assoc();
     $orders_count = $orders_data['count'];
-    
-    // Zamiast obliczać przychód, wyświetlimy tylko liczbę zamówień
-    // Jest to najbezpieczniejsze rozwiązanie, ponieważ nie wymaga żadnych dodatkowych kolumn
-    $orders_revenue = 0; // Brak informacji o przychodach
+    $orders_revenue = $orders_data['revenue'] ?? 0;
 }
 
 // Ostatnie zamówienia

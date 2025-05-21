@@ -35,7 +35,7 @@ $product = [
     'category_id' => 0,
     'brand_id' => 0,
     'featured' => 0,
-    'status' => 'active'
+    'status' => 'published'
 ];
 
 $images = [];
@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $category_id = isset($_POST['category_id']) ? (int)$_POST['category_id'] : 0;
     $brand_id = isset($_POST['brand_id']) ? (int)$_POST['brand_id'] : 0;
     $featured = isset($_POST['featured']) ? 1 : 0;
-    $status = $_POST['status'] ?? 'active';
+    $status = $_POST['status'] ?? 'published';
     
     // Walidacja
     if (empty($name) || empty($slug) || empty($description) || $price <= 0) {

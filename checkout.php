@@ -1,12 +1,13 @@
 <?php
 $page_title = "Zamówienie | MotoShop";
 require_once 'includes/config.php';
-include 'includes/header.php';
 
 // Sprawdzenie czy koszyk nie jest pusty
 $cart_items = [];
 $cart_total = 0;
 $cart_count = 0;
+$shipping_cost = 15.00; // Domyślny koszt wysyłki
+$total = 0; // Domyślna wartość całkowita
 
 // Pobieranie zawartości koszyka
 if (isLoggedIn()) {
@@ -90,16 +91,17 @@ if (empty($cart_items)) {
     exit;
 }
 
-// Obliczanie wartości zamówienia
-$subtotal = $cart_total;
-$shipping_cost = 15.00; // Domyślny koszt wysyłki
-$total = $subtotal + $shipping_cost;
+// Obliczanie początkowej wartości całkowitej
+$total = $cart_total + $shipping_cost;
 
 // Obsługa formularza zamówienia
 $error_message = '';
 $success_message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Debugowanie - zapis do pliku
+    error_log("Rozpoczęcie procesu składania zamówienia");
+    
     // Walidacja danych
     $first_name = isset($_POST['first_name']) ? sanitize($_POST['first_name']) : '';
     $last_name = isset($_POST['last_name']) ? sanitize($_POST['last_name']) : '';
@@ -111,13 +113,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $shipping_method = isset($_POST['shipping_method']) ? sanitize($_POST['shipping_method']) : '';
     $payment_method = isset($_POST['payment_method']) ? sanitize($_POST['payment_method']) : '';
     
+    error_log("Dane formularza: " . print_r($_POST, true));
+    
     // Sprawdzanie czy wszystkie pola są wypełnione
     if (empty($first_name) || empty($last_name) || empty($email) || empty($phone) || 
         empty($address) || empty($city) || empty($postal_code) || 
         empty($shipping_method) || empty($payment_method)) {
         $error_message = 'Wszystkie pola są wymagane.';
+        error_log("Błąd walidacji: " . $error_message);
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error_message = 'Podany adres email jest nieprawidłowy.';
+        error_log("Błąd walidacji email: " . $error_message);
     } else {
         // Aktualizacja kosztu wysyłki na podstawie wybranej metody
         if ($shipping_method === 'courier') {
@@ -128,12 +134,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $shipping_cost = 0;
         }
         
-        $total = $subtotal + $shipping_cost;
+        $total = $cart_total + $shipping_cost;
         
         // Tworzenie zamówienia w bazie danych
         $status = 'pending';
         $order_number = generateOrderNumber();
         $order_date = date('Y-m-d H:i:s');
+        
+        error_log("Próba utworzenia zamówienia: " . $order_number);
         
         // Zapisywanie zamówienia
         $order_query = "INSERT INTO orders (order_number, user_id, first_name, last_name, email, phone, 
@@ -142,10 +150,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         VALUES ('$order_number', " . (isLoggedIn() ? $user_id : "NULL") . ", 
                         '$first_name', '$last_name', '$email', '$phone', 
                         '$address', '$city', '$postal_code', '$shipping_method', '$payment_method', 
-                        $subtotal, $shipping_cost, $total, '$status', '$order_date')";
+                        $cart_total, $shipping_cost, $total, '$status', '$order_date')";
+        
+        error_log("Zapytanie SQL: " . $order_query);
         
         if ($conn->query($order_query) === TRUE) {
             $order_id = $conn->insert_id;
+            error_log("Zamówienie utworzone pomyślnie. ID: " . $order_id);
             
             // Zapisywanie pozycji zamówienia
             $success = true;
@@ -160,6 +171,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 if ($conn->query($item_query) !== TRUE) {
                     $success = false;
+                    error_log("Błąd podczas dodawania pozycji zamówienia: " . $conn->error);
                     break;
                 }
                 
@@ -169,6 +181,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             
             if ($success) {
+                error_log("Wszystkie pozycje zamówienia dodane pomyślnie");
+                
                 // Czyszczenie koszyka po złożeniu zamówienia
                 if (isLoggedIn()) {
                     $clear_cart = "DELETE FROM cart_items WHERE cart_id = $cart_id";
@@ -177,14 +191,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     unset($_SESSION['cart_items']);
                 }
                 
-                // Przekierowanie do strony potwierdzenia zamówienia
-                header("Location: order-confirmation.php?order_id=$order_id");
+                error_log("Przekierowanie do: payment-simulation.php?order_id=$order_id");
+                
+                // Przekierowanie do strony płatności
+                header("Location: payment-simulation.php?order_id=$order_id");
                 exit;
             } else {
                 $error_message = 'Wystąpił błąd podczas tworzenia zamówienia. Spróbuj ponownie.';
+                error_log("Błąd podczas tworzenia zamówienia: " . $error_message);
             }
         } else {
             $error_message = 'Wystąpił błąd podczas tworzenia zamówienia. Spróbuj ponownie.';
+            error_log("Błąd podczas tworzenia zamówienia: " . $conn->error);
         }
     }
 }
@@ -193,6 +211,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 function generateOrderNumber() {
     return 'MS-' . date('Ymd') . '-' . strtoupper(substr(uniqid(), -5));
 }
+
+// Dołączanie nagłówka strony
+include 'includes/header.php';
 ?>
 
 <main>
@@ -402,7 +423,7 @@ function generateOrderNumber() {
                             <div class="space-y-3 mb-6">
                                 <div class="flex justify-between items-center">
                                     <span class="text-gray-600">Wartość produktów</span>
-                                    <span class="font-medium"><?php echo number_format($subtotal, 2, ',', ' '); ?> zł</span>
+                                    <span class="font-medium"><?php echo number_format($cart_total, 2, ',', ' '); ?> zł</span>
                                 </div>
                                 
                                 <div class="flex justify-between items-center">
@@ -453,7 +474,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const shippingOptions = document.querySelectorAll('.shipping-option');
     const shippingCostElem = document.getElementById('shipping-cost');
     const totalAmountElem = document.getElementById('total-amount');
-    const subtotal = $subtotal;
+    const subtotal = $cart_total;
     
     // Obsługa kliknięcia w opcję dostawy
     shippingOptions.forEach(option => {

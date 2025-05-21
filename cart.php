@@ -150,8 +150,8 @@ $final_total = $cart_total - $coupon_discount;
                     <?php endif; ?>
                     
                     <div class="bg-white rounded-lg shadow-sm overflow-hidden">
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-gray-200">
+                        <div class="cart-table-container">
+                            <table class="cart-table min-w-full divide-y divide-gray-200">
                                 <thead class="bg-gray-50">
                                     <tr>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -192,10 +192,10 @@ $final_total = $cart_total - $coupon_discount;
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <?php if (!empty($item['sale_price'])): ?>
-                                            <div class="text-sm font-medium text-primary"><?php echo number_format($item['sale_price'], 2, ',', ' '); ?> zł</div>
+                                            <div class="text-sm font-medium text-primary price-value" data-price="<?php echo $item['sale_price']; ?>"><?php echo number_format($item['sale_price'], 2, ',', ' '); ?> zł</div>
                                             <div class="text-xs text-gray-500 line-through"><?php echo number_format($item['price'], 2, ',', ' '); ?> zł</div>
                                             <?php else: ?>
-                                            <div class="text-sm font-medium text-gray-900"><?php echo number_format($item['price'], 2, ',', ' '); ?> zł</div>
+                                            <div class="text-sm font-medium text-gray-900 price-value" data-price="<?php echo $item['price']; ?>"><?php echo number_format($item['price'], 2, ',', ' '); ?> zł</div>
                                             <?php endif; ?>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
@@ -211,7 +211,7 @@ $final_total = $cart_total - $coupon_discount;
                                                 </button>
                                             </div>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary">
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary item-total">
                                             <?php echo number_format($item_total, 2, ',', ' '); ?> zł
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -230,9 +230,6 @@ $final_total = $cart_total - $coupon_discount;
                         <a href="ProductCatalog.php" class="inline-flex items-center text-primary hover:underline">
                             <i class="ri-arrow-left-line mr-2"></i> Kontynuuj zakupy
                         </a>
-                        <button id="update-cart" class="bg-gray-800 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition">
-                            Aktualizuj koszyk
-                        </button>
                     </div>
                 </div>
                 
@@ -242,20 +239,20 @@ $final_total = $cart_total - $coupon_discount;
                         
                         <div class="space-y-3 mb-6">
                             <div class="flex justify-between items-center pb-3 border-b border-gray-200">
-                                <span class="text-gray-600">Wartość produktów (<?php echo $cart_count; ?>)</span>
-                                <span class="font-medium"><?php echo number_format($cart_total, 2, ',', ' '); ?> zł</span>
+                                <span class="text-gray-600">Wartość produktów (<span class="cart-count"><?php echo $cart_count; ?></span>)</span>
+                                <span class="font-medium cart-total"><?php echo number_format($cart_total, 2, ',', ' '); ?> zł</span>
                             </div>
                             
                             <?php if ($coupon_discount > 0): ?>
                             <div class="flex justify-between items-center pb-3 border-b border-gray-200 text-green-600">
                                 <span>Rabat kuponowy</span>
-                                <span>-<?php echo number_format($coupon_discount, 2, ',', ' '); ?> zł</span>
+                                <span class="coupon-discount" data-discount="<?php echo $coupon_discount; ?>">-<?php echo number_format($coupon_discount, 2, ',', ' '); ?> zł</span>
                             </div>
                             <?php endif; ?>
                             
                             <div class="flex justify-between items-center pt-3 text-lg font-bold">
                                 <span>Razem</span>
-                                <span class="text-primary"><?php echo number_format($final_total, 2, ',', ' '); ?> zł</span>
+                                <span class="text-primary final-total"><?php echo number_format($final_total, 2, ',', ' '); ?> zł</span>
                             </div>
                         </div>
                         
@@ -284,12 +281,133 @@ $final_total = $cart_total - $coupon_discount;
     </div>
 </main>
 
-<?php
-// Skrypt JS do obsługi koszyka
-$extra_js = <<<EOT
+<!-- Modal logowania -->
+<div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold">Zaloguj się</h2>
+            <button onclick="hideLoginModal()" class="text-gray-500 hover:text-gray-700">
+                <i class="ri-close-line text-2xl"></i>
+            </button>
+        </div>
+        <p class="text-gray-600 mb-6">Aby przejść do kasy, musisz się zalogować.</p>
+        <div class="flex gap-4">
+            <a href="login.php" class="flex-1 bg-primary text-white text-center py-2 rounded-button hover:bg-opacity-90 transition">
+                Zaloguj się
+            </a>
+            <a href="register.php" class="flex-1 bg-gray-200 text-gray-800 text-center py-2 rounded-button hover:bg-gray-300 transition">
+                Zarejestruj się
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+.cart-row {
+    transition: all 0.3s ease-out;
+    transform-origin: left;
+    overflow: hidden;
+}
+
+.cart-row.removing {
+    opacity: 0;
+    transform: translateX(20px);
+    height: 0;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
+.notification {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    background-color: #ef4444;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    z-index: 50;
+    transform: translateY(100%);
+    opacity: 0;
+    transition: all 0.3s ease-out;
+}
+
+.notification.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Nowe style dla tabeli */
+.cart-table-container {
+    overflow: hidden;
+}
+
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+@media (max-width: 768px) {
+    .cart-table-container {
+        overflow-x: auto;
+    }
+}
+</style>
+
 <script>
+function showLoginModal() {
+    document.getElementById('loginModal').classList.remove('hidden');
+    document.getElementById('loginModal').classList.add('flex');
+}
+
+function hideLoginModal() {
+    document.getElementById('loginModal').classList.remove('flex');
+    document.getElementById('loginModal').classList.add('hidden');
+}
+
+function updatePrices() {
+    let cartTotal = 0;
+    let cartCount = 0;
+    
+    // Aktualizacja cen dla każdego produktu
+    document.querySelectorAll('tr[data-product-id]').forEach(row => {
+        const quantityInput = row.querySelector('.quantity-input');
+        const quantity = parseInt(quantityInput.value);
+        const priceElement = row.querySelector('.price-value');
+        const totalElement = row.querySelector('.item-total');
+        const price = parseFloat(priceElement.getAttribute('data-price'));
+        
+        const itemTotal = price * quantity;
+        totalElement.textContent = itemTotal.toFixed(2).replace('.', ',') + ' zł';
+        
+        cartTotal += itemTotal;
+        cartCount += quantity;
+    });
+    
+    // Aktualizacja podsumowania
+    document.querySelector('.cart-total').textContent = cartTotal.toFixed(2).replace('.', ',') + ' zł';
+    document.querySelector('.cart-count').textContent = cartCount;
+    
+    // Aktualizacja sumy końcowej (z uwzględnieniem kuponu jeśli jest)
+    const couponDiscount = parseFloat(document.querySelector('.coupon-discount')?.getAttribute('data-discount') || 0);
+    const finalTotal = cartTotal - couponDiscount;
+    document.querySelector('.final-total').textContent = finalTotal.toFixed(2).replace('.', ',') + ' zł';
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-    // Obsługa przycisku "plus"
+    const checkoutButton = document.querySelector('a[href="checkout.php"]');
+    if (checkoutButton) {
+        checkoutButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            <?php if (!isLoggedIn()): ?>
+                showLoginModal();
+            <?php else: ?>
+                window.location.href = 'checkout.php';
+            <?php endif; ?>
+        });
+    }
+
     const incrementButtons = document.querySelectorAll('.increment-qty');
     incrementButtons.forEach(button => {
         button.addEventListener('click', function() {
@@ -299,13 +417,13 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (currentValue < maxValue) {
                 input.value = currentValue + 1;
+                updatePrices();
             } else {
                 alert('Nie możesz dodać więcej tego produktu (dostępna ilość: ' + maxValue + ')');
             }
         });
     });
     
-    // Obsługa przycisku "minus"
     const decrementButtons = document.querySelectorAll('.decrement-qty');
     decrementButtons.forEach(button => {
         button.addEventListener('click', function() {
@@ -314,11 +432,29 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (currentValue > 1) {
                 input.value = currentValue - 1;
+                updatePrices();
             }
         });
     });
+
+    // Obsługa ręcznego wpisywania ilości
+    const quantityInputs = document.querySelectorAll('.quantity-input');
+    quantityInputs.forEach(input => {
+        input.addEventListener('change', function() {
+            const currentValue = parseInt(this.value);
+            const maxValue = parseInt(this.getAttribute('max'));
+            
+            if (currentValue < 1) {
+                this.value = 1;
+            } else if (currentValue > maxValue) {
+                this.value = maxValue;
+                alert('Nie możesz dodać więcej tego produktu (dostępna ilość: ' + maxValue + ')');
+            }
+            
+            updatePrices();
+        });
+    });
     
-    // Obsługa przycisku "Aktualizuj koszyk"
     const updateButton = document.getElementById('update-cart');
     if (updateButton) {
         updateButton.addEventListener('click', function() {
@@ -355,38 +491,86 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Obsługa przycisku "Usuń"
     const removeButtons = document.querySelectorAll('.remove-item');
     removeButtons.forEach(button => {
         button.addEventListener('click', function() {
-            if (confirm('Czy na pewno chcesz usunąć ten produkt z koszyka?')) {
-                const productId = this.getAttribute('data-product-id');
-                
-                fetch('cart-actions.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: 'action=remove&product_id=' + productId
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        window.location.reload();
-                    } else {
-                        alert('Wystąpił błąd: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Wystąpił błąd podczas usuwania produktu z koszyka');
-                });
-            }
+            const productId = this.getAttribute('data-product-id');
+            const row = this.closest('tr');
+            
+            // Dodaj klasę animacji
+            row.classList.add('cart-row', 'removing');
+            
+            fetch('cart-actions.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'action=remove&product_id=' + productId
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    setTimeout(() => {
+                        row.remove();
+                        
+                        // Aktualizacja liczby produktów w koszyku
+                        const cartCount = document.getElementById('cartCount');
+                        if (cartCount) {
+                            cartCount.textContent = data.cart_count;
+                            if (data.cart_count === 0) {
+                                cartCount.classList.add('hidden');
+                            }
+                        }
+                        
+                        // Aktualizacja podsumowania
+                        document.querySelector('.cart-count').textContent = data.cart_count;
+                        document.querySelector('.cart-total').textContent = data.cart_total + ' zł';
+                        document.querySelector('.final-total').textContent = data.final_total + ' zł';
+                        
+                        // Jeśli koszyk jest pusty, przeładuj stronę
+                        if (data.cart_count === 0) {
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 500);
+                        }
+                        
+                        // Pokaż powiadomienie
+                        const notification = document.createElement('div');
+                        notification.className = 'notification';
+                        notification.innerHTML = `
+                            <div class="flex items-center">
+                                <i class="ri-delete-bin-fill mr-2"></i>
+                                <span>Produkt został usunięty z koszyka</span>
+                            </div>
+                        `;
+                        document.body.appendChild(notification);
+                        
+                        // Pokaż powiadomienie z animacją
+                        requestAnimationFrame(() => {
+                            notification.classList.add('show');
+                        });
+                        
+                        // Usuń powiadomienie
+                        setTimeout(() => {
+                            notification.classList.remove('show');
+                            setTimeout(() => {
+                                notification.remove();
+                            }, 300);
+                        }, 3000);
+                    }, 300);
+                } else {
+                    alert('Wystąpił błąd: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Wystąpił błąd podczas usuwania produktu z koszyka');
+            });
         });
     });
 });
 </script>
-EOT;
 
+<?php
 include 'includes/footer.php';
 ?>

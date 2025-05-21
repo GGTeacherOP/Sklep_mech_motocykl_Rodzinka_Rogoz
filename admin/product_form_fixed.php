@@ -409,8 +409,8 @@ include 'includes/sidebar.php';
                             <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
                             <select name="status" id="status" required
                                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                                <option value="active" <?php echo $product['status'] === 'active' ? 'selected' : ''; ?>>Aktywny</option>
-                                <option value="inactive" <?php echo $product['status'] === 'inactive' ? 'selected' : ''; ?>>Nieaktywny</option>
+                                <option value="published" <?php echo $product['status'] === 'published' ? 'selected' : ''; ?>>Aktywny</option>
+                                <option value="out_of_stock" <?php echo $product['status'] === 'out_of_stock' ? 'selected' : ''; ?>>Brak na stanie</option>
                                 <option value="draft" <?php echo $product['status'] === 'draft' ? 'selected' : ''; ?>>Szkic</option>
                             </select>
                         </div>
