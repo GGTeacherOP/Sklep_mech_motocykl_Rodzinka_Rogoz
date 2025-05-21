@@ -108,16 +108,13 @@ $offset = ($page - 1) * $per_page;
 
 // Tworzenie zapytania - używamy bardziej solidnego zapytania, które będzie działać nawet jeśli nie ma zdjęć lub kolumny position
 $query = "SELECT p.*, c.name as category_name, b.name as brand_name,
-          pi.image_path as thumbnail
+          (SELECT image_path FROM product_images WHERE product_id = p.id ORDER BY is_main DESC, id ASC LIMIT 1) as thumbnail
           FROM products p
           LEFT JOIN categories c ON p.category_id = c.id
           LEFT JOIN brands b ON p.brand_id = b.id
-          LEFT JOIN (SELECT product_id, MIN(id) as min_id, image_path FROM product_images GROUP BY product_id) pi ON pi.product_id = p.id
           $where_clause
-          $order_clause";
-
-// Dodanie LIMIT dla paginacji
-$query .= " LIMIT $offset, $per_page";
+          $order_clause
+          LIMIT $offset, $per_page";
 
 // Wykonanie zapytania
 $result = $conn->query($query);
@@ -125,6 +122,10 @@ $products = [];
 
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
+        // Upewniamy się, że ścieżka do zdjęcia jest poprawna
+        if (!empty($row['thumbnail'])) {
+            $row['thumbnail'] = '/' . ltrim($row['thumbnail'], '/');
+        }
         $products[] = $row;
     }
 }
@@ -286,7 +287,10 @@ include 'includes/sidebar.php';
                             <div class="flex items-center">
                                 <div class="flex-shrink-0 h-10 w-10">
                                     <?php if (!empty($product['thumbnail'])): ?>
-                                    <img class="h-10 w-10 object-cover rounded-md" src="/<?php echo htmlspecialchars($product['thumbnail']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
+                                    <img class="h-10 w-10 object-cover rounded-md" 
+                                         src="<?php echo htmlspecialchars($product['thumbnail']); ?>" 
+                                         alt="<?php echo htmlspecialchars($product['name']); ?>"
+                                         onerror="this.onerror=null; this.src='/assets/images/no-image.png';">
                                     <?php else: ?>
                                     <div class="h-10 w-10 rounded-md bg-gray-200 flex items-center justify-center text-gray-400">
                                         <i class="ri-image-line"></i>

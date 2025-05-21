@@ -295,25 +295,132 @@ include 'includes/header.php';
     </div>
 </main>
 
+<!-- Modal potwierdzenia anulowania zamówienia -->
+<div id="cancelOrderModal" class="fixed inset-0 bg-black bg-opacity-30 hidden items-center justify-center z-50">
+    <div class="bg-white rounded-xl p-6 max-w-sm w-full mx-4 shadow-2xl">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-semibold text-gray-800">Anulowanie zamówienia</h2>
+            <button onclick="hideCancelOrderModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                <i class="ri-close-line text-xl"></i>
+            </button>
+        </div>
+        <p class="text-gray-500 text-sm mb-6">Czy na pewno chcesz anulować to zamówienie? Tej operacji nie można cofnąć.</p>
+        <div class="flex gap-3">
+            <button onclick="hideCancelOrderModal()" class="flex-1 bg-gray-100 text-gray-600 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors">
+                Wróć
+            </button>
+            <button id="confirmCancelOrder" class="flex-1 bg-red-500 text-white py-2 rounded-lg text-sm font-medium hover:bg-red-600 transition-colors">
+                Anuluj zamówienie
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Powiadomienie o anulowaniu -->
+<div id="cancelNotification" class="fixed bottom-4 right-4 bg-white text-gray-800 px-4 py-3 rounded-lg shadow-lg transform translate-y-full opacity-0 transition-all duration-300 z-50 border border-gray-200">
+    <div class="flex items-center">
+        <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center mr-3">
+            <i class="ri-check-line text-red-500"></i>
+        </div>
+        <span class="text-sm font-medium">Zamówienie zostało anulowane</span>
+    </div>
+</div>
+
 <?php
 // Skrypt JS do obsługi anulowania zamówienia
 $extra_js = <<<EOT
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Obsługa przycisku anulowania zamówienia
     const cancelButtons = document.querySelectorAll('.cancel-order-button');
+    const cancelOrderModal = document.getElementById('cancelOrderModal');
+    const confirmCancelButton = document.getElementById('confirmCancelOrder');
+    const cancelNotification = document.getElementById('cancelNotification');
+    let currentOrderId = null;
+    
+    function showCancelOrderModal() {
+        cancelOrderModal.classList.remove('hidden');
+        cancelOrderModal.classList.add('flex');
+    }
+    
+    function hideCancelOrderModal() {
+        cancelOrderModal.classList.remove('flex');
+        cancelOrderModal.classList.add('hidden');
+    }
+    
+    function showNotification() {
+        cancelNotification.classList.remove('translate-y-full', 'opacity-0');
+        setTimeout(() => {
+            cancelNotification.classList.add('translate-y-full', 'opacity-0');
+        }, 1500);
+    }
     
     cancelButtons.forEach(button => {
         button.addEventListener('click', function(e) {
             e.preventDefault();
-            
-            if (confirm('Czy na pewno chcesz anulować to zamówienie?')) {
-                const orderId = this.getAttribute('data-order-id');
-                
-                // Tutaj można dodać kod do wysłania żądania AJAX do anulowania zamówienia
-                alert('Funkcjonalność anulowania zamówienia zostanie dodana wkrótce.');
-            }
+            currentOrderId = this.getAttribute('data-order-id');
+            showCancelOrderModal();
         });
+    });
+    
+    confirmCancelButton.addEventListener('click', function() {
+        if (currentOrderId) {
+            // Wysyłanie żądania AJAX do anulowania zamówienia
+            fetch('order-actions.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'order_id=' + currentOrderId
+            })
+            .then(response => response.json())
+            .then(responseData => {
+                if (responseData.success) {
+                    hideCancelOrderModal();
+                    showNotification();
+                    
+                    // Przekierowanie do strony zamówień po 1.5 sekundy
+                    setTimeout(() => {
+                        window.location.href = 'account.php?tab=orders';
+                    }, 1500);
+                } else {
+                    // Wyświetlenie błędu
+                    const errorNotification = document.createElement('div');
+                    errorNotification.className = 'fixed bottom-4 right-4 bg-white text-gray-800 px-4 py-3 rounded-lg shadow-lg transform translate-y-full opacity-0 transition-all duration-300 z-50 border border-gray-200';
+                    errorNotification.innerHTML = 
+                        '<div class="flex items-center">' +
+                            '<div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center mr-3">' +
+                                '<i class="ri-error-warning-line text-red-500"></i>' +
+                            '</div>' +
+                            '<span class="text-sm font-medium">' + responseData.message + '</span>' +
+                        '</div>';
+                    document.body.appendChild(errorNotification);
+                    
+                    // Pokaż powiadomienie o błędzie
+                    requestAnimationFrame(() => {
+                        errorNotification.classList.remove('translate-y-full', 'opacity-0');
+                    });
+                    
+                    // Usuń powiadomienie po 3 sekundach
+                    setTimeout(() => {
+                        errorNotification.classList.add('translate-y-full', 'opacity-0');
+                        setTimeout(() => {
+                            errorNotification.remove();
+                        }, 300);
+                    }, 3000);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Wystąpił błąd podczas anulowania zamówienia');
+            });
+        }
+    });
+    
+    // Zamykanie modalu po kliknięciu poza nim
+    cancelOrderModal.addEventListener('click', function(e) {
+        if (e.target === cancelOrderModal) {
+            hideCancelOrderModal();
+        }
     });
 });
 </script>

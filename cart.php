@@ -150,8 +150,8 @@ $final_total = $cart_total - $coupon_discount;
                     <?php endif; ?>
                     
                     <div class="bg-white rounded-lg shadow-sm overflow-hidden">
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-gray-200">
+                        <div class="cart-table-container">
+                            <table class="cart-table min-w-full divide-y divide-gray-200">
                                 <thead class="bg-gray-50">
                                     <tr>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -302,6 +302,59 @@ $final_total = $cart_total - $coupon_discount;
     </div>
 </div>
 
+<style>
+.cart-row {
+    transition: all 0.3s ease-out;
+    transform-origin: left;
+    overflow: hidden;
+}
+
+.cart-row.removing {
+    opacity: 0;
+    transform: translateX(20px);
+    height: 0;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
+.notification {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    background-color: #ef4444;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    z-index: 50;
+    transform: translateY(100%);
+    opacity: 0;
+    transition: all 0.3s ease-out;
+}
+
+.notification.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Nowe style dla tabeli */
+.cart-table-container {
+    overflow: hidden;
+}
+
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+@media (max-width: 768px) {
+    .cart-table-container {
+        overflow-x: auto;
+    }
+}
+</style>
+
 <script>
 function showLoginModal() {
     document.getElementById('loginModal').classList.remove('hidden');
@@ -441,29 +494,78 @@ document.addEventListener('DOMContentLoaded', function() {
     const removeButtons = document.querySelectorAll('.remove-item');
     removeButtons.forEach(button => {
         button.addEventListener('click', function() {
-            if (confirm('Czy na pewno chcesz usunąć ten produkt z koszyka?')) {
-                const productId = this.getAttribute('data-product-id');
-                
-                fetch('cart-actions.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: 'action=remove&product_id=' + productId
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        window.location.reload();
-                    } else {
-                        alert('Wystąpił błąd: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Wystąpił błąd podczas usuwania produktu z koszyka');
-                });
-            }
+            const productId = this.getAttribute('data-product-id');
+            const row = this.closest('tr');
+            
+            // Dodaj klasę animacji
+            row.classList.add('cart-row', 'removing');
+            
+            fetch('cart-actions.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'action=remove&product_id=' + productId
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    setTimeout(() => {
+                        row.remove();
+                        
+                        // Aktualizacja liczby produktów w koszyku
+                        const cartCount = document.getElementById('cartCount');
+                        if (cartCount) {
+                            cartCount.textContent = data.cart_count;
+                            if (data.cart_count === 0) {
+                                cartCount.classList.add('hidden');
+                            }
+                        }
+                        
+                        // Aktualizacja podsumowania
+                        document.querySelector('.cart-count').textContent = data.cart_count;
+                        document.querySelector('.cart-total').textContent = data.cart_total + ' zł';
+                        document.querySelector('.final-total').textContent = data.final_total + ' zł';
+                        
+                        // Jeśli koszyk jest pusty, przeładuj stronę
+                        if (data.cart_count === 0) {
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 500);
+                        }
+                        
+                        // Pokaż powiadomienie
+                        const notification = document.createElement('div');
+                        notification.className = 'notification';
+                        notification.innerHTML = `
+                            <div class="flex items-center">
+                                <i class="ri-delete-bin-fill mr-2"></i>
+                                <span>Produkt został usunięty z koszyka</span>
+                            </div>
+                        `;
+                        document.body.appendChild(notification);
+                        
+                        // Pokaż powiadomienie z animacją
+                        requestAnimationFrame(() => {
+                            notification.classList.add('show');
+                        });
+                        
+                        // Usuń powiadomienie
+                        setTimeout(() => {
+                            notification.classList.remove('show');
+                            setTimeout(() => {
+                                notification.remove();
+                            }, 300);
+                        }, 3000);
+                    }, 300);
+                } else {
+                    alert('Wystąpił błąd: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Wystąpił błąd podczas usuwania produktu z koszyka');
+            });
         });
     });
 });

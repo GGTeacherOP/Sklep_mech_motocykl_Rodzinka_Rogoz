@@ -101,9 +101,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     </a>
                     <a href="cart.php" id="cartIcon" class="w-10 h-10 flex items-center justify-center cursor-pointer relative">
                         <i class="ri-shopping-cart-line text-gray-700 ri-lg"></i>
-                        <?php if ($cart_count > 0): ?>
-                        <span id="cartCount" class="absolute -top-1 -right-1 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center"><?php echo $cart_count; ?></span>
-                        <?php endif; ?>
+                        <span id="cartCount" class="absolute -top-1 -right-1 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center <?php echo $cart_count > 0 ? '' : 'hidden'; ?>"><?php echo $cart_count; ?></span>
                     </a>
                     <div class="md:hidden w-10 h-10 flex items-center justify-center cursor-pointer" id="mobileMenuButton">
                         <i class="ri-menu-line text-gray-700 ri-lg"></i>

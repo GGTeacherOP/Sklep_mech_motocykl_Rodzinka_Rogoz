@@ -412,10 +412,34 @@ function addToCart(productId) {
             const cartCount = document.getElementById('cartCount');
             if (cartCount) {
                 cartCount.textContent = data.cart_count;
-                cartCount.classList.remove('hidden');
+                if (data.cart_count > 0) {
+                    cartCount.classList.remove('hidden');
+                }
             }
             
-            alert('Produkt został dodany do koszyka');
+            // Pokaż komunikat o sukcesie
+            const successMessage = document.createElement('div');
+            successMessage.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transform transition-transform duration-300 translate-y-0';
+            successMessage.innerHTML = `
+                <div class="flex items-center">
+                    <i class="ri-checkbox-circle-fill mr-2"></i>
+                    <span>Produkt został dodany do koszyka</span>
+                </div>
+            `;
+            document.body.appendChild(successMessage);
+            
+            // Animacja wejścia
+            requestAnimationFrame(() => {
+                successMessage.style.transform = 'translateY(0)';
+            });
+            
+            // Usuń komunikat po 3 sekundach z animacją wyjścia
+            setTimeout(() => {
+                successMessage.style.transform = 'translateY(100%)';
+                setTimeout(() => {
+                    successMessage.remove();
+                }, 300);
+            }, 3000);
         } else {
             alert('Wystąpił błąd: ' + data.message);
         }
