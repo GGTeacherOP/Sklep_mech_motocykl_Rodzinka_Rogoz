@@ -105,7 +105,7 @@ if (empty($mechanics)) {
             'experience' => 15,
             'rating' => 4.5,
             'description' => 'Doświadczony mechanik z 15-letnim stażem. Specjalizuje się w motocyklach japońskich.',
-            'image_path' => 'https://readdy.ai/api/search-image?query=Professional%20motorcycle%20mechanic%20in%20uniform%2C%20confident%20pose%2C%20clean%20background&width=100&height=100&seq=1&orientation=squarish'
+            'image_path' => 'uploads/mechanics/mechanic1.jpg'
         ],
         [
             'id' => 2,
@@ -114,7 +114,7 @@ if (empty($mechanics)) {
             'experience' => 10,
             'rating' => 5.0,
             'description' => 'Ekspert w motocyklach europejskich. Certyfikowany mechanik BMW i Ducati.',
-            'image_path' => 'https://readdy.ai/api/search-image?query=Professional%20motorcycle%20mechanic%20in%20uniform%2C%20confident%20pose%2C%20clean%20background&width=100&height=100&seq=2&orientation=squarish'
+            'image_path' => 'uploads/mechanics/mechanic2.jpg'
         ],
         [
             'id' => 3,
@@ -123,7 +123,7 @@ if (empty($mechanics)) {
             'experience' => 5,
             'rating' => 4.0,
             'description' => 'Młoda, ambitna mechanik z pasją do motocykli sportowych.',
-            'image_path' => 'https://readdy.ai/api/search-image?query=Professional%20motorcycle%20mechanic%20in%20uniform%2C%20confident%20pose%2C%20clean%20background&width=100&height=100&seq=3&orientation=squarish'
+            'image_path' => 'uploads/mechanics/mechanic3.jpg'
         ]
     ];
 }
@@ -199,9 +199,15 @@ include 'includes/header.php';
         <?php foreach ($mechanics as $mechanic): ?>
         <div class="bg-white rounded-lg shadow-sm p-6">
             <div class="flex items-center mb-4">
-                <img src="<?php echo $mechanic['image_path'] ?? ''; ?>" 
-                     alt="<?php echo $mechanic['name']; ?>" 
-                     class="w-20 h-20 rounded-full object-cover mr-4">
+                <?php if (!empty($mechanic['image_path'])): ?>
+                    <img src="<?php echo $mechanic['image_path']; ?>" 
+                         alt="<?php echo $mechanic['name']; ?>" 
+                         class="w-20 h-20 rounded-full object-cover mr-4">
+                <?php else: ?>
+                    <div class="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center mr-4">
+                        <i class="ri-user-line text-4xl text-gray-500"></i>
+                    </div>
+                <?php endif; ?>
                 <div>
                     <h3 class="text-xl font-bold"><?php echo $mechanic['name']; ?></h3>
                     <p class="text-gray-600">Specjalista <?php echo $mechanic['specialization']; ?></p>
