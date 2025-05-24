@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Maj 19, 2025 at 10:24 PM
--- Wersja serwera: 10.4.28-MariaDB
--- Wersja PHP: 8.2.4
+-- Host: 127.0.0.1
+-- Generation Time: Maj 24, 2025 at 03:29 PM
+-- Wersja serwera: 10.4.32-MariaDB
+-- Wersja PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -53,7 +53,13 @@ INSERT INTO `brands` (`id`, `name`, `slug`, `logo`, `description`, `created_at`,
 (9, 'Suzuki', 'suzuki', NULL, NULL, '2025-05-19 12:49:34', '2025-05-19 12:49:34'),
 (10, 'Kawasaki', 'kawasaki', NULL, NULL, '2025-05-19 12:49:34', '2025-05-19 12:49:34'),
 (11, 'BMW', 'bmw', NULL, NULL, '2025-05-19 12:49:34', '2025-05-19 12:49:34'),
-(12, 'Ducati', 'ducati', NULL, NULL, '2025-05-19 12:49:34', '2025-05-19 12:49:34');
+(12, 'Ducati', 'ducati', NULL, NULL, '2025-05-19 12:49:34', '2025-05-19 12:49:34'),
+(13, 'AGV', 'agv', NULL, NULL, '2025-05-21 21:08:54', '2025-05-21 21:08:54'),
+(14, 'Castrol', 'castrol', NULL, NULL, '2025-05-21 21:08:54', '2025-05-21 21:08:54'),
+(15, 'DID', 'did', NULL, NULL, '2025-05-21 21:08:54', '2025-05-21 21:08:54'),
+(16, 'Galfer', 'galfer', NULL, NULL, '2025-05-21 21:08:54', '2025-05-21 21:08:54'),
+(17, 'Shido', 'shido', NULL, NULL, '2025-05-21 21:08:54', '2025-05-21 21:08:54'),
+(18, 'Michelin', 'michelin', NULL, NULL, '2025-05-21 21:08:54', '2025-05-21 21:08:54');
 
 -- --------------------------------------------------------
 
@@ -74,7 +80,8 @@ CREATE TABLE `carts` (
 --
 
 INSERT INTO `carts` (`id`, `user_id`, `session_id`, `created_at`, `updated_at`) VALUES
-(1, 4, NULL, '2025-05-19 18:47:49', '2025-05-19 18:47:49');
+(1, 4, NULL, '2025-05-19 18:47:49', '2025-05-19 18:47:49'),
+(2, 5, NULL, '2025-05-21 20:08:25', '2025-05-21 20:08:25');
 
 -- --------------------------------------------------------
 
@@ -166,9 +173,9 @@ CREATE TABLE `mechanics` (
 --
 
 INSERT INTO `mechanics` (`id`, `name`, `specialization`, `experience`, `rating`, `image_path`, `description`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Jan Kowalski', 'Honda, Yamaha', 15, 4.5, NULL, 'Doświadczony mechanik z 15-letnim stażem. Specjalizuje się w motocyklach japońskich.', 'active', '2025-05-19 12:49:34', '2025-05-19 12:49:34'),
-(2, 'Piotr Nowak', 'BMW, Ducati', 10, 5.0, NULL, 'Ekspert w motocyklach europejskich. Certyfikowany mechanik BMW i Ducati.', 'active', '2025-05-19 12:49:34', '2025-05-19 12:49:34'),
-(3, 'Anna Wiśniewska', 'Suzuki, Kawasaki', 5, 4.0, NULL, 'Młoda, ambitna mechanik z pasją do motocykli sportowych.', 'active', '2025-05-19 12:49:34', '2025-05-19 12:49:34');
+(1, 'Jan Kowalski', 'Honda, Yamaha', 15, 4.5, 'uploads/mechanics/mechanic1.jpg', 'Doświadczony mechanik z 15-letnim stażem. Specjalizuje się w motocyklach japońskich.', 'active', '2025-05-19 12:49:34', '2025-05-21 19:48:30'),
+(2, 'Piotr Nowak', 'BMW, Ducati', 10, 5.0, 'uploads/mechanics/mechanic2.jpg', 'Ekspert w motocyklach europejskich. Certyfikowany mechanik BMW i Ducati.', 'active', '2025-05-19 12:49:34', '2025-05-21 19:48:30'),
+(3, 'Anna Wiśniewska', 'Suzuki, Kawasaki', 5, 4.0, 'uploads/mechanics/mechanic3.jpg', 'Młoda, ambitna mechanik z pasją do motocykli sportowych.', 'active', '2025-05-19 12:49:34', '2025-05-21 19:48:30');
 
 -- --------------------------------------------------------
 
@@ -236,6 +243,7 @@ CREATE TABLE `orders` (
   `user_id` int(11) DEFAULT NULL,
   `order_number` varchar(50) NOT NULL,
   `status` enum('pending','processing','shipped','delivered','cancelled') DEFAULT 'pending',
+  `order_date` datetime DEFAULT current_timestamp(),
   `total_amount` decimal(10,2) NOT NULL,
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
@@ -245,10 +253,36 @@ CREATE TABLE `orders` (
   `city` varchar(100) NOT NULL,
   `postal_code` varchar(20) NOT NULL,
   `payment_method` enum('cash','transfer','card','online') NOT NULL,
+  `subtotal` decimal(10,2) DEFAULT 0.00,
+  `shipping_method` varchar(50) DEFAULT NULL,
+  `shipping_cost` decimal(10,2) DEFAULT 0.00,
+  `total` decimal(10,2) DEFAULT 0.00,
   `payment_status` enum('pending','paid','failed') DEFAULT 'pending',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `user_id`, `order_number`, `status`, `order_date`, `total_amount`, `first_name`, `last_name`, `email`, `phone`, `address`, `city`, `postal_code`, `payment_method`, `subtotal`, `shipping_method`, `shipping_cost`, `total`, `payment_status`, `created_at`, `updated_at`) VALUES
+(1, 5, 'MS-20250521-AEDE6', 'pending', '2025-05-21 22:21:26', 654.99, 'Bartłomiej', 'Rogóz', 'bartibarti58@gmail.com', '123456789', 'Szczeka 4', 'Rytwiany', '28-236', 'online', 639.99, 'courier', 15.00, 654.99, 'pending', '2025-05-21 20:21:26', '2025-05-24 12:23:43'),
+(2, 5, 'MS-20250521-A7285', 'pending', '2025-05-21 22:23:31', 654.99, 'Bartłomiej', 'Rogóz', 'bartibarti58@gmail.com', '123456789', 'Szczeka 4', 'Rytwiany', '28-236', 'online', 639.99, 'courier', 15.00, 654.99, 'pending', '2025-05-21 20:23:31', '2025-05-24 12:23:43'),
+(3, 5, 'MS-20250521-14321', 'processing', '2025-05-21 22:27:00', 654.99, 'Bartłomiej', 'Rogóz', 'bartibarti58@gmail.com', '123456789', 'Szczeka 4', 'Rytwiany', '28-236', 'online', 639.99, 'courier', 15.00, 654.99, 'pending', '2025-05-21 20:27:00', '2025-05-24 12:23:43'),
+(4, 5, 'MS-20250521-CF06D', 'pending', '2025-05-21 23:00:38', 854.97, 'Bartłomiej', 'Rogóz', 'bartibarti58@gmail.com', '123456789', 'Szczeka 4', 'Rytwiany', '28-236', 'card', 839.97, 'courier', 15.00, 854.97, 'pending', '2025-05-21 21:00:38', '2025-05-24 12:23:43'),
+(5, 5, 'MS-20250521-53845', 'processing', '2025-05-21 23:26:00', 1044.96, 'Bartłomiej', 'Rogóz', 'bartibarti58@gmail.com', '123456789', 'Szczeka 4', 'Rytwiany', '28-236', 'online', 1029.96, 'courier', 15.00, 1044.96, 'pending', '2025-05-21 21:26:00', '2025-05-24 12:23:43'),
+(6, 5, 'MS-20250521-33511', 'processing', '2025-05-21 23:29:49', 654.99, 'Bartłomiej', 'Rogóz', 'bartibarti58@gmail.com', '123456789', 'Szczeka 4', 'Rytwiany', '28-236', 'online', 639.99, 'courier', 15.00, 654.99, 'pending', '2025-05-21 21:29:49', '2025-05-24 12:23:43'),
+(7, 5, 'MS-20250521-394E3', 'processing', '2025-05-21 23:34:00', 654.99, 'Bartłomiej', 'Rogóz', 'bartibarti58@gmail.com', '123456789', 'Szczeka 4', 'Rytwiany', '28-236', 'online', 639.99, 'courier', 15.00, 654.99, 'pending', '2025-05-21 21:34:00', '2025-05-24 12:23:43'),
+(8, 5, 'MS-20250521-48386', 'processing', '2025-05-21 23:36:54', 664.99, 'Bartłomiej', 'Rogóz', 'bartibarti58@gmail.com', '123456789', 'Szczeka 4', 'Rytwiany', '28-236', 'online', 649.99, 'courier', 15.00, 664.99, 'pending', '2025-05-21 21:36:54', '2025-05-24 12:23:43'),
+(9, 5, 'MS-20250521-36A38', 'processing', '2025-05-21 23:38:52', 264.99, 'Bartłomiej', 'Rogóz', 'bartibarti58@gmail.com', '123456789', 'Szczeka 4', 'Rytwiany', '28-236', 'online', 249.99, 'courier', 15.00, 264.99, 'pending', '2025-05-21 21:38:52', '2025-05-24 12:23:43'),
+(10, 5, 'MS-20250521-42496', 'processing', '2025-05-21 23:45:46', 264.99, 'Bartłomiej', 'Rogóz', 'bartibarti58@gmail.com', '123456789', 'Szczeka 4', 'Rytwiany', '28-236', 'online', 249.99, 'courier', 15.00, 264.99, 'pending', '2025-05-21 21:45:46', '2025-05-24 12:23:43'),
+(11, 5, 'MS-20250521-1DE6E', 'processing', '2025-05-21 23:49:21', 294.99, 'Bartłomiej', 'Rogóz', 'bartibarti58@gmail.com', '123456789', 'Szczeka 4', 'Rytwiany', '28-236', 'online', 279.99, 'courier', 15.00, 294.99, 'pending', '2025-05-21 21:49:21', '2025-05-24 12:23:43'),
+(12, 5, 'MS-20250521-43EDA', 'processing', '2025-05-21 23:50:57', 134.99, 'Bartłomiej', 'Rogóz', 'bartibarti58@gmail.com', '123456789', 'Szczeka 4', 'Rytwiany', '28-236', 'online', 119.99, 'courier', 15.00, 134.99, 'pending', '2025-05-21 21:50:57', '2025-05-24 12:23:43'),
+(13, 5, 'MS-20250521-1579B', 'cancelled', '2025-05-21 23:52:32', 264.99, 'Bartłomiej', 'Rogóz', 'bartibarti58@gmail.com', '123456789', 'Szczeka 4', 'Rytwiany', '28-236', 'online', 249.99, 'courier', 15.00, 264.99, 'pending', '2025-05-21 21:52:32', '2025-05-24 12:23:43'),
+(14, 5, 'MS-20250523-03B17', 'pending', '2025-05-23 16:25:59', 254.98, 'Bartłomiej', 'Rogóz', 'bartibarti58@gmail.com', '123456789', 'Szczeka 4', 'Rytwiany', '28-236', 'online', 239.98, 'courier', 15.00, 254.98, 'pending', '2025-05-23 14:25:59', '2025-05-24 12:23:43'),
+(15, 5, 'MS-20250523-F2108', 'processing', '2025-05-23 16:32:47', 654.99, 'Bartłomiej', 'Rogóz', 'bartibarti58@gmail.com', '123456789', 'Szczeka 4', 'Rytwiany', '28-236', 'online', 639.99, 'courier', 15.00, 654.99, 'pending', '2025-05-23 14:32:47', '2025-05-24 12:23:43'),
+(16, 5, 'MS-20250524-2D2AC', 'processing', '2025-05-24 14:21:25', 144.99, 'Bartłomiej', 'Rogóz', 'bartibarti58@gmail.com', '123456789', 'Szczeka 4', 'Rytwiany', '28-236', 'online', 129.99, 'courier', 15.00, 0.00, 'pending', '2025-05-24 12:21:25', '2025-05-24 12:22:22');
 
 -- --------------------------------------------------------
 
@@ -265,6 +299,29 @@ CREATE TABLE `order_items` (
   `price` decimal(10,2) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order_items`
+--
+
+INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `product_name`, `quantity`, `price`, `created_at`) VALUES
+(1, 1, 1, '', 1, 639.99, '2025-05-21 20:21:26'),
+(3, 3, 1, '', 1, 639.99, '2025-05-21 20:27:00'),
+(4, 4, NULL, '', 3, 279.99, '2025-05-21 21:00:38'),
+(5, 5, 7, '', 1, 129.99, '2025-05-21 21:26:00'),
+(6, 5, 3, '', 1, 399.99, '2025-05-21 21:26:00'),
+(7, 5, 20, '', 2, 249.99, '2025-05-21 21:26:00'),
+(8, 6, 1, '', 1, 639.99, '2025-05-21 21:29:49'),
+(9, 7, 1, '', 1, 639.99, '2025-05-21 21:34:00'),
+(10, 8, 16, '', 1, 649.99, '2025-05-21 21:36:54'),
+(11, 9, 20, '', 1, 249.99, '2025-05-21 21:38:52'),
+(12, 10, 20, '', 1, 249.99, '2025-05-21 21:45:46'),
+(13, 11, 10, '', 1, 279.99, '2025-05-21 21:49:21'),
+(14, 12, 17, '', 1, 119.99, '2025-05-21 21:50:57'),
+(15, 13, 20, '', 1, 249.99, '2025-05-21 21:52:32'),
+(16, 14, 17, '', 2, 119.99, '2025-05-23 14:25:59'),
+(17, 15, 1, '', 1, 639.99, '2025-05-23 14:32:47'),
+(18, 16, 7, '', 1, 129.99, '2025-05-24 12:21:25');
 
 -- --------------------------------------------------------
 
@@ -295,7 +352,27 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `slug`, `description`, `short_description`, `price`, `sale_price`, `stock`, `sku`, `featured`, `status`, `category_id`, `brand_id`, `created_at`, `updated_at`) VALUES
-(1, 'Kask motocyklowy HJC C10', 'kask-motocyklowy-hjc-c10', 'Wizjer z powłoką UV chroni przed promieniowaniem UV\r\nZapięcie mikrometryczne łatwe w obsłudze nawet w rękawicy\r\nPrzystosowany do montażu Pinlocka dla zapobiegania parowaniu\r\nWizjer z powłoką anti-scratch zapewnia ochronę przed zarysowaniami\r\nSkorupa Advanced Polycarbonate Composite oferuje wysoką odporność na uszkodzenia.', NULL, 659.99, 639.99, 120, NULL, 0, 'published', 1, 2, '2025-05-19 17:59:20', '2025-05-19 18:22:05');
+(1, 'Kask motocyklowy HJC C10', 'kask-motocyklowy-hjc-c10', 'Wizjer z powłoką UV chroni przed promieniowaniem UV\r\nZapięcie mikrometryczne łatwe w obsłudze nawet w rękawicy\r\nPrzystosowany do montażu Pinlocka dla zapobiegania parowaniu\r\nWizjer z powłoką anti-scratch zapewnia ochronę przed zarysowaniami\r\nSkorupa Advanced Polycarbonate Composite oferuje wysoką odporność na uszkodzenia.', NULL, 659.99, 639.99, 115, NULL, 0, 'published', 1, 2, '2025-05-19 17:59:20', '2025-05-23 14:32:47'),
+(2, 'Kask motocyklowy Shoei NXR2', 'kask-motocyklowy-shoei-nxr2', 'Kask motocyklowy Shoei NXR2 to najnowsza wersja popularnego modelu. Wykonany z kompozytu AIM+, posiada system wentylacji CWR-1, a także jest kompatybilny z systemem Sena SRL.', 'Kask motocyklowy Shoei NXR2 - najwyższa jakość i bezpieczeństwo', 1299.99, 1199.99, 50, 'SHO-NXR2-001', 1, 'published', 1, 1, '2025-05-21 21:02:49', '2025-05-21 21:20:27'),
+(3, 'Rękawice motocyklowe Alpinestars GP Pro', 'r-kawice-motocyklowe-alpinestars-gp-pro', 'Rękawice motocyklowe Alpinestars GP Pro to profesjonalne rękawice sportowe. Wykonane ze skóry bydlęcej z dodatkowymi wzmocnieniami, posiadają system wentylacji i ochronę kostek.', 'Rękawice motocyklowe Alpinestars GP Pro - profesjonalna ochrona', 399.99, NULL, 74, 'ALP-GPP-001', 0, 'published', 2, 2, '2025-05-21 21:02:49', '2025-05-21 21:26:00'),
+(4, 'Kurtka motocyklowa Dainese Super Speed', 'kurtka-motocyklowa-dainese-super-speed', 'Kurtka motocyklowa Dainese Super Speed to lekka i przewiewna kurtka sportowa. Wykonana z materiału D-Skin, posiada system wentylacji i wymienne ochraniacze.', 'Kurtka motocyklowa Dainese Super Speed - lekkość i ochrona', 1499.99, 1399.99, 40, 'DAI-SS-001', 1, 'published', 2, 3, '2025-05-21 21:02:49', '2025-05-21 21:21:14'),
+(5, 'Spodnie motocyklowe Alpinestars Bionic Pro', 'spodnie-motocyklowe-alpinestars-bionic-pro', 'Spodnie motocyklowe Alpinestars Bionic Pro to spodnie z wbudowanymi ochraniaczami. Wykonane z materiału stretch, posiadają system wentylacji i wymienne ochraniacze.', 'Spodnie motocyklowe Alpinestars Bionic Pro - ochrona i komfort', 799.99, NULL, 60, 'ALP-BP-001', 0, 'published', 2, 2, '2025-05-21 21:02:49', '2025-05-21 21:21:14'),
+(6, 'Buty motocyklowe Sidi Mag-1', 'buty-motocyklowe-sidi-mag-1', 'Buty motocyklowe Sidi Mag-1 to profesjonalne buty sportowe. Wykonane ze skóry z dodatkowymi wzmocnieniami, posiadają podeszwę antypoślizgową i system zapięcia.', 'Buty motocyklowe Sidi Mag-1 - profesjonalna ochrona stóp', 599.99, 549.99, 45, 'SID-MAG1-001', 0, 'published', 2, 4, '2025-05-21 21:02:49', '2025-05-21 21:21:14'),
+(7, 'Olej silnikowy Motul 300V 4T', 'olej-silnikowy-motul-300v-4t', 'Olej silnikowy Motul 300V 4T to olej syntetyczny najwyższej jakości. Wysoka wydajność i ochrona silnika, odpowiedni dla nowoczesnych motocykli sportowych.', 'Olej silnikowy Motul 300V 4T - najwyższa jakość', 129.99, NULL, 148, 'MOT-300V-001', 0, 'published', 4, 5, '2025-05-21 21:02:49', '2025-05-24 12:21:25'),
+(8, 'Łańcuch napędowy RK 520GXW', 'a-cuch-nap-dowy-rk-520gxw', 'Łańcuch napędowy RK 520GXW to łańcuch z powłoką X-Ring. Wysoka wytrzymałość i trwałość, odpowiedni dla motocykli sportowych i turystycznych.', 'Łańcuch napędowy RK 520GXW - trwałość i wydajność', 449.99, 399.99, 55, 'RK-520GXW-001', 0, 'published', 3, 6, '2025-05-21 21:02:49', '2025-05-21 21:21:14'),
+(9, 'Hamulce tarczowe Brembo Serie Oro', 'hamulce-tarczowe-brembo-serie-oro', 'Tarcze hamulcowe Brembo Serie Oro to profesjonalne tarcze sportowe. Wysoka wydajność hamowania, odpowiednie dla motocykli sportowych.', 'Hamulce tarczowe Brembo Serie Oro - profesjonalne hamowanie', 799.99, NULL, 30, 'BRE-SO-001', 1, 'published', 3, 7, '2025-05-21 21:02:49', '2025-05-21 21:21:14'),
+(10, 'Akumulator motocyklowy Yuasa YTX14-BS', 'akumulator-motocyklowy-yuasa-ytx14-bs', 'Akumulator motocyklowy Yuasa YTX14-BS to akumulator 12V 12Ah. Wysoka wydajność i trwałość, odpowiedni dla większych motocykli.', 'Akumulator motocyklowy Yuasa YTX14-BS - niezawodność', 299.99, 279.99, 64, 'YUA-YTX14-001', 0, 'published', 5, 8, '2025-05-21 21:02:49', '2025-05-21 21:49:21'),
+(11, 'Opony motocyklowe Pirelli Diablo Rosso IV', 'opony-motocyklowe-pirelli-diablo-rosso-iv', 'Opony motocyklowe Pirelli Diablo Rosso IV to opony sportowe z doskonałą przyczepnością. Długa żywotność, odpowiednie dla motocykli sportowych.', 'Opony motocyklowe Pirelli Diablo Rosso IV - sportowa przyczepność', 999.99, 949.99, 35, 'PIR-DR4-001', 1, 'published', 3, 9, '2025-05-21 21:02:49', '2025-05-21 21:21:14'),
+(12, 'Kask motocyklowy AGV K6', 'kask-motocyklowy-agv-k6', 'Kask motocyklowy AGV K6 to nowoczesny kask sportowy z kompozytu włókna węglowego. Posiada system wentylacji, wyjmowaną wkładkę i jest kompatybilny z systemem komunikacji.', 'Kask motocyklowy AGV K6 - nowoczesność i bezpieczeństwo', 1499.99, 0.00, 25, 'AGV-K6-001', 1, 'published', 1, 1, '2025-05-21 21:07:05', '2025-05-21 21:21:38'),
+(13, 'Rękawice motocyklowe Dainese 4 Stroke Evo', 'r-kawice-motocyklowe-dainese-4-stroke-evo', 'Rękawice motocyklowe Dainese 4 Stroke Evo to uniwersalne rękawice sportowe. Wykonane ze skóry bydlęcej z dodatkowymi wzmocnieniami, posiadają system wentylacji i ochronę kostek.', 'Rękawice motocyklowe Dainese 4 Stroke Evo - uniwersalna ochrona', 349.99, NULL, 40, 'DAI-4SE-001', 0, 'published', 2, 2, '2025-05-21 21:07:05', '2025-05-21 21:21:38'),
+(14, 'Kurtka motocyklowa Alpinestars GP Plus R', 'kurtka-motocyklowa-alpinestars-gp-plus-r', 'Kurtka motocyklowa Alpinestars GP Plus R to profesjonalna kurtka sportowa. Wykonana z materiału 600D, posiada system wentylacji, wymienne ochraniacze i jest kompatybilna z systemem Airbag.', 'Kurtka motocyklowa Alpinestars GP Plus R - profesjonalna ochrona', 1999.99, 1899.99, 15, 'ALP-GPPR-001', 1, 'published', 2, 3, '2025-05-21 21:07:05', '2025-05-21 21:21:38'),
+(15, 'Spodnie motocyklowe Dainese Super Speed Textile', 'spodnie-motocyklowe-dainese-super-speed-textile', 'Spodnie motocyklowe Dainese Super Speed Textile to spodnie z materiału tekstylnego. Posiadają wbudowane ochraniacze, system wentylacji i są kompatybilne z kurtkami Dainese.', 'Spodnie motocyklowe Dainese Super Speed Textile - lekkość i ochrona', 899.99, NULL, 30, 'DAI-SST-001', 0, 'published', 2, 2, '2025-05-21 21:07:05', '2025-05-21 21:21:38'),
+(16, 'Buty motocyklowe Alpinestars SMX-6 V2', 'buty-motocyklowe-alpinestars-smx-6-v2', 'Buty motocyklowe Alpinestars SMX-6 V2 to uniwersalne buty sportowe. Wykonane ze skóry z dodatkowymi wzmocnieniami, posiadają podeszwę antypoślizgową i system zapięcia.', 'Buty motocyklowe Alpinestars SMX-6 V2 - uniwersalna ochrona', 699.99, 649.99, 34, 'ALP-SMX6-001', 0, 'published', 2, 3, '2025-05-21 21:07:05', '2025-05-21 21:36:54'),
+(17, 'Olej silnikowy Castrol Power 1 Racing 4T', 'olej-silnikowy-castrol-power-1-racing-4t', 'Olej silnikowy Castrol Power 1 Racing 4T to olej syntetyczny najwyższej jakości. Wysoka wydajność i ochrona silnika, odpowiedni dla nowoczesnych motocykli sportowych.', 'Olej silnikowy Castrol Power 1 Racing 4T - maksymalna wydajność', 119.99, NULL, 97, 'CAS-P1R-001', 0, 'published', 4, 4, '2025-05-21 21:07:05', '2025-05-23 14:25:59'),
+(18, 'Łańcuch napędowy DID 520VX3', 'a-cuch-nap-dowy-did-520vx3', 'Łańcuch napędowy DID 520VX3 to łańcuch z powłoką X-Ring. Wysoka wytrzymałość i trwałość, odpowiedni dla motocykli sportowych i turystycznych.', 'Łańcuch napędowy DID 520VX3 - trwałość i wydajność', 499.99, 449.99, 45, 'DID-520VX3-001', 0, 'published', 3, 5, '2025-05-21 21:07:05', '2025-05-21 21:21:38'),
+(19, 'Hamulce tarczowe Galfer Wave', 'hamulce-tarczowe-galfer-wave-1', 'Tarcze hamulcowe Galfer Wave to profesjonalne tarcze sportowe. Wysoka wydajność hamowania, odpowiednie dla motocykli sportowych.', 'Hamulce tarczowe Galfer Wave - profesjonalne hamowanie', 899.99, NULL, 20, 'GAL-WAVE-001', 1, 'published', 3, 6, '2025-05-21 21:08:54', '2025-05-21 21:21:38'),
+(20, 'Akumulator motocyklowy Shido YTX14-BS', 'akumulator-motocyklowy-shido-ytx14-bs-1', 'Akumulator motocyklowy Shido YTX14-BS to akumulator 12V 12Ah. Wysoka wydajność i trwałość, odpowiedni dla większych motocykli.', 'Akumulator motocyklowy Shido YTX14-BS - niezawodność', 279.99, 249.99, 46, 'SHI-YTX14-001', 0, 'published', 5, 7, '2025-05-21 21:08:54', '2025-05-21 22:16:54'),
+(21, 'Opony motocyklowe Michelin Power 5', 'opony-motocyklowe-michelin-power-5-1', 'Opony motocyklowe Michelin Power 5 to opony sportowe z doskonałą przyczepnością. Długa żywotność, odpowiednie dla motocykli sportowych.', 'Opony motocyklowe Michelin Power 5 - sportowa przyczepność', 1099.99, 999.99, 25, 'MIC-P5-001', 1, 'published', 3, 8, '2025-05-21 21:08:54', '2025-05-21 21:21:47');
 
 -- --------------------------------------------------------
 
@@ -386,7 +463,8 @@ CREATE TABLE `service_bookings` (
 --
 
 INSERT INTO `service_bookings` (`id`, `user_id`, `mechanic_id`, `service_id`, `booking_date`, `booking_time`, `notes`, `status`, `created_at`, `updated_at`) VALUES
-(1, 3, 1, 1, '2025-05-29', '11:00:00', 'Moja uwaga', 'pending', '2025-05-19 16:02:53', '2025-05-19 16:02:53');
+(1, 3, 1, 1, '2025-05-29', '11:00:00', 'Moja uwaga', 'pending', '2025-05-19 16:02:53', '2025-05-19 16:02:53'),
+(2, 5, 1, 1, '2025-05-24', '10:00:00', '', 'pending', '2025-05-23 14:19:34', '2025-05-23 14:19:34');
 
 -- --------------------------------------------------------
 
@@ -457,7 +535,8 @@ INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `passwor
 (1, 'Admin', 'Admin', 'admin@motoshop.pl', '123456789', '$2y$10$92IOy1KN4xkbGpVaKnS0qO7rZ48uBEfBu2oEQ0671Z95YBhqPMcJW', NULL, NULL, 'admin', 0, '2025-05-19 12:49:34', '2025-05-19 12:49:34', NULL, NULL, NULL),
 (2, 'Jan', 'Nowak', 'jan.nowak@example.com', '987654321', '$2y$10$92IOy1KN4xkbGpVaKnS0qO7rZ48uBEfBu2oEQ0671Z95YBhqPMcJW', NULL, NULL, 'user', 0, '2025-05-19 12:49:34', '2025-05-19 12:49:34', NULL, NULL, NULL),
 (3, 'Maciej', 'Rodzinka', 'maciek.rodzinka@gmail.com', '782383709', '$2y$10$Cy.bhEd504GhMbyaZnQa3.9PINnDN/dc0ns/V7UYR2TEbfEkEhPBO', NULL, NULL, 'user', 0, '2025-05-19 12:56:29', '2025-05-19 16:01:27', 'Dębowa 6', 'Mielec', '39-300'),
-(4, 'Admin', 'Ad', 'admin@gmail.com', '675353112', '$2y$10$LWy/kEvL6uivpC7yakx3LuyeDiHbgM1BXtKBMBie1J8Rldm4sUZ0S', NULL, NULL, 'admin', 0, '2025-05-19 16:15:36', '2025-05-19 16:16:05', NULL, NULL, NULL);
+(4, 'Admin', 'Ad', 'admin@gmail.com', '675353112', '$2y$10$LWy/kEvL6uivpC7yakx3LuyeDiHbgM1BXtKBMBie1J8Rldm4sUZ0S', NULL, NULL, 'admin', 0, '2025-05-19 16:15:36', '2025-05-19 16:16:05', NULL, NULL, NULL),
+(5, 'Bartłomiej', 'Rogóz', 'bartibarti58@gmail.com', '123456789', '$2y$10$3Ph3VRw4g2OL0V1k10HKxuuZIcs/NoIQoRV.L9qvBXzJsVebZUpGG', NULL, NULL, 'admin', 0, '2025-05-21 20:08:16', '2025-05-21 20:30:05', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -647,19 +726,19 @@ ALTER TABLE `wishlist_items`
 -- AUTO_INCREMENT for table `brands`
 --
 ALTER TABLE `brands`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -701,19 +780,19 @@ ALTER TABLE `motorcycle_viewings`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `product_images`
@@ -737,7 +816,7 @@ ALTER TABLE `services`
 -- AUTO_INCREMENT for table `service_bookings`
 --
 ALTER TABLE `service_bookings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `used_motorcycles`
@@ -749,7 +828,7 @@ ALTER TABLE `used_motorcycles`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `wishlists`
