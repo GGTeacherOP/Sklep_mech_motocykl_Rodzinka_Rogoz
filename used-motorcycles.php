@@ -161,25 +161,21 @@ include 'includes/header.php';
                         <div class="mb-6">
                             <h3 class="font-semibold text-lg mb-4">Stan</h3>
                             <div class="space-y-2">
-                                <label class="custom-checkbox flex items-center space-x-2 p-2 hover:bg-gray-50 rounded">
-                                    <input type="checkbox" name="condition[]" value="excellent" <?php echo in_array('excellent', $condition) ? 'checked' : ''; ?>>
-                                    <span class="checkmark"></span>
-                                    <span class="text-sm">Doskonały</span>
+                                <label class="flex items-center space-x-3 p-2.5 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors duration-200">
+                                    <input type="checkbox" name="condition[]" value="excellent" <?php echo in_array('excellent', $condition) ? 'checked' : ''; ?> class="w-4 h-4 text-gray-600 border-gray-300 rounded focus:ring-2 focus:ring-gray-400 focus:ring-offset-0">
+                                    <span class="text-sm font-medium text-gray-700">Doskonały</span>
                                 </label>
-                                <label class="custom-checkbox flex items-center space-x-2 p-2 hover:bg-gray-50 rounded">
-                                    <input type="checkbox" name="condition[]" value="very_good" <?php echo in_array('very_good', $condition) ? 'checked' : ''; ?>>
-                                    <span class="checkmark"></span>
-                                    <span class="text-sm">Bardzo dobry</span>
+                                <label class="flex items-center space-x-3 p-2.5 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors duration-200">
+                                    <input type="checkbox" name="condition[]" value="very_good" <?php echo in_array('very_good', $condition) ? 'checked' : ''; ?> class="w-4 h-4 text-gray-600 border-gray-300 rounded focus:ring-2 focus:ring-gray-400 focus:ring-offset-0">
+                                    <span class="text-sm font-medium text-gray-700">Bardzo dobry</span>
                                 </label>
-                                <label class="custom-checkbox flex items-center space-x-2 p-2 hover:bg-gray-50 rounded">
-                                    <input type="checkbox" name="condition[]" value="good" <?php echo in_array('good', $condition) ? 'checked' : ''; ?>>
-                                    <span class="checkmark"></span>
-                                    <span class="text-sm">Dobry</span>
+                                <label class="flex items-center space-x-3 p-2.5 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors duration-200">
+                                    <input type="checkbox" name="condition[]" value="good" <?php echo in_array('good', $condition) ? 'checked' : ''; ?> class="w-4 h-4 text-gray-600 border-gray-300 rounded focus:ring-2 focus:ring-gray-400 focus:ring-offset-0">
+                                    <span class="text-sm font-medium text-gray-700">Dobry</span>
                                 </label>
-                                <label class="custom-checkbox flex items-center space-x-2 p-2 hover:bg-gray-50 rounded">
-                                    <input type="checkbox" name="condition[]" value="average" <?php echo in_array('average', $condition) ? 'checked' : ''; ?>>
-                                    <span class="checkmark"></span>
-                                    <span class="text-sm">Średni</span>
+                                <label class="flex items-center space-x-3 p-2.5 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors duration-200">
+                                    <input type="checkbox" name="condition[]" value="average" <?php echo in_array('average', $condition) ? 'checked' : ''; ?> class="w-4 h-4 text-gray-600 border-gray-300 rounded focus:ring-2 focus:ring-gray-400 focus:ring-offset-0">
+                                    <span class="text-sm font-medium text-gray-700">Średni</span>
                                 </label>
                             </div>
                         </div>
@@ -190,10 +186,9 @@ include 'includes/header.php';
                             <div class="space-y-2">
                                 <?php if (!empty($brands)): ?>
                                     <?php foreach ($brands as $brand_name): ?>
-                                    <label class="custom-checkbox flex items-center space-x-2 p-2 hover:bg-gray-50 rounded">
-                                        <input type="checkbox" name="brand[]" value="<?php echo $brand_name; ?>" <?php echo in_array($brand_name, $brand) ? 'checked' : ''; ?>>
-                                        <span class="checkmark"></span>
-                                        <span class="text-sm"><?php echo $brand_name; ?></span>
+                                    <label class="flex items-center space-x-3 p-2.5 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors duration-200">
+                                        <input type="checkbox" name="brand[]" value="<?php echo $brand_name; ?>" <?php echo in_array($brand_name, $brand) ? 'checked' : ''; ?> class="w-4 h-4 text-gray-600 border-gray-300 rounded focus:ring-2 focus:ring-gray-400 focus:ring-offset-0">
+                                        <span class="text-sm font-medium text-gray-700"><?php echo $brand_name; ?></span>
                                     </label>
                                     <?php endforeach; ?>
                                 <?php else: ?>
@@ -202,10 +197,9 @@ include 'includes/header.php';
                                     $default_brands = ['Honda', 'Yamaha', 'Suzuki', 'Kawasaki', 'BMW', 'Ducati', 'Harley-Davidson'];
                                     foreach ($default_brands as $brand_name):
                                     ?>
-                                    <label class="custom-checkbox flex items-center space-x-2 p-2 hover:bg-gray-50 rounded">
-                                        <input type="checkbox" name="brand[]" value="<?php echo $brand_name; ?>" <?php echo in_array($brand_name, $brand) ? 'checked' : ''; ?>>
-                                        <span class="checkmark"></span>
-                                        <span class="text-sm"><?php echo $brand_name; ?></span>
+                                    <label class="flex items-center space-x-3 p-2.5 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors duration-200">
+                                        <input type="checkbox" name="brand[]" value="<?php echo $brand_name; ?>" <?php echo in_array($brand_name, $brand) ? 'checked' : ''; ?> class="w-4 h-4 text-gray-600 border-gray-300 rounded focus:ring-2 focus:ring-gray-400 focus:ring-offset-0">
+                                        <span class="text-sm font-medium text-gray-700"><?php echo $brand_name; ?></span>
                                     </label>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
@@ -548,57 +542,5 @@ include 'includes/footer.php';
 ?>
 
 <style>
-.custom-checkbox {
-    position: relative;
-    padding-left: 30px;
-    cursor: pointer;
-    user-select: none;
-}
-
-.custom-checkbox input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
-}
-
-.checkmark {
-    position: absolute;
-    left: 8px;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 18px;
-    width: 18px;
-    background-color: #fff;
-    border: 2px solid #e2e8f0;
-    border-radius: 4px;
-    transition: all 0.2s;
-}
-
-.custom-checkbox:hover input ~ .checkmark {
-    border-color: #cbd5e0;
-}
-
-.custom-checkbox input:checked ~ .checkmark {
-    background-color: #2563eb;
-    border-color: #2563eb;
-}
-
-.checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-    left: 5px;
-    top: 2px;
-    width: 5px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
-}
-
-.custom-checkbox input:checked ~ .checkmark:after {
-    display: block;
-}
+/* Usuwam wszystkie style, ponieważ używamy klas Tailwind */
 </style>
