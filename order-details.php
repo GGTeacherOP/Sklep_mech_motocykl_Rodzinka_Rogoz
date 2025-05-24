@@ -262,7 +262,7 @@ include 'includes/header.php';
                                     </div>
                                     <div class="flex justify-between pt-2 text-lg">
                                         <span class="font-semibold">Razem:</span>
-                                        <span class="font-semibold text-primary"><?php echo number_format($order['total'], 2, ',', ' '); ?> zł</span>
+                                        <span class="font-semibold text-primary"><?php echo number_format($order['total_amount'], 2, ',', ' '); ?> zł</span>
                                     </div>
                                 </div>
                                 

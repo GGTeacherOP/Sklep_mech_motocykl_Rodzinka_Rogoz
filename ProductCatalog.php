@@ -4,8 +4,8 @@ $page_title = "Katalog produktów";
 require_once 'includes/config.php';
 
 // Obsługa filtrów
-$category = isset($_GET['category']) ? sanitize($_GET['category']) : '';
-$brand = isset($_GET['brand']) ? sanitize($_GET['brand']) : '';
+$category = isset($_GET['category']) ? (array)$_GET['category'] : [];
+$brand = isset($_GET['brand']) ? (array)$_GET['brand'] : [];
 $price_min = isset($_GET['price_min']) ? (int)$_GET['price_min'] : 0;
 $price_max = isset($_GET['price_max']) ? (int)$_GET['price_max'] : 0;
 $sort = isset($_GET['sort']) ? sanitize($_GET['sort']) : 'price_asc';
@@ -23,11 +23,17 @@ $query = "SELECT p.*, pi.image_path, b.name as brand_name, c.name as category_na
 
 // Dodanie filtrów do zapytania
 if (!empty($category)) {
-    $query .= " AND c.slug = '$category'";
+    $category_slugs = array_map(function($cat) use ($conn) {
+        return "'" . $conn->real_escape_string($cat) . "'";
+    }, $category);
+    $query .= " AND c.slug IN (" . implode(',', $category_slugs) . ")";
 }
 
 if (!empty($brand)) {
-    $query .= " AND b.slug = '$brand'";
+    $brand_slugs = array_map(function($br) use ($conn) {
+        return "'" . $conn->real_escape_string($br) . "'";
+    }, $brand);
+    $query .= " AND b.slug IN (" . implode(',', $brand_slugs) . ")";
 }
 
 if ($price_min > 0) {
@@ -134,7 +140,7 @@ include 'includes/header.php';
             <?php
             $cat_name = '';
             foreach ($categories as $cat) {
-                if ($cat['slug'] == $category) {
+                if ($cat['slug'] == $category[0]) {
                     $cat_name = $cat['name'];
                     break;
                 }
@@ -180,17 +186,10 @@ include 'includes/header.php';
                     <div class="mb-6">
                         <h3 class="font-semibold text-lg mb-4">Kategorie</h3>
                         <ul class="space-y-3">
-                            <li>
-                                <label class="custom-checkbox">
-                                    <input type="radio" name="category" value="" <?php echo empty($category) ? 'checked' : ''; ?>>
-                                    <span class="checkmark"></span>
-                                    Wszystkie produkty
-                                </label>
-                            </li>
                             <?php foreach ($categories as $cat): ?>
                             <li>
                                 <label class="custom-checkbox">
-                                    <input type="radio" name="category" value="<?php echo $cat['slug']; ?>" <?php echo $category == $cat['slug'] ? 'checked' : ''; ?>>
+                                    <input type="checkbox" name="category[]" value="<?php echo $cat['slug']; ?>" <?php echo in_array($cat['slug'], $category) ? 'checked' : ''; ?>>
                                     <span class="checkmark"></span>
                                     <?php echo $cat['name']; ?>
                                 </label>
@@ -203,17 +202,10 @@ include 'includes/header.php';
                     <div class="mb-6 border-t pt-6">
                         <h3 class="font-semibold text-lg mb-4">Marki</h3>
                         <ul class="space-y-3">
-                            <li>
-                                <label class="custom-checkbox">
-                                    <input type="radio" name="brand" value="" <?php echo empty($brand) ? 'checked' : ''; ?>>
-                                    <span class="checkmark"></span>
-                                    Wszystkie marki
-                                </label>
-                            </li>
                             <?php foreach ($brands as $b): ?>
                             <li>
                                 <label class="custom-checkbox">
-                                    <input type="radio" name="brand" value="<?php echo $b['slug']; ?>" <?php echo $brand == $b['slug'] ? 'checked' : ''; ?>>
+                                    <input type="checkbox" name="brand[]" value="<?php echo $b['slug']; ?>" <?php echo in_array($b['slug'], $brand) ? 'checked' : ''; ?>>
                                     <span class="checkmark"></span>
                                     <?php echo $b['name']; ?>
                                 </label>

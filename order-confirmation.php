@@ -169,7 +169,7 @@ include 'includes/header.php';
                     </div>
                     <div class="flex justify-between items-center pt-4 border-t border-gray-200 text-lg font-bold">
                         <span>Razem</span>
-                        <span class="text-primary"><?php echo number_format($order['total'], 2, ',', ' '); ?> zł</span>
+                        <span class="text-primary"><?php echo number_format($order['total_amount'], 2, ',', ' '); ?> zł</span>
                     </div>
                 </div>
                 
