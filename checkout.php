@@ -142,15 +142,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $order_date = date('Y-m-d H:i:s');
         
         error_log("Próba utworzenia zamówienia: " . $order_number);
+        error_log("Wartości przed zapisem do bazy:");
+        error_log("cart_total: " . $cart_total);
+        error_log("shipping_cost: " . $shipping_cost);
+        error_log("total: " . $total);
         
         // Zapisywanie zamówienia
         $order_query = "INSERT INTO orders (order_number, user_id, first_name, last_name, email, phone, 
-                        address, city, postal_code, shipping_method, payment_method, 
-                        subtotal, shipping_cost, total, status, order_date) 
+                        address, city, postal_code, payment_method, payment_status, subtotal, shipping_method, shipping_cost, total_amount, status, order_date) 
                         VALUES ('$order_number', " . (isLoggedIn() ? $user_id : "NULL") . ", 
                         '$first_name', '$last_name', '$email', '$phone', 
-                        '$address', '$city', '$postal_code', '$shipping_method', '$payment_method', 
-                        $cart_total, $shipping_cost, $total, '$status', '$order_date')";
+                        '$address', '$city', '$postal_code', '$payment_method', 'pending', $cart_total, '$shipping_method', $shipping_cost, $total, '$status', '$order_date')";
         
         error_log("Zapytanie SQL: " . $order_query);
         

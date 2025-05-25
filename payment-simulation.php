@@ -69,7 +69,7 @@ include 'includes/header.php';
                         <div class="bg-gray-50 rounded-lg p-4 mb-8">
                             <div class="flex justify-between items-center mb-2">
                                 <span class="text-gray-600">Kwota do zapłaty:</span>
-                                <span class="text-2xl font-bold text-gray-900"><?php echo number_format($order['total'], 2, ',', ' '); ?> zł</span>
+                                <span class="text-2xl font-bold text-gray-900"><?php echo number_format($order['total_amount'], 2, ',', ' '); ?> zł</span>
                             </div>
                             <div class="flex items-center text-sm text-gray-500">
                                 <i class="ri-shield-check-line mr-2"></i>
@@ -115,7 +115,7 @@ include 'includes/header.php';
                                     <div class="space-y-4 mb-6">
                                         <div class="flex justify-between items-center">
                                             <span class="text-[15px] text-[#1d1d1f]">MotoShop</span>
-                                            <span class="text-[17px] font-medium text-[#1d1d1f]"><?php echo number_format($order['total'], 2, ',', ' '); ?> zł</span>
+                                            <span class="text-[17px] font-medium text-[#1d1d1f]"><?php echo number_format($order['total_amount'], 2, ',', ' '); ?> zł</span>
                                         </div>
                                         <div class="text-[13px] text-[#86868b]">
                                             Zamówienie nr: <?php echo $order['order_number']; ?>
@@ -124,7 +124,7 @@ include 'includes/header.php';
                                     
                                     <!-- Przycisk potwierdzenia -->
                                     <button type="button" id="confirm-apple-pay" class="w-full bg-black text-white py-3 rounded-full font-medium hover:bg-[#2d2d2f] transition-colors">
-                                        Zapłać <?php echo number_format($order['total'], 2, ',', ' '); ?> zł
+                                        Zapłać <?php echo number_format($order['total_amount'], 2, ',', ' '); ?> zł
                                     </button>
 
                                     <!-- Informacja o bezpieczeństwie -->
@@ -214,7 +214,7 @@ include 'includes/header.php';
                                     <div class="space-y-4 mb-6">
                                         <div class="flex justify-between items-center">
                                             <span class="text-[15px] text-[#202124]">MotoShop</span>
-                                            <span class="text-[17px] font-medium text-[#202124]"><?php echo number_format($order['total'], 2, ',', ' '); ?> zł</span>
+                                            <span class="text-[17px] font-medium text-[#202124]"><?php echo number_format($order['total_amount'], 2, ',', ' '); ?> zł</span>
                                         </div>
                                         <div class="text-[13px] text-[#5f6368]">
                                             Zamówienie nr: <?php echo $order['order_number']; ?>
@@ -223,7 +223,7 @@ include 'includes/header.php';
                                     
                                     <!-- Przycisk potwierdzenia -->
                                     <button type="button" id="confirm-google-pay" class="w-full bg-[#4285F4] text-white py-3 rounded-full font-medium hover:bg-[#3367d6] transition-colors">
-                                        Zapłać <?php echo number_format($order['total'], 2, ',', ' '); ?> zł
+                                        Zapłać <?php echo number_format($order['total_amount'], 2, ',', ' '); ?> zł
                                     </button>
 
                                     <!-- Informacja o bezpieczeństwie -->
@@ -339,7 +339,7 @@ include 'includes/header.php';
                                         <input type="hidden" name="action" value="simulate_payment">
                                         <button type="submit" id="payment-button" class="w-full bg-primary text-white py-4 px-4 rounded-lg font-medium hover:bg-opacity-90 transition flex items-center justify-center">
                                             <i class="ri-bank-card-line mr-2"></i>
-                                            Zapłać <?php echo number_format($order['total'], 2, ',', ' '); ?> zł
+                                            Zapłać <?php echo number_format($order['total_amount'], 2, ',', ' '); ?> zł
                                         </button>
                                     </form>
                                 </div>
@@ -394,7 +394,7 @@ include 'includes/header.php';
                                         <input type="hidden" name="action" value="simulate_payment">
                                         <button type="submit" id="payment-button" class="w-full bg-primary text-white py-4 px-4 rounded-lg font-medium hover:bg-opacity-90 transition flex items-center justify-center">
                                             <i class="ri-bank-card-line mr-2"></i>
-                                            Zapłać <?php echo number_format($order['total'], 2, ',', ' '); ?> zł
+                                            Zapłać <?php echo number_format($order['total_amount'], 2, ',', ' '); ?> zł
                                         </button>
                                     </form>
                                 </div>
@@ -410,7 +410,7 @@ include 'includes/header.php';
                                     <div class="bg-gray-50 rounded-lg p-4 mb-6">
                                         <div class="flex items-center text-gray-700 mb-2">
                                             <i class="ri-money-dollar-circle-line mr-2"></i>
-                                            <span>Kwota do zapłaty przy odbiorze: <strong><?php echo number_format($order['total'], 2, ',', ' '); ?> zł</strong></span>
+                                            <span>Kwota do zapłaty przy odbiorze: <strong><?php echo number_format($order['total_amount'], 2, ',', ' '); ?> zł</strong></span>
                                         </div>
                                     </div>
                                     
@@ -455,7 +455,7 @@ include 'includes/header.php';
                                             </div>
                                             <div class="flex items-center">
                                                 <i class="ri-money-dollar-circle-line text-gray-400 mr-2"></i>
-                                                <span><strong>Kwota:</strong> <?php echo number_format($order['total'], 2, ',', ' '); ?> zł</span>
+                                                <span><strong>Kwota:</strong> <?php echo number_format($order['total_amount'], 2, ',', ' '); ?> zł</span>
                                             </div>
                                         </div>
                                     </div>

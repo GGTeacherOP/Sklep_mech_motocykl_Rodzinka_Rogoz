@@ -155,38 +155,87 @@ include 'includes/header.php';
 
 <?php
 // Skrypt JS do obsługi dodawania do koszyka
-$extra_js = <<<EOT
-<script>
+$extra_js = '<script>
+function showNotification(message, type = "success") {
+    // Usuń istniejące powiadomienie jeśli istnieje
+    const existingNotification = document.querySelector(".notification");
+    if (existingNotification) {
+        existingNotification.remove();
+    }
+
+    // Stwórz nowe powiadomienie
+    const notification = document.createElement("div");
+    notification.className = `notification fixed top-20 right-4 z-40 flex items-center p-4 mb-4 rounded-lg shadow-lg transform transition-all duration-300 translate-x-full`;
+    
+    // Dodaj odpowiedni kolor w zależności od typu
+    if (type === "success") {
+        notification.classList.add("bg-green-100", "text-green-800", "border", "border-green-200");
+    } else {
+        notification.classList.add("bg-red-100", "text-red-800", "border", "border-red-200");
+    }
+
+    // Dodaj ikonę
+    const icon = document.createElement("i");
+    icon.className = type === "success" ? "ri-checkbox-circle-fill mr-2 text-xl" : "ri-error-warning-fill mr-2 text-xl";
+    notification.appendChild(icon);
+
+    // Dodaj tekst
+    const text = document.createElement("span");
+    text.className = "text-sm font-medium";
+    text.textContent = message;
+    notification.appendChild(text);
+
+    // Dodaj przycisk zamknięcia
+    const closeButton = document.createElement("button");
+    closeButton.className = "ml-4 text-gray-500 hover:text-gray-700 focus:outline-none";
+    closeButton.innerHTML = "<i class=\"ri-close-line text-xl\"></i>";
+    closeButton.onclick = () => notification.remove();
+    notification.appendChild(closeButton);
+
+    // Dodaj do body
+    document.body.appendChild(notification);
+
+    // Animacja wejścia
+    setTimeout(() => {
+        notification.classList.remove("translate-x-full");
+    }, 100);
+
+    // Automatyczne zamknięcie po 3 sekundach
+    setTimeout(() => {
+        notification.classList.add("translate-x-full");
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+
 function addToCart(productId) {
-    fetch('cart-actions.php', {
-        method: 'POST',
+    fetch("cart-actions.php", {
+        method: "POST",
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: 'action=add&product_id=' + productId + '&quantity=1'
+        body: "action=add&product_id=" + productId + "&quantity=1"
     })
     .then(response => response.json())
     .then(data => {
         if (data.success) {
             // Aktualizacja liczby produktów w koszyku
-            const cartCount = document.getElementById('cartCount');
+            const cartCount = document.getElementById("cartCount");
             if (cartCount) {
                 cartCount.textContent = data.cart_count;
-                cartCount.classList.remove('hidden');
+                cartCount.classList.remove("hidden");
             }
             
-            alert('Produkt został dodany do koszyka');
+            showNotification("Produkt został dodany do koszyka", "success");
         } else {
-            alert('Wystąpił błąd: ' + data.message);
+            showNotification("Wystąpił błąd: " + data.message, "error");
         }
     })
     .catch(error => {
-        console.error('Error:', error);
-        alert('Wystąpił błąd podczas dodawania produktu do koszyka');
+        console.error("Error:", error);
+        showNotification("Wystąpił błąd podczas dodawania produktu do koszyka", "error");
     });
 }
-</script>
-EOT;
+</script>';
 
 include 'includes/footer.php';
 ?> 

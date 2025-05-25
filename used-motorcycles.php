@@ -4,8 +4,8 @@ $page_title = "Motocykle Używane";
 require_once 'includes/config.php';
 
 // Obsługa filtrów
-$condition = isset($_GET['condition']) ? sanitize($_GET['condition']) : '';
-$brand = isset($_GET['brand']) ? sanitize($_GET['brand']) : '';
+$condition = isset($_GET['condition']) ? (array)$_GET['condition'] : [];
+$brand = isset($_GET['brand']) ? (array)$_GET['brand'] : [];
 $price_min = isset($_GET['price_min']) ? (int)$_GET['price_min'] : 0;
 $price_max = isset($_GET['price_max']) ? (int)$_GET['price_max'] : 0;
 $year_min = isset($_GET['year_min']) ? (int)$_GET['year_min'] : 0;
@@ -22,11 +22,17 @@ $query = "SELECT m.*, mi.image_path
 
 // Dodanie filtrów do zapytania
 if (!empty($condition)) {
-    $query .= " AND m.condition = '$condition'";
+    $conditions = array_map(function($c) use ($conn) {
+        return "'" . $conn->real_escape_string($c) . "'";
+    }, $condition);
+    $query .= " AND m.condition IN (" . implode(',', $conditions) . ")";
 }
 
 if (!empty($brand)) {
-    $query .= " AND m.brand = '$brand'";
+    $brands = array_map(function($b) use ($conn) {
+        return "'" . $conn->real_escape_string($b) . "'";
+    }, $brand);
+    $query .= " AND m.brand IN (" . implode(',', $brands) . ")";
 }
 
 if ($price_min > 0) {
@@ -154,31 +160,22 @@ include 'includes/header.php';
                         <!-- Stan -->
                         <div class="mb-6">
                             <h3 class="font-semibold text-lg mb-4">Stan</h3>
-                            <div class="space-y-3">
-                                <label class="custom-checkbox">
-                                    <input type="radio" name="condition" value="" <?php echo empty($condition) ? 'checked' : ''; ?>>
-                                    <span class="checkmark"></span>
-                                    Wszystkie
+                            <div class="space-y-2">
+                                <label class="flex items-center space-x-3 p-2.5 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors duration-200">
+                                    <input type="checkbox" name="condition[]" value="excellent" <?php echo in_array('excellent', $condition) ? 'checked' : ''; ?> class="w-4 h-4 text-gray-600 border-gray-300 rounded focus:ring-2 focus:ring-gray-400 focus:ring-offset-0">
+                                    <span class="text-sm font-medium text-gray-700">Doskonały</span>
                                 </label>
-                                <label class="custom-checkbox">
-                                    <input type="radio" name="condition" value="excellent" <?php echo $condition == 'excellent' ? 'checked' : ''; ?>>
-                                    <span class="checkmark"></span>
-                                    Doskonały
+                                <label class="flex items-center space-x-3 p-2.5 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors duration-200">
+                                    <input type="checkbox" name="condition[]" value="very_good" <?php echo in_array('very_good', $condition) ? 'checked' : ''; ?> class="w-4 h-4 text-gray-600 border-gray-300 rounded focus:ring-2 focus:ring-gray-400 focus:ring-offset-0">
+                                    <span class="text-sm font-medium text-gray-700">Bardzo dobry</span>
                                 </label>
-                                <label class="custom-checkbox">
-                                    <input type="radio" name="condition" value="very_good" <?php echo $condition == 'very_good' ? 'checked' : ''; ?>>
-                                    <span class="checkmark"></span>
-                                    Bardzo dobry
+                                <label class="flex items-center space-x-3 p-2.5 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors duration-200">
+                                    <input type="checkbox" name="condition[]" value="good" <?php echo in_array('good', $condition) ? 'checked' : ''; ?> class="w-4 h-4 text-gray-600 border-gray-300 rounded focus:ring-2 focus:ring-gray-400 focus:ring-offset-0">
+                                    <span class="text-sm font-medium text-gray-700">Dobry</span>
                                 </label>
-                                <label class="custom-checkbox">
-                                    <input type="radio" name="condition" value="good" <?php echo $condition == 'good' ? 'checked' : ''; ?>>
-                                    <span class="checkmark"></span>
-                                    Dobry
-                                </label>
-                                <label class="custom-checkbox">
-                                    <input type="radio" name="condition" value="average" <?php echo $condition == 'average' ? 'checked' : ''; ?>>
-                                    <span class="checkmark"></span>
-                                    Średni
+                                <label class="flex items-center space-x-3 p-2.5 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors duration-200">
+                                    <input type="checkbox" name="condition[]" value="average" <?php echo in_array('average', $condition) ? 'checked' : ''; ?> class="w-4 h-4 text-gray-600 border-gray-300 rounded focus:ring-2 focus:ring-gray-400 focus:ring-offset-0">
+                                    <span class="text-sm font-medium text-gray-700">Średni</span>
                                 </label>
                             </div>
                         </div>
@@ -186,19 +183,12 @@ include 'includes/header.php';
                         <!-- Marka -->
                         <div class="mb-6 border-t pt-6">
                             <h3 class="font-semibold text-lg mb-4">Marka</h3>
-                            <div class="space-y-3">
-                                <label class="custom-checkbox">
-                                    <input type="radio" name="brand" value="" <?php echo empty($brand) ? 'checked' : ''; ?>>
-                                    <span class="checkmark"></span>
-                                    Wszystkie
-                                </label>
-                                
+                            <div class="space-y-2">
                                 <?php if (!empty($brands)): ?>
                                     <?php foreach ($brands as $brand_name): ?>
-                                    <label class="custom-checkbox">
-                                        <input type="radio" name="brand" value="<?php echo $brand_name; ?>" <?php echo $brand == $brand_name ? 'checked' : ''; ?>>
-                                        <span class="checkmark"></span>
-                                        <?php echo $brand_name; ?>
+                                    <label class="flex items-center space-x-3 p-2.5 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors duration-200">
+                                        <input type="checkbox" name="brand[]" value="<?php echo $brand_name; ?>" <?php echo in_array($brand_name, $brand) ? 'checked' : ''; ?> class="w-4 h-4 text-gray-600 border-gray-300 rounded focus:ring-2 focus:ring-gray-400 focus:ring-offset-0">
+                                        <span class="text-sm font-medium text-gray-700"><?php echo $brand_name; ?></span>
                                     </label>
                                     <?php endforeach; ?>
                                 <?php else: ?>
@@ -207,10 +197,9 @@ include 'includes/header.php';
                                     $default_brands = ['Honda', 'Yamaha', 'Suzuki', 'Kawasaki', 'BMW', 'Ducati', 'Harley-Davidson'];
                                     foreach ($default_brands as $brand_name):
                                     ?>
-                                    <label class="custom-checkbox">
-                                        <input type="radio" name="brand" value="<?php echo $brand_name; ?>" <?php echo $brand == $brand_name ? 'checked' : ''; ?>>
-                                        <span class="checkmark"></span>
-                                        <?php echo $brand_name; ?>
+                                    <label class="flex items-center space-x-3 p-2.5 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors duration-200">
+                                        <input type="checkbox" name="brand[]" value="<?php echo $brand_name; ?>" <?php echo in_array($brand_name, $brand) ? 'checked' : ''; ?> class="w-4 h-4 text-gray-600 border-gray-300 rounded focus:ring-2 focus:ring-gray-400 focus:ring-offset-0">
+                                        <span class="text-sm font-medium text-gray-700"><?php echo $brand_name; ?></span>
                                     </label>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
@@ -551,3 +540,7 @@ EOT;
 
 include 'includes/footer.php';
 ?>
+
+<style>
+/* Usuwam wszystkie style, ponieważ używamy klas Tailwind */
+</style>

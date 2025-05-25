@@ -237,7 +237,7 @@ try {
                         </div>
                         
                         <?php if ($product['stock'] > 0): ?>
-                        <form class="add-to-cart-form mb-6">
+                        <div class="add-to-cart-form mb-6">
                             <input type="hidden" name="product_id" value="<?php echo $product_id; ?>">
                             
                             <div class="flex items-center mb-4">
@@ -255,11 +255,11 @@ try {
                             </div>
                             
                             <div class="flex space-x-3">
-                                <button type="button" onclick="addToCart(<?php echo $product_id; ?>)" class="add-to-cart-btn flex-1 bg-primary text-white py-3 px-6 rounded-lg font-medium hover:bg-opacity-90 transition flex items-center justify-center">
+                                <button type="button" class="add-to-cart-btn flex-1 bg-primary text-white py-3 px-6 rounded-lg font-medium hover:bg-opacity-90 transition flex items-center justify-center">
                                     <i class="ri-shopping-cart-line mr-2"></i> Dodaj do koszyka
                                 </button>
                             </div>
-                        </form>
+                        </div>
                         <?php else: ?>
                         <div class="mb-6 px-4 py-3 bg-gray-100 rounded text-gray-700">
                             <p>Ten produkt jest obecnie niedostępny.</p>
@@ -347,7 +347,7 @@ try {
                                     <input type="hidden" name="action" value="add">
                                     <input type="hidden" name="product_id" value="<?php echo $related['id']; ?>">
                                     <input type="hidden" name="quantity" value="1">
-                                    <button onclick="addToCart(<?php echo $related['id']; ?>)" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-primary hover:text-white transition">
+                                    <button type="button" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-primary hover:text-white transition add-to-cart-related" data-product-id="<?php echo $related['id']; ?>">
                                         <i class="ri-shopping-cart-line"></i>
                                     </button>
                                 </form>
@@ -364,49 +364,133 @@ try {
 
 <?php
 // Skrypt JS do obsługi strony produktu
-$extra_js = <<<EOT
+$extra_js = "
 <script>
-function addToCart(productId) {
-    const quantity = document.getElementById('quantity').value;
+document.addEventListener(\"DOMContentLoaded\", function() {
+    console.log(\"DOM załadowany\");
     
-    fetch('cart-actions.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: 'action=add&product_id=' + productId + '&quantity=' + quantity
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Aktualizacja liczby produktów w koszyku
-            const cartCount = document.getElementById('cartCount');
-            if (cartCount) {
-                cartCount.textContent = data.cart_count;
-                cartCount.classList.remove('hidden');
-            }
+    // Obsługa zakładek
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+    
+    tabButtons.forEach(button => {
+        button.addEventListener(\"click\", function() {
+            // Usuń aktywne klasy ze wszystkich przycisków
+            tabButtons.forEach(btn => {
+                btn.classList.remove(\"border-primary\", \"text-primary\");
+                btn.classList.add(\"border-transparent\", \"text-gray-500\");
+            });
             
-            alert('Produkt został dodany do koszyka');
-        } else {
-            alert('Wystąpił błąd: ' + data.message);
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Wystąpił błąd podczas dodawania produktu do koszyka');
+            // Dodaj aktywne klasy do klikniętego przycisku
+            this.classList.remove(\"border-transparent\", \"text-gray-500\");
+            this.classList.add(\"border-primary\", \"text-primary\");
+            
+            // Ukryj wszystkie zakładki
+            tabContents.forEach(content => {
+                content.classList.add(\"hidden\");
+            });
+            
+            // Pokaż wybraną zakładkę
+            const tabId = this.getAttribute(\"data-tab\");
+            document.getElementById(tabId + \"-content\").classList.remove(\"hidden\");
+        });
     });
-}
 
-// Obsługa przycisków +/- ilości
-document.addEventListener('DOMContentLoaded', function() {
-    const incrementBtn = document.querySelector('.increment-qty');
-    const decrementBtn = document.querySelector('.decrement-qty');
-    const quantityInput = document.getElementById('quantity');
+    // Funkcja do wyświetlania powiadomienia
+    function showNotification(message, type = \"success\") {
+        // Usuń istniejące powiadomienie jeśli istnieje
+        const existingNotification = document.querySelector(\".notification\");
+        if (existingNotification) {
+            existingNotification.remove();
+        }
+
+        // Stwórz nowe powiadomienie
+        const notification = document.createElement(\"div\");
+        notification.className = `notification fixed top-20 right-4 z-40 flex items-center p-4 mb-4 rounded-lg shadow-lg transform transition-all duration-300 translate-x-full`;
+        
+        // Dodaj odpowiedni kolor w zależności od typu
+        if (type === \"success\") {
+            notification.classList.add(\"bg-green-100\", \"text-green-800\", \"border\", \"border-green-200\");
+        } else {
+            notification.classList.add(\"bg-red-100\", \"text-red-800\", \"border\", \"border-red-200\");
+        }
+
+        // Dodaj ikonę
+        const icon = document.createElement(\"i\");
+        icon.className = type === \"success\" ? \"ri-checkbox-circle-fill mr-2 text-xl\" : \"ri-error-warning-fill mr-2 text-xl\";
+        notification.appendChild(icon);
+
+        // Dodaj tekst
+        const text = document.createElement(\"span\");
+        text.className = \"text-sm font-medium\";
+        text.textContent = message;
+        notification.appendChild(text);
+
+        // Dodaj przycisk zamknięcia
+        const closeButton = document.createElement(\"button\");
+        closeButton.className = \"ml-4 text-gray-500 hover:text-gray-700 focus:outline-none\";
+        closeButton.innerHTML = \"<i class=\\\"ri-close-line text-xl\\\"></i>\";
+        closeButton.onclick = () => notification.remove();
+        notification.appendChild(closeButton);
+
+        // Dodaj do body
+        document.body.appendChild(notification);
+
+        // Animacja wejścia
+        setTimeout(() => {
+            notification.classList.remove(\"translate-x-full\");
+        }, 100);
+
+        // Automatyczne zamknięcie po 3 sekundach
+        setTimeout(() => {
+            notification.classList.add(\"translate-x-full\");
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
+    }
+
+    function addToCart(productId, quantity = 1) {
+        console.log(\"Dodawanie do koszyka:\", productId, quantity);
+        
+        fetch(\"cart-actions.php\", {
+            method: \"POST\",
+            headers: {
+                \"Content-Type\": \"application/x-www-form-urlencoded\",
+            },
+            body: \"action=add&product_id=\" + productId + \"&quantity=\" + quantity
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(\"Odpowiedź:\", data);
+            if (data.success) {
+                // Aktualizacja liczby produktów w koszyku
+                const cartCount = document.getElementById(\"cartCount\");
+                if (cartCount) {
+                    cartCount.textContent = data.cart_count;
+                    cartCount.classList.remove(\"hidden\");
+                }
+                
+                showNotification(\"Produkt został dodany do koszyka\", \"success\");
+            } else {
+                showNotification(\"Wystąpił błąd: \" + data.message, \"error\");
+            }
+        })
+        .catch(error => {
+            console.error(\"Error:\", error);
+            showNotification(\"Wystąpił błąd podczas dodawania produktu do koszyka\", \"error\");
+        });
+    }
+
+    // Obsługa przycisków +/- ilości
+    const incrementBtn = document.querySelector(\".increment-qty\");
+    const decrementBtn = document.querySelector(\".decrement-qty\");
+    const quantityInput = document.getElementById(\"quantity\");
+    
+    console.log(\"Przyciski ilości:\", { incrementBtn, decrementBtn, quantityInput });
     
     if (incrementBtn) {
-        incrementBtn.addEventListener('click', function() {
+        incrementBtn.addEventListener(\"click\", function() {
             const currentValue = parseInt(quantityInput.value);
-            const maxValue = parseInt(quantityInput.getAttribute('max'));
+            const maxValue = parseInt(quantityInput.getAttribute(\"max\"));
             
             if (currentValue < maxValue) {
                 quantityInput.value = currentValue + 1;
@@ -415,7 +499,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     if (decrementBtn) {
-        decrementBtn.addEventListener('click', function() {
+        decrementBtn.addEventListener(\"click\", function() {
             const currentValue = parseInt(quantityInput.value);
             
             if (currentValue > 1) {
@@ -423,9 +507,33 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // Obsługa głównego przycisku dodawania do koszyka
+    const addToCartBtn = document.querySelector(\".add-to-cart-btn\");
+    console.log(\"Główny przycisk:\", addToCartBtn);
+    
+    if (addToCartBtn) {
+        addToCartBtn.addEventListener(\"click\", function() {
+            const productId = document.querySelector(\"input[name=\\\"product_id\\\"]\").value;
+            const quantity = document.getElementById(\"quantity\").value;
+            console.log(\"Kliknięto główny przycisk:\", productId, quantity);
+            addToCart(productId, quantity);
+        });
+    }
+
+    // Obsługa przycisków dodawania do koszyka dla produktów powiązanych
+    const relatedButtons = document.querySelectorAll(\".add-to-cart-related\");
+    console.log(\"Przyciski powiązane:\", relatedButtons);
+    
+    relatedButtons.forEach(button => {
+        button.addEventListener(\"click\", function() {
+            const productId = this.getAttribute(\"data-product-id\");
+            console.log(\"Kliknięto przycisk powiązany:\", productId);
+            addToCart(productId, 1);
+        });
+    });
 });
-</script>
-EOT;
+</script>";
 
 include 'includes/footer.php';
 ?>
