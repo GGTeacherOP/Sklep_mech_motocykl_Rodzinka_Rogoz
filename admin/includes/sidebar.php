@@ -7,6 +7,9 @@ if (!defined('ADMIN_PANEL')) {
 
 // Określenie aktywnej strony
 $current_page = basename($_SERVER['PHP_SELF'], '.php');
+
+// Pobranie roli administratora, jeśli nie jest ustawiona, domyślnie 'admin'
+$admin_role = $_SESSION['admin_role'] ?? 'admin';
 ?>
 
 <!-- Sidebar -->
@@ -24,24 +27,54 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
             </div>
             <div class="ml-3">
                 <p class="font-medium"><?php echo $_SESSION['admin_name'] ?? 'Administrator'; ?></p>
-                <p class="text-xs text-gray-500"><?php echo $_SESSION['admin_email'] ?? ''; ?></p>
+                <p class="text-xs text-gray-500">
+                    <?php 
+                    // Wyświetlanie roli administratora
+                    $role_display = '';
+                    switch($admin_role) {
+                        case 'admin':
+                            $role_display = 'Administrator';
+                            break;
+                        case 'mechanic':
+                            $role_display = 'Mechanik';
+                            break;
+                        case 'owner':
+                            $role_display = 'Właściciel';
+                            break;
+                        default:
+                            $role_display = ucfirst($admin_role);
+                    }
+                    echo $role_display;
+                    ?>
+                </p>
             </div>
         </div>
     </div>
     
     <nav class="p-4">
         <ul class="space-y-1">
+            <!-- Dashboard widoczny dla wszystkich -->    
             <li>
                 <a href="index.php" class="flex items-center py-2 px-4 rounded-lg <?php echo $current_page === 'index' ? 'bg-blue-100 text-blue-700' : 'text-gray-700 hover:bg-gray-100'; ?>">
                     <i class="ri-dashboard-line mr-3 text-lg"></i> 
                     <span>Dashboard</span>
                 </a>
             </li>
+            
+            <!-- Analityka widoczna tylko dla administratora i właściciela -->
+            <?php if ($admin_role === 'admin' || $admin_role === 'owner'): ?>
             <li>
                 <a href="analytics.php" class="flex items-center py-2 px-4 rounded-lg <?php echo $current_page === 'analytics' ? 'bg-blue-100 text-blue-700' : 'text-gray-700 hover:bg-gray-100'; ?>">
                     <i class="ri-bar-chart-box-line mr-3 text-lg"></i> 
                     <span>Analityka</span>
                 </a>
+            </li>
+            <?php endif; ?>
+            
+            <!-- Zarządzanie sklepem widoczne tylko dla administratora i właściciela -->
+            <?php if ($admin_role === 'admin' || $admin_role === 'owner'): ?>
+            <li class="mt-2 pt-2 border-t">
+                <p class="text-xs font-semibold text-gray-500 px-4 py-1 uppercase">Sklep</p>
             </li>
             <li>
                 <a href="manage_products.php" class="flex items-center py-2 px-4 rounded-lg <?php echo $current_page === 'manage_products' || $current_page === 'products' ? 'bg-blue-100 text-blue-700' : 'text-gray-700 hover:bg-gray-100'; ?>">
@@ -62,10 +95,35 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                 </a>
             </li>
             <li>
+                <a href="settings.php" class="flex items-center py-2 px-4 rounded-lg <?php echo $current_page === 'settings' ? 'bg-blue-100 text-blue-700' : 'text-gray-700 hover:bg-gray-100'; ?>">
+                    <i class="ri-settings-3-line mr-3 text-lg"></i> 
+                    <span>Ustawienia</span>
+                </a>
+            </li>
+            <?php endif; ?>
+            
+            <!-- Zarządzanie użytkownikami widoczne tylko dla administratora -->
+            <?php if ($admin_role === 'admin'): ?>
+            <li class="mt-2 pt-2 border-t">
+                <p class="text-xs font-semibold text-gray-500 px-4 py-1 uppercase">Użytkownicy</p>
+            </li>
+            <li>
                 <a href="users.php" class="flex items-center py-2 px-4 rounded-lg <?php echo $current_page === 'users' ? 'bg-blue-100 text-blue-700' : 'text-gray-700 hover:bg-gray-100'; ?>">
                     <i class="ri-user-settings-line mr-3 text-lg"></i> 
                     <span>Użytkownicy</span>
                 </a>
+            </li>
+            <li>
+                <a href="administrators.php" class="flex items-center py-2 px-4 rounded-lg <?php echo $current_page === 'administrators' ? 'bg-blue-100 text-blue-700' : 'text-gray-700 hover:bg-gray-100'; ?>">
+                    <i class="ri-shield-user-line mr-3 text-lg"></i> 
+                    <span>Administratorzy</span>
+                </a>
+            </li>
+            <?php endif; ?>
+            
+            <!-- Wiadomości i recenzje widoczne dla wszystkich -->    
+            <li class="mt-2 pt-2 border-t">
+                <p class="text-xs font-semibold text-gray-500 px-4 py-1 uppercase">Komunikacja</p>
             </li>
             <li>
                 <a href="messages.php" class="flex items-center py-2 px-4 rounded-lg <?php echo $current_page === 'messages' ? 'bg-blue-100 text-blue-700' : 'text-gray-700 hover:bg-gray-100'; ?>">
@@ -92,10 +150,25 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                 <a href="reviews.php" class="flex items-center py-2 px-4 rounded-lg <?php echo $current_page === 'reviews' ? 'bg-blue-100 text-blue-700' : 'text-gray-700 hover:bg-gray-100'; ?>">
                     <i class="ri-star-line mr-3 text-lg"></i> 
                     <span>Recenzje</span>
+                    <?php
+                    // Pobieranie liczby oczekujących recenzji
+                    $pending_reviews_query = "SELECT COUNT(*) as pending_count FROM product_reviews WHERE status = 'pending'";
+                    $pending_reviews_result = $conn->query($pending_reviews_query);
+                    $pending_reviews_count = 0;
+                    
+                    if ($pending_reviews_result && $pending_reviews_result->num_rows > 0) {
+                        $pending_reviews_data = $pending_reviews_result->fetch_assoc();
+                        $pending_reviews_count = $pending_reviews_data['pending_count'];
+                    }
+                    
+                    if ($pending_reviews_count > 0):
+                    ?>
+                    <span class="ml-auto bg-yellow-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center"><?php echo $pending_reviews_count; ?></span>
+                    <?php endif; ?>
                 </a>
             </li>
             
-            <!-- Sekcja serwisu -->
+            <!-- Sekcja serwisu widoczna dla wszystkich, ale głównie dla mechanika -->
             <li class="mt-2 pt-2 border-t">
                 <p class="text-xs font-semibold text-gray-500 px-4 py-1 uppercase">Serwis</p>
             </li>
@@ -142,12 +215,6 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
             </li>
             
             <li class="pt-4 mt-4 border-t">
-                <a href="settings.php" class="flex items-center py-2 px-4 rounded-lg <?php echo $current_page === 'settings' ? 'bg-blue-100 text-blue-700' : 'text-gray-700 hover:bg-gray-100'; ?>">
-                    <i class="ri-settings-line mr-3 text-lg"></i> 
-                    <span>Ustawienia</span>
-                </a>
-            </li>
-            <li>
                 <a href="logout.php" class="flex items-center py-2 px-4 rounded-lg text-red-600 hover:bg-red-50">
                     <i class="ri-logout-box-r-line mr-3 text-lg"></i> 
                     <span>Wyloguj się</span>

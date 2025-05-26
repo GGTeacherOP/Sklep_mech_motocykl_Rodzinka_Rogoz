@@ -1,4 +1,9 @@
 <?php
+// Włączenie wyświetlania błędów PHP
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 $page_title = "Panel administracyjny - Logowanie";
 
@@ -14,36 +19,74 @@ require_once $base_path . '/includes/config.php';
 
 $error_message = '';
 
+// Sprawdzanie czy tabela admins istnieje (tymczasowe rozwiązanie - pokaże nam czy problem dotyczy braku tabeli)
+$check_table_query = "SHOW TABLES LIKE 'admins'";
+$table_result = $conn->query($check_table_query);
+$admins_table_exists = ($table_result && $table_result->num_rows > 0);
+
+// Jeśli tabela admins nie istnieje, sprawdź, czy możemy zalogować się przez tabelę users
+$use_users_table = !$admins_table_exists;
+
 // Obsługa logowania
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = isset($_POST['email']) ? sanitize($_POST['email']) : '';
+    // Możliwość logowania przez email lub nazwę użytkownika
+    $login = isset($_POST['email']) ? sanitize($_POST['email']) : '';
     $password = isset($_POST['password']) ? $_POST['password'] : '';
+    $success = false;
     
-    if (empty($email) || empty($password)) {
+    if (empty($login) || empty($password)) {
         $error_message = 'Wszystkie pola są wymagane.';
     } else {
-        // Sprawdzenie, czy użytkownik istnieje i ma uprawnienia administratora
-        $query = "SELECT * FROM users WHERE email = '$email' AND role = 'admin'";
-        $result = $conn->query($query);
-        
-        if ($result && $result->num_rows > 0) {
-            $user = $result->fetch_assoc();
-            
-            // Weryfikacja hasła
-            if (password_verify($password, $user['password'])) {
-                // Logowanie pomyślne
-                $_SESSION['admin_id'] = $user['id'];
-                $_SESSION['admin_name'] = $user['first_name'] . ' ' . $user['last_name'];
-                $_SESSION['admin_email'] = $user['email'];
-                
-                // Przekierowanie do panelu administracyjnego
-                header("Location: index.php");
-                exit;
+        try {
+            if ($use_users_table) {
+                // Jeśli tabela admins nie istnieje, próbujemy zalogować się przez users
+                $query = "SELECT * FROM users WHERE email = ? AND (role = 'admin' OR role = 'mechanic' OR role = 'owner')";
+                $stmt = $conn->prepare($query);
+                $stmt->bind_param("s", $login);
             } else {
-                $error_message = 'Nieprawidłowe hasło.';
+                // Logowanie przez tabelę admins
+                $query = "SELECT * FROM admins WHERE (email = ? OR username = ?)";
+                $stmt = $conn->prepare($query);
+                $stmt->bind_param("ss", $login, $login);
             }
-        } else {
-            $error_message = 'Nieprawidłowy email lub brak uprawnień administratora.';
+            
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            if ($result && $result->num_rows > 0) {
+                $user = $result->fetch_assoc();
+                
+                // Weryfikacja hasła
+                if (password_verify($password, $user['password'])) {
+                    // Logowanie pomyślne
+                    $_SESSION['admin_id'] = $user['id'];
+                    
+                    if ($use_users_table) {
+                        $_SESSION['admin_name'] = $user['first_name'] . ' ' . $user['last_name'];
+                        $_SESSION['admin_email'] = $user['email'];
+                        $_SESSION['admin_role'] = $user['role'] ?? 'admin';
+                    } else {
+                        $_SESSION['admin_name'] = $user['name'];
+                        $_SESSION['admin_email'] = $user['email'];
+                        $_SESSION['admin_username'] = $user['username'];
+                        $_SESSION['admin_role'] = $user['role'] ?? 'admin';
+                    }
+                    
+                    $success = true;
+                } else {
+                    $error_message = 'Nieprawidłowe hasło.';
+                }
+            } else {
+                $error_message = 'Nieprawidłowy login lub brak konta administratora.';
+            }
+        } catch (Exception $e) {
+            $error_message = 'Błąd podczas logowania: ' . $e->getMessage();
+        }
+        
+        if ($success) {
+            // Przekierowanie do panelu administracyjnego
+            header("Location: index.php");
+            exit;
         }
     }
 }

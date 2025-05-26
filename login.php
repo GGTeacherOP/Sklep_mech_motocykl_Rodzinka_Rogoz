@@ -39,10 +39,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
                 
                 // Sprawdź rolę użytkownika i przekieruj odpowiednio
-                if ($user['role'] === 'admin') {
-                    redirect('admin/index.php');  // Przekierowanie do panelu admina
+                if (isset($user['role']) && in_array($user['role'], ['admin', 'mechanic', 'owner'])) {
+                    // Przekierowanie do panelu administracyjnego dla wszystkich ról administracyjnych
+                    redirect('admin/index.php');
                 } else {
-                    redirect('index.php');  // Przekierowanie na stronę główną
+                    // Przekierowanie na stronę główną dla zwykłych użytkowników
+                    redirect('index.php');
                 }
             } else {
                 // Niepoprawne hasło

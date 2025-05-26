@@ -15,6 +15,8 @@ if (!defined('ADMIN_PANEL')) {
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <!-- Dodanie biblioteki Chart.js dla wykresów w analityce -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <!-- Dodanie Alpine.js dla interaktywnych komponentów UI -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js"></script>
     <style>
         /* Reset i podstawowe style */
         * {
