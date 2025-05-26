@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Maj 26, 2025 at 02:48 PM
+-- Generation Time: Maj 26, 2025 at 09:52 PM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -105,7 +105,10 @@ CREATE TABLE `cart_items` (
 
 INSERT INTO `cart_items` (`id`, `cart_id`, `product_id`, `quantity`, `created_at`, `updated_at`) VALUES
 (3, 1, 1, 1, '2025-05-19 19:40:14', '2025-05-19 19:40:14'),
-(47, 3, 7, 4, '2025-05-26 11:52:59', '2025-05-26 12:48:00');
+(47, 3, 7, 4, '2025-05-26 11:52:59', '2025-05-26 12:48:00'),
+(49, 2, 7, 1, '2025-05-26 19:31:21', '2025-05-26 19:31:21'),
+(50, 2, 20, 4, '2025-05-26 19:31:22', '2025-05-26 19:44:53'),
+(51, 2, 17, 2, '2025-05-26 19:44:48', '2025-05-26 19:44:48');
 
 -- --------------------------------------------------------
 
@@ -211,6 +214,21 @@ CREATE TABLE `motorcycle_images` (
   `is_main` tinyint(1) DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `motorcycle_images`
+--
+
+INSERT INTO `motorcycle_images` (`id`, `motorcycle_id`, `image_path`, `is_main`, `created_at`) VALUES
+(1, 2, 'uploads\\motorcycles\\mt07.jpg', 1, '2025-05-26 18:52:50'),
+(2, 1, 'uploads\\motorcycles\\cbr600rr.jpg', 1, '2025-05-26 18:53:47'),
+(3, 3, 'uploads\\motorcycles\\bmwr1250gs.jpg', 1, '2025-05-26 18:53:47'),
+(4, 4, 'uploads\\motorcycles\\TriumphTripleRS.jpg', 1, '2025-05-26 19:10:54'),
+(5, 5, 'uploads\\motorcycles\\SuperDuke1290.jpg', 1, '2025-05-26 19:10:54'),
+(6, 6, 'uploads\\motorcycles\\GSXR-1000.jpg', 1, '2025-05-26 19:11:30'),
+(7, 7, 'uploads\\motorcycles\\RSV4.jpg', 1, '2025-05-26 19:11:30'),
+(8, 9, 'uploads\\motorcycles\\scout-bobber-black.jpg', 1, '2025-05-26 19:11:52'),
+(9, 8, 'uploads\\motorcycles\\guzzi.jpg', 1, '2025-05-26 19:12:39');
 
 -- --------------------------------------------------------
 
@@ -362,11 +380,11 @@ INSERT INTO `products` (`id`, `name`, `slug`, `description`, `short_description`
 (3, 'Rękawice motocyklowe Alpinestars GP Pro', 'r-kawice-motocyklowe-alpinestars-gp-pro', 'Rękawice motocyklowe Alpinestars GP Pro to profesjonalne rękawice sportowe. Wykonane ze skóry bydlęcej z dodatkowymi wzmocnieniami, posiadają system wentylacji i ochronę kostek.', 'Rękawice motocyklowe Alpinestars GP Pro - profesjonalna ochrona', 399.99, NULL, 74, 'ALP-GPP-001', 0, 'published', 2, 1, '2025-05-21 21:02:49', '2025-05-26 11:34:48'),
 (4, 'Kurtka motocyklowa Dainese Super Speed', 'kurtka-motocyklowa-dainese-super-speed', 'Kurtka motocyklowa Dainese Super Speed to lekka i przewiewna kurtka sportowa. Wykonana z materiału D-Skin, posiada system wentylacji i wymienne ochraniacze.', 'Kurtka motocyklowa Dainese Super Speed - lekkość i ochrona', 1499.99, 1399.99, 40, 'DAI-SS-001', 1, 'published', 2, 2, '2025-05-21 21:02:49', '2025-05-26 11:35:00'),
 (5, 'Spodnie motocyklowe Alpinestars Bionic Pro', 'spodnie-motocyklowe-alpinestars-bionic-pro', 'Spodnie motocyklowe Alpinestars Bionic Pro to spodnie z wbudowanymi ochraniaczami. Wykonane z materiału stretch, posiadają system wentylacji i wymienne ochraniacze.', 'Spodnie motocyklowe Alpinestars Bionic Pro - ochrona i komfort', 799.99, NULL, 60, 'ALP-BP-001', 0, 'published', 2, 1, '2025-05-21 21:02:49', '2025-05-26 11:35:13'),
-(6, 'Buty motocyklowe Sidi Mag-1', 'buty-motocyklowe-sidi-mag-1', 'Buty motocyklowe Sidi Mag-1 to profesjonalne buty sportowe. Wykonane ze skóry z dodatkowymi wzmocnieniami, posiadają podeszwę antypoślizgową i system zapięcia.', 'Buty motocyklowe Sidi Mag-1 - profesjonalna ochrona stóp', 599.99, 549.99, 45, 'SID-MAG1-001', 0, 'published', 2, 15, '2025-05-21 21:02:49', '2025-05-26 11:36:08'),
+(6, 'Buty motocyklowe Sidi Mag-1', 'buty-motocyklowe-sidi-mag-1', 'Buty motocyklowe Sidi Mag-1 to profesjonalne buty sportowe. Wykonane ze skóry z dodatkowymi wzmocnieniami, posiadają podeszwę antypoślizgową i system zapięcia.', 'Buty motocyklowe Sidi Mag-1 - profesjonalna ochrona stóp', 599.99, 549.99, 45, 'SID-MAG1-001', 0, 'published', 2, 17, '2025-05-21 21:02:49', '2025-05-26 18:43:40'),
 (7, 'Olej silnikowy Motul 300V 4T', 'olej-silnikowy-motul-300v-4t', 'Olej silnikowy Motul 300V 4T to olej syntetyczny najwyższej jakości. Wysoka wydajność i ochrona silnika, odpowiedni dla nowoczesnych motocykli sportowych.', 'Olej silnikowy Motul 300V 4T - najwyższa jakość', 129.99, NULL, 139, 'MOT-300V-001', 0, 'published', 4, 5, '2025-05-21 21:02:49', '2025-05-26 11:49:39'),
 (8, 'Łańcuch napędowy RK 520GXW', 'a-cuch-nap-dowy-rk-520gxw', 'Łańcuch napędowy RK 520GXW to łańcuch z powłoką X-Ring. Wysoka wytrzymałość i trwałość, odpowiedni dla motocykli sportowych i turystycznych.', 'Łańcuch napędowy RK 520GXW - trwałość i wydajność', 449.99, 399.99, 55, 'RK-520GXW-001', 0, 'published', 3, 6, '2025-05-21 21:02:49', '2025-05-21 21:21:14'),
 (9, 'Hamulce tarczowe Brembo Serie Oro', 'hamulce-tarczowe-brembo-serie-oro', 'Tarcze hamulcowe Brembo Serie Oro to profesjonalne tarcze sportowe. Wysoka wydajność hamowania, odpowiednie dla motocykli sportowych.', 'Hamulce tarczowe Brembo Serie Oro - profesjonalne hamowanie', 799.99, NULL, 30, 'BRE-SO-001', 1, 'published', 3, 7, '2025-05-21 21:02:49', '2025-05-21 21:21:14'),
-(10, 'Akumulator motocyklowy Yuasa YTX14-BS', 'akumulator-motocyklowy-yuasa-ytx14-bs', 'Akumulator motocyklowy Yuasa YTX14-BS to akumulator 12V 12Ah. Wysoka wydajność i trwałość, odpowiedni dla większych motocykli.', 'Akumulator motocyklowy Yuasa YTX14-BS - niezawodność', 299.99, 279.99, 64, 'YUA-YTX14-001', 0, 'published', 5, 8, '2025-05-21 21:02:49', '2025-05-21 21:49:21'),
+(10, 'Akumulator motocyklowy Yuasa YTX14-BS', 'akumulator-motocyklowy-yuasa-ytx14-bs', 'Akumulator motocyklowy Yuasa YTX14-BS to akumulator 12V 12Ah. Wysoka wydajność i trwałość, odpowiedni dla większych motocykli.', 'Akumulator motocyklowy Yuasa YTX14-BS - niezawodność', 299.99, 279.99, 64, 'YUA-YTX14-001', 0, 'published', 5, 17, '2025-05-21 21:02:49', '2025-05-26 18:45:30'),
 (11, 'Opony motocyklowe Pirelli Diablo Rosso IV', 'opony-motocyklowe-pirelli-diablo-rosso-iv', 'Opony motocyklowe Pirelli Diablo Rosso IV to opony sportowe z doskonałą przyczepnością. Długa żywotność, odpowiednie dla motocykli sportowych.', 'Opony motocyklowe Pirelli Diablo Rosso IV - sportowa przyczepność', 999.99, 949.99, 35, 'PIR-DR4-001', 1, 'published', 3, 9, '2025-05-21 21:02:49', '2025-05-21 21:21:14'),
 (12, 'Kask motocyklowy AGV K6', 'kask-motocyklowy-agv-k6', 'Kask motocyklowy AGV K6 to nowoczesny kask sportowy z kompozytu włókna węglowego. Posiada system wentylacji, wyjmowaną wkładkę i jest kompatybilny z systemem komunikacji.', 'Kask motocyklowy AGV K6 - nowoczesność i bezpieczeństwo', 1499.99, 0.00, 25, 'AGV-K6-001', 1, 'published', 1, 1, '2025-05-21 21:07:05', '2025-05-21 21:21:38'),
 (13, 'Rękawice motocyklowe Dainese 4 Stroke Evo', 'r-kawice-motocyklowe-dainese-4-stroke-evo', 'Rękawice motocyklowe Dainese 4 Stroke Evo to uniwersalne rękawice sportowe. Wykonane ze skóry bydlęcej z dodatkowymi wzmocnieniami, posiadają system wentylacji i ochronę kostek.', 'Rękawice motocyklowe Dainese 4 Stroke Evo - uniwersalna ochrona', 349.99, NULL, 40, 'DAI-4SE-001', 0, 'published', 2, 2, '2025-05-21 21:07:05', '2025-05-21 21:21:38'),
@@ -526,7 +544,13 @@ CREATE TABLE `used_motorcycles` (
 INSERT INTO `used_motorcycles` (`id`, `title`, `brand`, `model`, `year`, `mileage`, `engine_capacity`, `power`, `color`, `price`, `description`, `features`, `registration_number`, `vin`, `condition`, `status`, `featured`, `created_at`, `updated_at`) VALUES
 (1, 'Honda CBR 600RR - Stan idealny', 'Honda', 'CBR 600RR', 2018, 12000, 599, 120, 'Czerwony', 35000.00, 'Motocykl w idealnym stanie technicznym i wizualnym. Pierwszy właściciel, serwisowany w ASO. Kupiony w polskim salonie.', 'ABS,Quickshifter,Tryby jazdy,Podgrzewane manetki', NULL, NULL, 'excellent', 'available', 0, '2025-05-19 12:49:34', '2025-05-19 12:49:34'),
 (2, 'Yamaha MT-07 - Niski przebieg', 'Yamaha', 'MT-07', 2020, 5000, 689, 74, 'Czarny', 29000.00, 'Motocykl z niskim przebiegiem, regularnie serwisowany. Dołączam komplet dokumentów i drugi komplet opon.', 'ABS,Alarm,Akcesoryjny wydech', NULL, NULL, 'very_good', 'available', 0, '2025-05-19 12:49:34', '2025-05-19 12:49:34'),
-(3, 'BMW R1250GS Adventure - Pełne wyposażenie', 'BMW', 'R1250GS Adventure', 2021, 15000, 1254, 136, 'Biały', 75000.00, 'Turystyczny motocykl z pełnym wyposażeniem. Idealny na dalekie podróże. Sprzedaję z powodu zakupu nowszego modelu.', 'ABS,Tempomat,Nawigacja,Podgrzewane manetki,Kufry,Quickshifter,Elektroniczne zawieszenie', NULL, NULL, 'excellent', 'available', 0, '2025-05-19 12:49:34', '2025-05-19 12:49:34');
+(3, 'BMW R1250GS Adventure - Pełne wyposażenie', 'BMW', 'R1250GS Adventure', 2021, 15000, 1254, 136, 'Biały', 75000.00, 'Turystyczny motocykl z pełnym wyposażeniem. Idealny na dalekie podróże. Sprzedaję z powodu zakupu nowszego modelu.', 'ABS,Tempomat,Nawigacja,Podgrzewane manetki,Kufry,Quickshifter,Elektroniczne zawieszenie', NULL, NULL, 'excellent', 'available', 0, '2025-05-19 12:49:34', '2025-05-19 12:49:34'),
+(4, 'Triumph Street Triple RS', 'Triumph', 'Street Triple RS', 2021, 9500, 765, 123, 'Biały', 45900.00, 'Sportowy naked bike w stanie idealnym. Pełna elektronika i zaawansowane systemy bezpieczeństwa.', 'Quick Shifter, Tryby jazdy, Elektroniczna regulacja zawieszenia, LED światła', 'WWL 78901', 'SMTT20VX5MB123456', 'excellent', 'available', 1, '2025-05-26 19:03:08', '2025-05-26 19:03:08'),
+(5, 'KTM 1290 Super Duke R', 'KTM', '1290 Super Duke R', 2020, 12000, 1301, 180, 'Pomarańczowy', 69900.00, 'Najmocniejszy naked bike w ofercie. Pełna elektronika i zaawansowane systemy bezpieczeństwa.', 'Launch Control, Quick Shifter, Tryby jazdy, Cornering ABS', 'WWL 89012', 'VBKEXM402LM123456', 'very_good', 'available', 1, '2025-05-26 19:03:08', '2025-05-26 19:03:08'),
+(6, 'Suzuki GSX-R1000', 'Suzuki', 'GSX-R1000', 2019, 16500, 999, 202, 'Niebieski', 54900.00, 'Legendarny superbike w świetnym stanie. Pełna elektronika i zaawansowane systemy bezpieczeństwa.', 'Launch Control, Quick Shifter, Tryby jazdy, S-DMS', 'WWL 90123', 'JS1GR7KA8K2101234', 'very_good', 'available', 0, '2025-05-26 19:03:08', '2025-05-26 19:03:08'),
+(7, 'Aprilia RSV4 1100', 'Aprilia', 'RSV4 1100', 2021, 7500, 1100, 217, 'Czarny', 79900.00, 'Włoski superbike w stanie idealnym. Pełna elektronika i zaawansowane systemy bezpieczeństwa.', 'Launch Control, Quick Shifter, Tryby jazdy, APRC', 'WWL 01234', 'ZAPRSV4A0MB123456', 'excellent', 'reserved', 1, '2025-05-26 19:03:08', '2025-05-26 19:03:08'),
+(8, 'Moto Guzzi V85 TT', 'Moto Guzzi', 'V85 TT', 2020, 14500, 853, 80, 'Żółty', 42900.00, 'Elegancki motocykl turystyczny w dobrym stanie. Idealny do długich podróży.', 'Tryby jazdy, ABS, Traction Control, Centralny bagażnik', 'WWL 12340', 'ZGUKDH0T0LM123456', 'good', 'available', 0, '2025-05-26 19:03:08', '2025-05-26 19:03:08'),
+(9, 'Indian Scout Bobber', 'Indian', 'Scout Bobber', 2019, 18500, 1133, 100, 'Czarny', 49900.00, 'Stylowy cruiser w świetnym stanie. Charakterystyczny wygląd i komfort jazdy.', 'ABS, Tryby jazdy, LED światła, Własny styl', 'WWL 23450', '54UDB30C0KB123456', 'very_good', 'available', 0, '2025-05-26 19:03:08', '2025-05-26 19:03:08');
 
 -- --------------------------------------------------------
 
@@ -577,6 +601,13 @@ CREATE TABLE `wishlists` (
   `user_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `wishlists`
+--
+
+INSERT INTO `wishlists` (`id`, `user_id`, `created_at`) VALUES
+(1, 5, '2025-05-26 19:27:23');
 
 -- --------------------------------------------------------
 
@@ -766,7 +797,7 @@ ALTER TABLE `carts`
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -796,7 +827,7 @@ ALTER TABLE `mechanic_reviews`
 -- AUTO_INCREMENT for table `motorcycle_images`
 --
 ALTER TABLE `motorcycle_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `motorcycle_viewings`
@@ -850,7 +881,7 @@ ALTER TABLE `service_bookings`
 -- AUTO_INCREMENT for table `used_motorcycles`
 --
 ALTER TABLE `used_motorcycles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -862,13 +893,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `wishlists`
 --
 ALTER TABLE `wishlists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `wishlist_items`
 --
 ALTER TABLE `wishlist_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
