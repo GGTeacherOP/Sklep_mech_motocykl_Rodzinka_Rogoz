@@ -98,4 +98,22 @@
     
     <?php if (isset($extra_js)): echo $extra_js; endif; ?>
 </body>
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+    }
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+    main {
+        flex: 1 0 auto;
+    }
+    footer {
+        flex-shrink: 0;
+        margin-top: auto;
+    }
+</style>
 </html>

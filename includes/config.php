@@ -5,13 +5,13 @@ if (!isset($_SESSION)) {
 }
 
 // Konfiguracja bazy danych
-$host = 'localhost';
-$db_name = 'motoshop_db';
-$username = 'root';
-$password = ''; // W XAMPP domyślnie puste hasło
+define('DB_HOST', 'localhost');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+define('DB_NAME', 'motoshop_db');
 
 // Połączenie z bazą danych
-$conn = new mysqli($host, $username, $password, $db_name);
+$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
 // Sprawdzenie połączenia
 if ($conn->connect_error) {
@@ -24,7 +24,7 @@ $conn->set_charset("utf8mb4");
 // Funkcja zabezpieczająca dane wejściowe
 function sanitize($data) {
     global $conn;
-    return $conn->real_escape_string(htmlspecialchars(trim($data)));
+    return $conn->real_escape_string(trim($data));
 }
 
 // Funkcja generująca slug
@@ -79,6 +79,23 @@ function displayMessage() {
         unset($_SESSION['message']);
         unset($_SESSION['message_type']);
     }
+}
+
+// Funkcja do pobierania głównego zdjęcia motocykla
+function get_main_image($motorcycle_id) {
+    global $conn;
+    $query = "SELECT image_path FROM motorcycle_images WHERE motorcycle_id = ? AND is_main = 1 LIMIT 1";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $motorcycle_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result && $result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        return $row['image_path'];
+    }
+    
+    return 'assets/images/motorcycle-placeholder.jpg';
 }
 
 // Sesja jest już zainicjowana na początku pliku
