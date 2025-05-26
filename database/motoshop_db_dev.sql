@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Maj 24, 2025 at 03:29 PM
+-- Generation Time: Maj 26, 2025 at 01:42 PM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -81,7 +81,8 @@ CREATE TABLE `carts` (
 
 INSERT INTO `carts` (`id`, `user_id`, `session_id`, `created_at`, `updated_at`) VALUES
 (1, 4, NULL, '2025-05-19 18:47:49', '2025-05-19 18:47:49'),
-(2, 5, NULL, '2025-05-21 20:08:25', '2025-05-21 20:08:25');
+(2, 5, NULL, '2025-05-21 20:08:25', '2025-05-21 20:08:25'),
+(3, 6, NULL, '2025-05-26 11:39:27', '2025-05-26 11:39:27');
 
 -- --------------------------------------------------------
 
@@ -103,7 +104,9 @@ CREATE TABLE `cart_items` (
 --
 
 INSERT INTO `cart_items` (`id`, `cart_id`, `product_id`, `quantity`, `created_at`, `updated_at`) VALUES
-(3, 1, 1, 1, '2025-05-19 19:40:14', '2025-05-19 19:40:14');
+(3, 1, 1, 1, '2025-05-19 19:40:14', '2025-05-19 19:40:14'),
+(45, 3, 20, 3, '2025-05-26 11:39:27', '2025-05-26 11:39:30'),
+(46, 3, 7, 4, '2025-05-26 11:41:46', '2025-05-26 11:41:47');
 
 -- --------------------------------------------------------
 
@@ -352,12 +355,12 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `slug`, `description`, `short_description`, `price`, `sale_price`, `stock`, `sku`, `featured`, `status`, `category_id`, `brand_id`, `created_at`, `updated_at`) VALUES
-(1, 'Kask motocyklowy HJC C10', 'kask-motocyklowy-hjc-c10', 'Wizjer z powłoką UV chroni przed promieniowaniem UV\r\nZapięcie mikrometryczne łatwe w obsłudze nawet w rękawicy\r\nPrzystosowany do montażu Pinlocka dla zapobiegania parowaniu\r\nWizjer z powłoką anti-scratch zapewnia ochronę przed zarysowaniami\r\nSkorupa Advanced Polycarbonate Composite oferuje wysoką odporność na uszkodzenia.', NULL, 659.99, 639.99, 115, NULL, 0, 'published', 1, 2, '2025-05-19 17:59:20', '2025-05-23 14:32:47'),
-(2, 'Kask motocyklowy Shoei NXR2', 'kask-motocyklowy-shoei-nxr2', 'Kask motocyklowy Shoei NXR2 to najnowsza wersja popularnego modelu. Wykonany z kompozytu AIM+, posiada system wentylacji CWR-1, a także jest kompatybilny z systemem Sena SRL.', 'Kask motocyklowy Shoei NXR2 - najwyższa jakość i bezpieczeństwo', 1299.99, 1199.99, 50, 'SHO-NXR2-001', 1, 'published', 1, 1, '2025-05-21 21:02:49', '2025-05-21 21:20:27'),
-(3, 'Rękawice motocyklowe Alpinestars GP Pro', 'r-kawice-motocyklowe-alpinestars-gp-pro', 'Rękawice motocyklowe Alpinestars GP Pro to profesjonalne rękawice sportowe. Wykonane ze skóry bydlęcej z dodatkowymi wzmocnieniami, posiadają system wentylacji i ochronę kostek.', 'Rękawice motocyklowe Alpinestars GP Pro - profesjonalna ochrona', 399.99, NULL, 74, 'ALP-GPP-001', 0, 'published', 2, 2, '2025-05-21 21:02:49', '2025-05-21 21:26:00'),
-(4, 'Kurtka motocyklowa Dainese Super Speed', 'kurtka-motocyklowa-dainese-super-speed', 'Kurtka motocyklowa Dainese Super Speed to lekka i przewiewna kurtka sportowa. Wykonana z materiału D-Skin, posiada system wentylacji i wymienne ochraniacze.', 'Kurtka motocyklowa Dainese Super Speed - lekkość i ochrona', 1499.99, 1399.99, 40, 'DAI-SS-001', 1, 'published', 2, 3, '2025-05-21 21:02:49', '2025-05-21 21:21:14'),
-(5, 'Spodnie motocyklowe Alpinestars Bionic Pro', 'spodnie-motocyklowe-alpinestars-bionic-pro', 'Spodnie motocyklowe Alpinestars Bionic Pro to spodnie z wbudowanymi ochraniaczami. Wykonane z materiału stretch, posiadają system wentylacji i wymienne ochraniacze.', 'Spodnie motocyklowe Alpinestars Bionic Pro - ochrona i komfort', 799.99, NULL, 60, 'ALP-BP-001', 0, 'published', 2, 2, '2025-05-21 21:02:49', '2025-05-21 21:21:14'),
-(6, 'Buty motocyklowe Sidi Mag-1', 'buty-motocyklowe-sidi-mag-1', 'Buty motocyklowe Sidi Mag-1 to profesjonalne buty sportowe. Wykonane ze skóry z dodatkowymi wzmocnieniami, posiadają podeszwę antypoślizgową i system zapięcia.', 'Buty motocyklowe Sidi Mag-1 - profesjonalna ochrona stóp', 599.99, 549.99, 45, 'SID-MAG1-001', 0, 'published', 2, 4, '2025-05-21 21:02:49', '2025-05-21 21:21:14'),
+(1, 'Kask motocyklowy HJC C10', 'kask-motocyklowy-hjc-c10', 'Wizjer z powłoką UV chroni przed promieniowaniem UV\r\nZapięcie mikrometryczne łatwe w obsłudze nawet w rękawicy\r\nPrzystosowany do montażu Pinlocka dla zapobiegania parowaniu\r\nWizjer z powłoką anti-scratch zapewnia ochronę przed zarysowaniami\r\nSkorupa Advanced Polycarbonate Composite oferuje wysoką odporność na uszkodzenia.', NULL, 659.99, 639.99, 115, NULL, 0, 'published', 1, 3, '2025-05-19 17:59:20', '2025-05-26 11:34:12'),
+(2, 'Kask motocyklowy Shoei NXR2', 'kask-motocyklowy-shoei-nxr2', 'Kask motocyklowy Shoei NXR2 to najnowsza wersja popularnego modelu. Wykonany z kompozytu AIM+, posiada system wentylacji CWR-1, a także jest kompatybilny z systemem Sena SRL.', 'Kask motocyklowy Shoei NXR2 - najwyższa jakość i bezpieczeństwo', 1299.99, 1199.99, 50, 'SHO-NXR2-001', 1, 'published', 1, 4, '2025-05-21 21:02:49', '2025-05-26 11:34:35'),
+(3, 'Rękawice motocyklowe Alpinestars GP Pro', 'r-kawice-motocyklowe-alpinestars-gp-pro', 'Rękawice motocyklowe Alpinestars GP Pro to profesjonalne rękawice sportowe. Wykonane ze skóry bydlęcej z dodatkowymi wzmocnieniami, posiadają system wentylacji i ochronę kostek.', 'Rękawice motocyklowe Alpinestars GP Pro - profesjonalna ochrona', 399.99, NULL, 74, 'ALP-GPP-001', 0, 'published', 2, 1, '2025-05-21 21:02:49', '2025-05-26 11:34:48'),
+(4, 'Kurtka motocyklowa Dainese Super Speed', 'kurtka-motocyklowa-dainese-super-speed', 'Kurtka motocyklowa Dainese Super Speed to lekka i przewiewna kurtka sportowa. Wykonana z materiału D-Skin, posiada system wentylacji i wymienne ochraniacze.', 'Kurtka motocyklowa Dainese Super Speed - lekkość i ochrona', 1499.99, 1399.99, 40, 'DAI-SS-001', 1, 'published', 2, 2, '2025-05-21 21:02:49', '2025-05-26 11:35:00'),
+(5, 'Spodnie motocyklowe Alpinestars Bionic Pro', 'spodnie-motocyklowe-alpinestars-bionic-pro', 'Spodnie motocyklowe Alpinestars Bionic Pro to spodnie z wbudowanymi ochraniaczami. Wykonane z materiału stretch, posiadają system wentylacji i wymienne ochraniacze.', 'Spodnie motocyklowe Alpinestars Bionic Pro - ochrona i komfort', 799.99, NULL, 60, 'ALP-BP-001', 0, 'published', 2, 1, '2025-05-21 21:02:49', '2025-05-26 11:35:13'),
+(6, 'Buty motocyklowe Sidi Mag-1', 'buty-motocyklowe-sidi-mag-1', 'Buty motocyklowe Sidi Mag-1 to profesjonalne buty sportowe. Wykonane ze skóry z dodatkowymi wzmocnieniami, posiadają podeszwę antypoślizgową i system zapięcia.', 'Buty motocyklowe Sidi Mag-1 - profesjonalna ochrona stóp', 599.99, 549.99, 45, 'SID-MAG1-001', 0, 'published', 2, 15, '2025-05-21 21:02:49', '2025-05-26 11:36:08'),
 (7, 'Olej silnikowy Motul 300V 4T', 'olej-silnikowy-motul-300v-4t', 'Olej silnikowy Motul 300V 4T to olej syntetyczny najwyższej jakości. Wysoka wydajność i ochrona silnika, odpowiedni dla nowoczesnych motocykli sportowych.', 'Olej silnikowy Motul 300V 4T - najwyższa jakość', 129.99, NULL, 148, 'MOT-300V-001', 0, 'published', 4, 5, '2025-05-21 21:02:49', '2025-05-24 12:21:25'),
 (8, 'Łańcuch napędowy RK 520GXW', 'a-cuch-nap-dowy-rk-520gxw', 'Łańcuch napędowy RK 520GXW to łańcuch z powłoką X-Ring. Wysoka wytrzymałość i trwałość, odpowiedni dla motocykli sportowych i turystycznych.', 'Łańcuch napędowy RK 520GXW - trwałość i wydajność', 449.99, 399.99, 55, 'RK-520GXW-001', 0, 'published', 3, 6, '2025-05-21 21:02:49', '2025-05-21 21:21:14'),
 (9, 'Hamulce tarczowe Brembo Serie Oro', 'hamulce-tarczowe-brembo-serie-oro', 'Tarcze hamulcowe Brembo Serie Oro to profesjonalne tarcze sportowe. Wysoka wydajność hamowania, odpowiednie dla motocykli sportowych.', 'Hamulce tarczowe Brembo Serie Oro - profesjonalne hamowanie', 799.99, NULL, 30, 'BRE-SO-001', 1, 'published', 3, 7, '2025-05-21 21:02:49', '2025-05-21 21:21:14'),
@@ -365,13 +368,13 @@ INSERT INTO `products` (`id`, `name`, `slug`, `description`, `short_description`
 (11, 'Opony motocyklowe Pirelli Diablo Rosso IV', 'opony-motocyklowe-pirelli-diablo-rosso-iv', 'Opony motocyklowe Pirelli Diablo Rosso IV to opony sportowe z doskonałą przyczepnością. Długa żywotność, odpowiednie dla motocykli sportowych.', 'Opony motocyklowe Pirelli Diablo Rosso IV - sportowa przyczepność', 999.99, 949.99, 35, 'PIR-DR4-001', 1, 'published', 3, 9, '2025-05-21 21:02:49', '2025-05-21 21:21:14'),
 (12, 'Kask motocyklowy AGV K6', 'kask-motocyklowy-agv-k6', 'Kask motocyklowy AGV K6 to nowoczesny kask sportowy z kompozytu włókna węglowego. Posiada system wentylacji, wyjmowaną wkładkę i jest kompatybilny z systemem komunikacji.', 'Kask motocyklowy AGV K6 - nowoczesność i bezpieczeństwo', 1499.99, 0.00, 25, 'AGV-K6-001', 1, 'published', 1, 1, '2025-05-21 21:07:05', '2025-05-21 21:21:38'),
 (13, 'Rękawice motocyklowe Dainese 4 Stroke Evo', 'r-kawice-motocyklowe-dainese-4-stroke-evo', 'Rękawice motocyklowe Dainese 4 Stroke Evo to uniwersalne rękawice sportowe. Wykonane ze skóry bydlęcej z dodatkowymi wzmocnieniami, posiadają system wentylacji i ochronę kostek.', 'Rękawice motocyklowe Dainese 4 Stroke Evo - uniwersalna ochrona', 349.99, NULL, 40, 'DAI-4SE-001', 0, 'published', 2, 2, '2025-05-21 21:07:05', '2025-05-21 21:21:38'),
-(14, 'Kurtka motocyklowa Alpinestars GP Plus R', 'kurtka-motocyklowa-alpinestars-gp-plus-r', 'Kurtka motocyklowa Alpinestars GP Plus R to profesjonalna kurtka sportowa. Wykonana z materiału 600D, posiada system wentylacji, wymienne ochraniacze i jest kompatybilna z systemem Airbag.', 'Kurtka motocyklowa Alpinestars GP Plus R - profesjonalna ochrona', 1999.99, 1899.99, 15, 'ALP-GPPR-001', 1, 'published', 2, 3, '2025-05-21 21:07:05', '2025-05-21 21:21:38'),
+(14, 'Kurtka motocyklowa Alpinestars GP Plus R', 'kurtka-motocyklowa-alpinestars-gp-plus-r', 'Kurtka motocyklowa Alpinestars GP Plus R to profesjonalna kurtka sportowa. Wykonana z materiału 600D, posiada system wentylacji, wymienne ochraniacze i jest kompatybilna z systemem Airbag.', 'Kurtka motocyklowa Alpinestars GP Plus R - profesjonalna ochrona', 1999.99, 1899.99, 15, 'ALP-GPPR-001', 1, 'published', 2, 1, '2025-05-21 21:07:05', '2025-05-26 11:37:12'),
 (15, 'Spodnie motocyklowe Dainese Super Speed Textile', 'spodnie-motocyklowe-dainese-super-speed-textile', 'Spodnie motocyklowe Dainese Super Speed Textile to spodnie z materiału tekstylnego. Posiadają wbudowane ochraniacze, system wentylacji i są kompatybilne z kurtkami Dainese.', 'Spodnie motocyklowe Dainese Super Speed Textile - lekkość i ochrona', 899.99, NULL, 30, 'DAI-SST-001', 0, 'published', 2, 2, '2025-05-21 21:07:05', '2025-05-21 21:21:38'),
-(16, 'Buty motocyklowe Alpinestars SMX-6 V2', 'buty-motocyklowe-alpinestars-smx-6-v2', 'Buty motocyklowe Alpinestars SMX-6 V2 to uniwersalne buty sportowe. Wykonane ze skóry z dodatkowymi wzmocnieniami, posiadają podeszwę antypoślizgową i system zapięcia.', 'Buty motocyklowe Alpinestars SMX-6 V2 - uniwersalna ochrona', 699.99, 649.99, 34, 'ALP-SMX6-001', 0, 'published', 2, 3, '2025-05-21 21:07:05', '2025-05-21 21:36:54'),
-(17, 'Olej silnikowy Castrol Power 1 Racing 4T', 'olej-silnikowy-castrol-power-1-racing-4t', 'Olej silnikowy Castrol Power 1 Racing 4T to olej syntetyczny najwyższej jakości. Wysoka wydajność i ochrona silnika, odpowiedni dla nowoczesnych motocykli sportowych.', 'Olej silnikowy Castrol Power 1 Racing 4T - maksymalna wydajność', 119.99, NULL, 97, 'CAS-P1R-001', 0, 'published', 4, 4, '2025-05-21 21:07:05', '2025-05-23 14:25:59'),
-(18, 'Łańcuch napędowy DID 520VX3', 'a-cuch-nap-dowy-did-520vx3', 'Łańcuch napędowy DID 520VX3 to łańcuch z powłoką X-Ring. Wysoka wytrzymałość i trwałość, odpowiedni dla motocykli sportowych i turystycznych.', 'Łańcuch napędowy DID 520VX3 - trwałość i wydajność', 499.99, 449.99, 45, 'DID-520VX3-001', 0, 'published', 3, 5, '2025-05-21 21:07:05', '2025-05-21 21:21:38'),
-(19, 'Hamulce tarczowe Galfer Wave', 'hamulce-tarczowe-galfer-wave-1', 'Tarcze hamulcowe Galfer Wave to profesjonalne tarcze sportowe. Wysoka wydajność hamowania, odpowiednie dla motocykli sportowych.', 'Hamulce tarczowe Galfer Wave - profesjonalne hamowanie', 899.99, NULL, 20, 'GAL-WAVE-001', 1, 'published', 3, 6, '2025-05-21 21:08:54', '2025-05-21 21:21:38'),
-(20, 'Akumulator motocyklowy Shido YTX14-BS', 'akumulator-motocyklowy-shido-ytx14-bs-1', 'Akumulator motocyklowy Shido YTX14-BS to akumulator 12V 12Ah. Wysoka wydajność i trwałość, odpowiedni dla większych motocykli.', 'Akumulator motocyklowy Shido YTX14-BS - niezawodność', 279.99, 249.99, 46, 'SHI-YTX14-001', 0, 'published', 5, 7, '2025-05-21 21:08:54', '2025-05-21 22:16:54'),
+(16, 'Buty motocyklowe Alpinestars SMX-6 V2', 'buty-motocyklowe-alpinestars-smx-6-v2', 'Buty motocyklowe Alpinestars SMX-6 V2 to uniwersalne buty sportowe. Wykonane ze skóry z dodatkowymi wzmocnieniami, posiadają podeszwę antypoślizgową i system zapięcia.', 'Buty motocyklowe Alpinestars SMX-6 V2 - uniwersalna ochrona', 699.99, 649.99, 34, 'ALP-SMX6-001', 0, 'published', 2, 1, '2025-05-21 21:07:05', '2025-05-26 11:37:56'),
+(17, 'Olej silnikowy Castrol Power 1 Racing 4T', 'olej-silnikowy-castrol-power-1-racing-4t', 'Olej silnikowy Castrol Power 1 Racing 4T to olej syntetyczny najwyższej jakości. Wysoka wydajność i ochrona silnika, odpowiedni dla nowoczesnych motocykli sportowych.', 'Olej silnikowy Castrol Power 1 Racing 4T - maksymalna wydajność', 119.99, NULL, 97, 'CAS-P1R-001', 0, 'published', 4, 14, '2025-05-21 21:07:05', '2025-05-26 11:38:12'),
+(18, 'Łańcuch napędowy DID 520VX3', 'a-cuch-nap-dowy-did-520vx3', 'Łańcuch napędowy DID 520VX3 to łańcuch z powłoką X-Ring. Wysoka wytrzymałość i trwałość, odpowiedni dla motocykli sportowych i turystycznych.', 'Łańcuch napędowy DID 520VX3 - trwałość i wydajność', 499.99, 449.99, 45, 'DID-520VX3-001', 0, 'published', 3, 15, '2025-05-21 21:07:05', '2025-05-26 11:38:23'),
+(19, 'Hamulce tarczowe Galfer Wave', 'hamulce-tarczowe-galfer-wave-1', 'Tarcze hamulcowe Galfer Wave to profesjonalne tarcze sportowe. Wysoka wydajność hamowania, odpowiednie dla motocykli sportowych.', 'Hamulce tarczowe Galfer Wave - profesjonalne hamowanie', 899.99, NULL, 20, 'GAL-WAVE-001', 1, 'published', 3, 16, '2025-05-21 21:08:54', '2025-05-26 11:38:34'),
+(20, 'Akumulator motocyklowy Shido YTX14-BS', 'akumulator-motocyklowy-shido-ytx14-bs-1', 'Akumulator motocyklowy Shido YTX14-BS to akumulator 12V 12Ah. Wysoka wydajność i trwałość, odpowiedni dla większych motocykli.', 'Akumulator motocyklowy Shido YTX14-BS - niezawodność', 279.99, 249.99, 46, 'SHI-YTX14-001', 0, 'published', 5, 17, '2025-05-21 21:08:54', '2025-05-26 11:38:46'),
 (21, 'Opony motocyklowe Michelin Power 5', 'opony-motocyklowe-michelin-power-5-1', 'Opony motocyklowe Michelin Power 5 to opony sportowe z doskonałą przyczepnością. Długa żywotność, odpowiednie dla motocykli sportowych.', 'Opony motocyklowe Michelin Power 5 - sportowa przyczepność', 1099.99, 999.99, 25, 'MIC-P5-001', 1, 'published', 3, 8, '2025-05-21 21:08:54', '2025-05-21 21:21:47');
 
 -- --------------------------------------------------------
@@ -536,7 +539,8 @@ INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `passwor
 (2, 'Jan', 'Nowak', 'jan.nowak@example.com', '987654321', '$2y$10$92IOy1KN4xkbGpVaKnS0qO7rZ48uBEfBu2oEQ0671Z95YBhqPMcJW', NULL, NULL, 'user', 0, '2025-05-19 12:49:34', '2025-05-19 12:49:34', NULL, NULL, NULL),
 (3, 'Maciej', 'Rodzinka', 'maciek.rodzinka@gmail.com', '782383709', '$2y$10$Cy.bhEd504GhMbyaZnQa3.9PINnDN/dc0ns/V7UYR2TEbfEkEhPBO', NULL, NULL, 'user', 0, '2025-05-19 12:56:29', '2025-05-19 16:01:27', 'Dębowa 6', 'Mielec', '39-300'),
 (4, 'Admin', 'Ad', 'admin@gmail.com', '675353112', '$2y$10$LWy/kEvL6uivpC7yakx3LuyeDiHbgM1BXtKBMBie1J8Rldm4sUZ0S', NULL, NULL, 'admin', 0, '2025-05-19 16:15:36', '2025-05-19 16:16:05', NULL, NULL, NULL),
-(5, 'Bartłomiej', 'Rogóz', 'bartibarti58@gmail.com', '123456789', '$2y$10$3Ph3VRw4g2OL0V1k10HKxuuZIcs/NoIQoRV.L9qvBXzJsVebZUpGG', NULL, NULL, 'admin', 0, '2025-05-21 20:08:16', '2025-05-21 20:30:05', NULL, NULL, NULL);
+(5, 'Bartłomiej', 'Rogóz', 'bartibarti58@gmail.com', '123456789', '$2y$10$3Ph3VRw4g2OL0V1k10HKxuuZIcs/NoIQoRV.L9qvBXzJsVebZUpGG', NULL, NULL, 'admin', 0, '2025-05-21 20:08:16', '2025-05-21 20:30:05', NULL, NULL, NULL),
+(6, 'Barti', 'R', 'br.rogoz@gmail.com', '123456789', '$2y$10$35FvCfjS6TZc57YJcyPzA.07IGBsYL0OO2gXGgUevnWB7ziI.zapi', NULL, NULL, 'user', 0, '2025-05-26 11:08:45', '2025-05-26 11:08:45', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -732,13 +736,13 @@ ALTER TABLE `brands`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -828,7 +832,7 @@ ALTER TABLE `used_motorcycles`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `wishlists`

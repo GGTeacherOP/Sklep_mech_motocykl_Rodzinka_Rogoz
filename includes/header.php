@@ -10,14 +10,14 @@ if (isLoggedIn()) {
     // Pobranie liczby produktów w koszyku dla zalogowanego użytkownika
     $user_id = $_SESSION['user_id'];
     
-    $cart_query = "SELECT COUNT(ci.id) as count FROM cart_items ci 
+    $cart_query = "SELECT SUM(ci.quantity) as count FROM cart_items ci 
                   JOIN carts c ON ci.cart_id = c.id 
                   WHERE c.user_id = $user_id";
     
     $cart_result = $conn->query($cart_query);
     if ($cart_result && $cart_result->num_rows > 0) {
         $row = $cart_result->fetch_assoc();
-        $cart_count = $row['count'];
+        $cart_count = (int)$row['count'];
     }
     
     // Pobranie liczby produktów w liście życzeń
@@ -32,7 +32,10 @@ if (isLoggedIn()) {
     }
 } else if (isset($_SESSION['cart_items'])) {
     // Dla niezalogowanych użytkowników używamy sesji
-    $cart_count = count($_SESSION['cart_items']);
+    $cart_count = 0;
+    foreach ($_SESSION['cart_items'] as $item) {
+        $cart_count += $item['quantity'];
+    }
     
     if (isset($_SESSION['wishlist_items'])) {
         $wishlist_count = count($_SESSION['wishlist_items']);

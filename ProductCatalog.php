@@ -17,14 +17,6 @@ $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $per_page = 12;
 $offset = ($page - 1) * $per_page;
 
-// Budowanie zapytania SQL
-$query = "SELECT p.*, pi.image_path, b.name as brand_name, c.name as category_name 
-          FROM products p 
-          LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_main = 1
-          INNER JOIN brands b ON p.brand_id = b.id
-          INNER JOIN categories c ON p.category_id = c.id
-          WHERE p.status = 'published'";
-
 // Pobieranie marek dla filtrów
 $brands_query = "SELECT * FROM brands ORDER BY name";
 $brands = [];
@@ -46,6 +38,14 @@ if ($categories_result && $categories_result->num_rows > 0) {
         $categories[] = $row;
     }
 }
+
+// Budowanie zapytania SQL
+$query = "SELECT p.*, pi.image_path, b.name as brand_name, c.name as category_name 
+          FROM products p 
+          LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_main = 1
+          INNER JOIN brands b ON p.brand_id = b.id
+          INNER JOIN categories c ON p.category_id = c.id
+          WHERE p.status = 'published'";
 
 // Dodanie filtrów do zapytania
 if (!empty($category)) {
