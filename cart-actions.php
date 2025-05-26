@@ -341,17 +341,29 @@ function removeFromCart() {
             exit;
         }
         
-        // Pobieranie zaktualizowanej liczby produktów w koszyku
-        $count_query = "SELECT SUM(quantity) as total FROM cart_items WHERE cart_id = $cart_id";
-        $count_result = $conn->query($count_query);
+        // Pobieranie zaktualizowanej liczby produktów i wartości koszyka
+        $cart_query = "SELECT SUM(ci.quantity) as total_count, 
+                      SUM(CASE WHEN p.sale_price > 0 THEN p.sale_price * ci.quantity ELSE p.price * ci.quantity END) as total_amount
+                      FROM cart_items ci 
+                      JOIN products p ON ci.product_id = p.id 
+                      WHERE ci.cart_id = $cart_id";
+        $cart_result = $conn->query($cart_query);
         $cart_count = 0;
+        $cart_total = 0;
         
-        if ($count_result && $count_result->num_rows > 0) {
-            $count_row = $count_result->fetch_assoc();
-            $cart_count = (int)$count_row['total'];
+        if ($cart_result && $cart_result->num_rows > 0) {
+            $cart_row = $cart_result->fetch_assoc();
+            $cart_count = (int)$cart_row['total_count'];
+            $cart_total = (float)$cart_row['total_amount'];
         }
         
-        echo json_encode(['success' => true, 'message' => 'Produkt usunięty z koszyka', 'cart_count' => $cart_count]);
+        echo json_encode([
+            'success' => true, 
+            'message' => 'Produkt usunięty z koszyka', 
+            'cart_count' => $cart_count,
+            'cart_total' => number_format($cart_total, 2, ',', ' '),
+            'final_total' => number_format($cart_total, 2, ',', ' ')
+        ]);
     } else {
         // Obsługa koszyka dla niezalogowanego użytkownika (sesja)
         if (!isset($_SESSION['cart_items'])) {
@@ -361,21 +373,26 @@ function removeFromCart() {
         
         $cart_items = &$_SESSION['cart_items'];
         $updated_cart = [];
+        $cart_total = 0;
+        $cart_count = 0;
         
         foreach ($cart_items as $item) {
             if ($item['product_id'] != $product_id) {
                 $updated_cart[] = $item;
+                $price = !empty($item['sale_price']) ? $item['sale_price'] : $item['price'];
+                $cart_total += $price * $item['quantity'];
+                $cart_count += $item['quantity'];
             }
         }
         
         $_SESSION['cart_items'] = $updated_cart;
         
-        // Obliczanie zaktualizowanej liczby produktów w koszyku
-        $cart_count = 0;
-        foreach ($_SESSION['cart_items'] as $item) {
-            $cart_count += $item['quantity'];
-        }
-        
-        echo json_encode(['success' => true, 'message' => 'Produkt usunięty z koszyka', 'cart_count' => $cart_count]);
+        echo json_encode([
+            'success' => true, 
+            'message' => 'Produkt usunięty z koszyka', 
+            'cart_count' => $cart_count,
+            'cart_total' => number_format($cart_total, 2, ',', ' '),
+            'final_total' => number_format($cart_total, 2, ',', ' ')
+        ]);
     }
 }
