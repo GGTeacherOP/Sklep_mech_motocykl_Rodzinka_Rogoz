@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dokumentacja Projektu MotoShop</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .cover-page {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 50px 0;
+        }
+        .cover-page h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+        .cover-page .authors {
+            font-size: 1.5em;
+            margin-top: 50px;
+        }
+        .toc {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        .toc h2 {
+            margin-top: 0;
+        }
+        .toc ol {
+            padding-left: 20px;
+        }
+        .toc li {
+            margin-bottom: 5px;
+        }
+        h1, h2, h3, h4 {
+            color: #2c3e50;
+        }
+        h1 {
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-top: 40px;
+        }
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            margin-top: 25px;
+        }
+        code {
+            background-color: #f8f9fa;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            font-size: 0.9em;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            font-size: 0.9em;
+            border-left: 4px solid #3498db;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .code-block {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            font-size: 0.9em;
+            border-left: 4px solid #3498db;
+            white-space: pre;
+        }
+        .page-break {
+            page-break-after: always;
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .db-diagram {
+            font-family: monospace;
+            white-space: pre;
+        }
+        .footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #7f8c8d;
+            border-top: 1px solid #ecf0f1;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Strona tytułowa -->
+    <div class="cover-page">
+        <h1>Dokumentacja Projektu:<br>MotoShop - Sklep Internetowy</h1>
+        <div class="authors">
+            <p><strong>Autorzy:</strong></p>
+            <p>Maciej Rodzinka</p>
+            <p>Bartłomiej Rogóz</p>
+            <p>Klasa 3AP</p>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- Spis treści -->
+    <div class="toc">
+        <h2>Spis Treści</h2>
+        <ol>
+            <li><a href="#wstep">Wstęp</a>
+                <ol>
+                    <li><a href="#cel-projektu">Cel projektu</a></li>
+                    <li><a href="#zakres-projektu">Zakres projektu</a></li>
+                    <li><a href="#uzytkownicy-systemu">Użytkownicy systemu</a></li>
+                </ol>
+            </li>
+            <li><a href="#opis-ogolny">Opis ogólny</a>
+                <ol>
+                    <li><a href="#przeznaczenie-witryny">Przeznaczenie witryny</a></li>
+                    <li><a href="#glowne-funkcjonalnosci">Główne funkcjonalności</a></li>
+                    <li><a href="#wymagania-techniczne">Wymagania techniczne</a></li>
+                    <li><a href="#struktura-katalogow">Struktura katalogów i plików projektu</a></li>
+                </ol>
+            </li>
+            <li><a href="#struktura-strony">Struktura strony internetowej</a>
+                <ol>
+                    <li><a href="#strona-glowna">Strona główna</a></li>
+                    <li><a href="#katalog-produktow">Katalog produktów</a></li>
+                    <li><a href="#strona-produktu">Strona produktu</a></li>
+                    <li><a href="#koszyk">Koszyk zakupowy</a></li>
+                    <li><a href="#proces-zakupowy">Proces zakupowy</a></li>
+                    <li><a href="#panel-konta">Panel konta użytkownika</a></li>
+                    <li><a href="#system-logowania">System logowania i rejestracji</a></li>
+                    <li><a href="#panel-administracyjny">Panel administracyjny</a></li>
+                </ol>
+            </li>
+            <li><a href="#elementy-statyczne">Elementy statyczne</a>
+                <ol>
+                    <li><a href="#html">HTML – struktura dokumentów</a></li>
+                    <li><a href="#css">CSS – stylizacja</a></li>
+                    <li><a href="#biblioteki">Biblioteki zewnętrzne</a></li>
+                </ol>
+            </li>
+            <li><a href="#javascript">JavaScript</a>
+                <ol>
+                    <li><a href="#interakcje">Interakcje na stronie produktu</a></li>
+                    <li><a href="#dynamiczny-koszyk">Dynamiczny koszyk zakupowy</a></li>
+                    <li><a href="#walidacja">Walidacja formularzy</a></li>
+                    <li><a href="#recenzje-js">System recenzji produktów</a></li>
+                </ol>
+            </li>
+            <li><a href="#elementy-dynamiczne">Elementy dynamiczne (PHP)</a>
+                <ol>
+                    <li><a href="#obsluga-logowania">Obsługa logowania i rejestracji użytkownika</a></li>
+                    <li><a href="#pobieranie-danych">Pobieranie danych z bazy</a></li>
+                    <li><a href="#obsluga-koszyka">Obsługa koszyka i zamówień</a></li>
+                    <li><a href="#admin-panel">Panel administracyjny</a></li>
+                    <li><a href="#zarzadzanie-rolami">System zarządzania rolami użytkowników</a></li>
+                </ol>
+            </li>
+            <li><a href="#baza-danych">Baza danych</a>
+                <ol>
+                    <li><a href="#projekt-struktury">Projekt struktury bazy danych</a></li>
+                    <li><a href="#opis-tabel">Opis tabel i pól</a></li>
+                    <li><a href="#relacje">Relacje między tabelami</a></li>
+                    <li><a href="#zapytania">Przykładowe zapytania SQL</a></li>
+                </ol>
+            </li>
+            <li><a href="#bezpieczenstwo">Bezpieczeństwo</a>
+                <ol>
+                    <li><a href="#walidacja-danych">Walidacja danych wejściowych</a></li>
+                    <li><a href="#uwierzytelnianie">Obsługa sesji i uwierzytelnianie</a></li>
+                    <li><a href="#sql-injection">Zabezpieczenia przed atakami typu SQL Injection</a></li>
+                    <li><a href="#uprawnienia">Zarządzanie uprawnieniami użytkowników</a></li>
+                </ol>
+            </li>
+            <li><a href="#rozbudowa">Możliwości rozbudowy</a>
+                <ol>
+                    <li><a href="#integracja-platnosci">Integracja z systemami płatności</a></li>
+                    <li><a href="#powiadomienia">System powiadomień e-mail</a></li>
+                    <li><a href="#aplikacja-mobilna">Aplikacja mobilna</a></li>
+                    <li><a href="#analityka">Analityka i raportowanie</a></li>
+                </ol>
+            </li>
+            <li><a href="#zalaczniki">Załączniki</a>
+                <ol>
+                    <li><a href="#fragmenty-kodu">Fragmenty kodu źródłowego</a></li>
+                    <li><a href="#zrzuty-ekranu">Zrzuty ekranu działania systemu</a></li>
+                    <li><a href="#diagram-bazy">Diagram bazy danych</a></li>
+                    <li><a href="#lista-bledow">Lista błędów/uwag i pomysłów na ulepszenia</a></li>
+                </ol>
+            </li>
+        </ol>
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- Treść dokumentacji -->
+    <h1 id="wstep">1. Wstęp</h1>
+
+    <h2 id="cel-projektu">1.1. Cel projektu</h2>
+    <p>
+        Celem projektu było stworzenie w pełni funkcjonalnego sklepu internetowego dla warsztatu motocyklowego "Rodzinka & Rogóz". 
+        Aplikacja ma umożliwiać sprzedaż części motocyklowych, akcesoriów, odzieży oraz motocykli używanych, a także umożliwiać 
+        rezerwację usług serwisowych. System posiada rozbudowany panel administracyjny do zarządzania asortymentem, zamówieniami 
+        i użytkownikami.
+    </p>
+
+    <h2 id="zakres-projektu">1.2. Zakres projektu</h2>
+    <p>Projekt obejmuje:</p>
+    <ul>
+        <li>Stronę główną z prezentacją oferty</li>
+        <li>Katalog produktów z filtrowaniem i wyszukiwaniem</li>
+        <li>Szczegółowe strony produktów z możliwością dodania recenzji</li>
+        <li>System koszyka zakupowego</li>
+        <li>Proces składania zamówienia i płatności</li>
+        <li>Panel konta użytkownika z historią zamówień</li>
+        <li>System rezerwacji usług serwisowych</li>
+        <li>Panel administracyjny do zarządzania sklepem</li>
+        <li>System zarządzania rolami użytkowników</li>
+        <li>Moduł motocykli używanych z możliwością rezerwacji oględzin</li>
+    </ul>
+
+    <h2 id="uzytkownicy-systemu">1.3. Użytkownicy systemu</h2>
+    <p>System obsługuje następujące typy użytkowników:</p>
+    <ul>
+        <li><strong>Klienci niezarejestrowani</strong> - mogą przeglądać produkty, dodawać je do koszyka i składać zamówienia</li>
+        <li><strong>Klienci zarejestrowani</strong> - dodatkowo mogą zapisywać swoje dane, przeglądać historię zamówień, dodawać recenzje</li>
+        <li><strong>Administratorzy</strong> - mają pełny dostęp do panelu administracyjnego</li>
+        <li><strong>Mechanicy</strong> - mają dostęp do modułu zarządzania serwisem</li>
+        <li><strong>Właściciele</strong> - mają dostęp do wszystkich funkcji systemu wraz z modułem analityki</li>
+    </ul>
+
+    <h1 id="opis-ogolny">2. Opis ogólny</h1>
+
+    <h2 id="przeznaczenie-witryny">2.1. Przeznaczenie witryny</h2>
+    <p>
+        Witryna internetowa służy jako platforma sprzedażowa dla warsztatu motocyklowego, umożliwiająca:
+    </p>
+    <ul>
+        <li>Prezentację oferty części i akcesoriów motocyklowych</li>
+        <li>Sprzedaż produktów przez internet</li>
+        <li>Rezerwację usług serwisowych</li>
+        <li>Prezentację i sprzedaż motocykli używanych</li>
+        <li>Budowanie relacji z klientami poprzez system recenzji i opinii</li>
+    </ul>
+
+    <h2 id="glowne-funkcjonalnosci">2.2. Główne funkcjonalności</h2>
+    <p>Główne funkcjonalności systemu obejmują:</p>
+    <ul>
+        <li>Przeglądanie i wyszukiwanie produktów</li>
+        <li>Zarządzanie kontem użytkownika</li>
+        <li>Proces zakupowy (koszyk, checkout, płatności)</li>
+        <li>System recenzji produktów</li>
+        <li>Zarządzanie zamówieniami</li>
+        <li>Rezerwacja usług serwisowych</li>
+        <li>Zarządzanie motocyklami używanymi</li>
+        <li>Panel administracyjny z różnymi poziomami dostępu</li>
+    </ul>
+
+    <h2 id="wymagania-techniczne">2.3. Wymagania techniczne</h2>
+    <p>Do uruchomienia projektu wymagane są:</p>
+    <ul>
+        <li>Serwer z PHP 7.4 lub nowszym</li>
+        <li>Serwer MySQL 5.7 lub nowszy</li>
+        <li>XAMPP (lub alternatywne środowisko z Apache, MySQL, PHP)</li>
+        <li>Nowoczesna przeglądarka internetowa (Chrome, Firefox, Safari, Edge)</li>
+        <li>Połączenie z internetem dla załadowania bibliotek zewnętrznych</li>
+    </ul>
+
+    <h2 id="struktura-katalogow">2.4. Struktura katalogów i plików projektu</h2>
+    <div class="code-block">
+/Sklep_mech_motocykl_Rodzinka_Rogoz/
+│
+├── admin/                   # Panel administracyjny
+│   ├── includes/            # Pliki dołączane w panelu admin
+│   ├── index.php            # Dashboard admina
+│   ├── users.php            # Zarządzanie użytkownikami
+│   ├── administrators.php   # Zarządzanie administratorami
+│   ├── orders.php           # Zarządzanie zamówieniami
+│   ├── reviews.php          # Zarządzanie recenzjami
+│   ├── settings.php         # Ustawienia systemu
+│   └── ...
+│
+├── assets/                  # Zasoby statyczne
+│   ├── css/                 # Pliki CSS
+│   ├── js/                  # Pliki JavaScript
+│   └── images/              # Obrazy
+│
+├── database/                # Pliki SQL do inicjalizacji bazy
+│   ├── motoshop_db.sql      # Główny skrypt bazy danych
+│   └── add_reviews_table.sql # Dodatkowe skrypty
+│
+├── includes/                # Pliki dołączane
+│   ├── config.php           # Konfiguracja połączenia z bazą
+│   ├── header.php           # Nagłówek strony
+│   ├── footer.php           # Stopka strony
+│   └── settings_helper.php  # Helper dla ustawień
+│
+├── index.php                # Strona główna
+├── ProductCatalog.php       # Katalog produktów
+├── product.php              # Strona produktu
+├── cart.php                 # Koszyk zakupowy
+├── cart-actions.php         # Akcje koszyka (AJAX)
+├── checkout.php             # Strona zamówienia
+├── login.php                # Logowanie
+├── register.php             # Rejestracja
+├── account.php              # Panel konta użytkownika
+└── ...
+    </div>
+
+    <h1 id="struktura-strony">3. Struktura strony internetowej</h1>
+
+    <h2 id="strona-glowna">3.1. Strona główna (index.php)</h2>
+    <p>
+        Strona główna sklepu prezentuje:
+    </p>
+    <ul>
+        <li>Banner z promocjami</li>
+        <li>Wybrane kategorie produktów</li>
+        <li>Polecane produkty</li>
+        <li>Nowości w ofercie</li>
+        <li>Sekcję usług serwisowych</li>
+        <li>Sekcję motocykli używanych</li>
+    </ul>
+
+    <h2 id="katalog-produktow">3.2. Katalog produktów (ProductCatalog.php)</h2>
+    <p>Katalog produktów umożliwia:</p>
+    <ul>
+        <li>Przeglądanie produktów z podziałem na kategorie</li>
+        <li>Filtrowanie po atrybutach (cena, marka, itp.)</li>
+        <li>Sortowanie wyników</li>
+        <li>Wyszukiwanie produktów</li>
+        <li>Paginację wyników</li>
+    </ul>
+
+    <h2 id="strona-produktu">3.3. Strona produktu (product.php)</h2>
+    <p>Strona produktu zawiera:</p>
+    <ul>
+        <li>Galerie zdjęć produktu</li>
+        <li>Szczegółowy opis</li>
+        <li>Specyfikację techniczną</li>
+        <li>System recenzji i ocen</li>
+        <li>Możliwość dodania produktu do koszyka</li>
+        <li>Wybór ilości</li>
+        <li>Informację o dostępności</li>
+        <li>Polecane produkty</li>
+    </ul>
+
+    <h2 id="koszyk">3.4. Koszyk zakupowy (cart.php)</h2>
+    <p>Koszyk zakupowy umożliwia:</p>
+    <ul>
+        <li>Przeglądanie dodanych produktów</li>
+        <li>Aktualizację ilości</li>
+        <li>Usuwanie produktów</li>
+        <li>Obliczanie wartości zamówienia</li>
+        <li>Przejście do płatności</li>
+    </ul>
+
+    <h2 id="proces-zakupowy">3.5. Proces zakupowy (checkout.php, order-confirmation.php)</h2>
+    <p>Proces zakupowy obejmuje:</p>
+    <ul>
+        <li>Formularz danych osobowych i adresowych</li>
+        <li>Wybór metody dostawy</li>
+        <li>Wybór metody płatności</li>
+        <li>Podsumowanie zamówienia</li>
+        <li>Potwierdzenie zamówienia z instrukcjami płatności</li>
+    </ul>
+
+    <h2 id="panel-konta">3.6. Panel konta użytkownika (account.php)</h2>
+    <p>Panel konta użytkownika zawiera:</p>
+    <ul>
+        <li>Zarządzanie danymi osobowymi</li>
+        <li>Historię zamówień</li>
+        <li>Możliwość zmiany hasła</li>
+        <li>Zapisane adresy dostawy</li>
+    </ul>
+
+    <h2 id="system-logowania">3.7. System logowania i rejestracji (login.php, register.php)</h2>
+    <p>System logowania i rejestracji obejmuje:</p>
+    <ul>
+        <li>Formularz logowania</li>
+        <li>Formularz rejestracji</li>
+        <li>Odzyskiwanie hasła</li>
+        <li>Weryfikację danych</li>
+    </ul>
+
+    <h2 id="panel-administracyjny">3.8. Panel administracyjny (admin/*.php)</h2>
+    <p>Panel administracyjny zawiera:</p>
+    <ul>
+        <li>Dashboard z podsumowaniem</li>
+        <li>Zarządzanie produktami</li>
+        <li>Zarządzanie kategoriami</li>
+        <li>Zarządzanie zamówieniami</li>
+        <li>Zarządzanie użytkownikami</li>
+        <li>Zarządzanie recenzjami</li>
+        <li>Zarządzanie usługami serwisowymi</li>
+        <li>Zarządzanie motocyklami używanymi</li>
+        <li>Ustawienia systemu</li>
+    </ul>
+
+    <h1 id="elementy-statyczne">4. Elementy statyczne</h1>
+
+    <h2 id="html">4.1. HTML – struktura dokumentów</h2>
+    <p>
+        Witryna wykorzystuje semantyczny HTML5 z odpowiednimi tagami dla poszczególnych elementów strony:
+    </p>
+    <ul>
+        <li><code>&lt;header&gt;</code> dla nagłówka strony</li>
+        <li><code>&lt;nav&gt;</code> dla nawigacji</li>
+        <li><code>&lt;main&gt;</code> dla głównej zawartości</li>
+        <li><code>&lt;aside&gt;</code> dla elementów pobocznych</li>
+        <li><code>&lt;footer&gt;</code> dla stopki</li>
+        <li><code>&lt;section&gt;</code> i <code>&lt;article&gt;</code> dla organizacji treści</li>
+    </ul>
+
+    <h2 id="css">4.2. CSS – stylizacja (TailwindCSS)</h2>
+    <p>Projekt wykorzystuje framework TailwindCSS do stylizacji:</p>
+    <ul>
+        <li>Klasy utility dla szybkiego stylowania</li>
+        <li>Responsywny design (mobile-first)</li>
+        <li>System kolorów i typografii</li>
+        <li>Customowe komponenty</li>
+        <li>Animacje i efekty przejścia</li>
+    </ul>
+
+    <h2 id="biblioteki">4.3. Biblioteki zewnętrzne</h2>
+    <p>W projekcie wykorzystano następujące biblioteki:</p>
+    <ul>
+        <li><strong>Remixicon</strong> - zestaw ikon</li>
+        <li><strong>Alpine.js</strong> - lekki framework JavaScript dla interaktywności</li>
+        <li><strong>Swiper.js</strong> - biblioteka do tworzenia sliderów</li>
+        <li><strong>Tailwind CSS</strong> - framework CSS</li>
+    </ul>
+
+    <h1 id="javascript">5. JavaScript</h1>
+
+    <h2 id="interakcje">5.1. Interakcje na stronie produktu</h2>
+    <p>JavaScript na stronie produktu obsługuje:</p>
+    <ul>
+        <li>Galerię zdjęć produktu</li>
+        <li>Wybór ilości produktu</li>
+        <li>System ocen gwiazdkowych</li>
+        <li>Przełączanie między zakładkami (opis, specyfikacja, recenzje)</li>
+    </ul>
+
+    <h2 id="dynamiczny-koszyk">5.2. Dynamiczny koszyk zakupowy</h2>
+    <p>System koszyka wykorzystuje AJAX do:</p>
+    <ul>
+        <li>Dodawania produktów bez przeładowania strony</li>
+        <li>Aktualizacji ilości produktów</li>
+        <li>Usuwania produktów</li>
+        <li>Obliczania sum częściowych i całkowitych</li>
+    </ul>
+
+    <h2 id="walidacja">5.3. Walidacja formularzy</h2>
+    <p>JavaScript waliduje formularze:</p>
+    <ul>
+        <li>Dane osobowe i adresowe</li>
+        <li>Formularze logowania i rejestracji</li>
+        <li>Formularze recenzji</li>
+        <li>Formularze rezerwacji usług</li>
+    </ul>
+
+    <h2 id="recenzje-js">5.4. System recenzji produktów</h2>
+    <p>System recenzji wykorzystuje JavaScript do:</p>
+    <ul>
+        <li>Interaktywnego systemu ocen gwiazdkowych</li>
+        <li>Walidacji formularza recenzji</li>
+        <li>Dynamicznego wyświetlania nowych recenzji</li>
+    </ul>
+
+    <h1 id="elementy-dynamiczne">6. Elementy dynamiczne (PHP)</h1>
+
+    <h2 id="obsluga-logowania">6.1. Obsługa logowania i rejestracji użytkownika</h2>
+    <p>System autoryzacji obejmuje:</p>
+    <ul>
+        <li>Rejestrację nowych użytkowników</li>
+        <li>Logowanie istniejących użytkowników</li>
+        <li>Zarządzanie sesją użytkownika</li>
+        <li>Odzyskiwanie hasła</li>
+        <li>Walidację danych</li>
+    </ul>
+
+    <h2 id="pobieranie-danych">6.2. Pobieranie danych z bazy</h2>
+    <p>Aplikacja wykorzystuje przygotowane zapytania (prepared statements) do:</p>
+    <ul>
+        <li>Pobierania listy produktów z filtrowaniem</li>
+        <li>Pobierania szczegółów produktu</li>
+        <li>Pobierania recenzji</li>
+        <li>Pobierania danych użytkownika</li>
+        <li>Pobierania historii zamówień</li>
+    </ul>
+
+    <h2 id="obsluga-koszyka">6.3. Obsługa koszyka i zamówień</h2>
+    <p>System koszyka i zamówień obejmuje:</p>
+    <ul>
+        <li>Dodawanie, aktualizację i usuwanie produktów z koszyka</li>
+        <li>Zapisywanie koszyka w sesji lub bazie danych</li>
+        <li>Przetwarzanie zamówień</li>
+        <li>Generowanie numerów zamówień</li>
+        <li>Aktualizację stanów magazynowych</li>
+    </ul>
+
+    <h2 id="admin-panel">6.4. Panel administracyjny</h2>
+    <p>Panel administracyjny oferuje:</p>
+    <ul>
+        <li>Zarządzanie produktami (CRUD)</li>
+        <li>Zarządzanie kategoriami (CRUD)</li>
+        <li>Zarządzanie zamówieniami</li>
+        <li>Zarządzanie użytkownikami</li>
+        <li>Moderację recenzji</li>
+        <li>Konfigurację systemu</li>
+    </ul>
+
+    <h2 id="zarzadzanie-rolami">6.5. System zarządzania rolami użytkowników</h2>
+    <p>System ról obejmuje:</p>
+    <ul>
+        <li>Role użytkowników (user, admin, mechanic, owner)</li>
+        <li>Kontrolę dostępu do funkcji administracyjnych</li>
+        <li>Przydzielanie i odbieranie uprawnień</li>
+    </ul>
+
+    <h1 id="baza-danych">7. Baza danych</h1>
+
+    <h2 id="projekt-struktury">7.1. Projekt struktury bazy danych</h2>
+    <p>Baza danych składa się z następujących głównych elementów:</p>
+    <ul>
+        <li>Tabele przechowujące dane produktów i kategorii</li>
+        <li>Tabele użytkowników i ich ról</li>
+        <li>Tabele zamówień i ich elementów</li>
+        <li>Tabele recenzji produktów</li>
+        <li>Tabele konfiguracji systemu</li>
+    </ul>
+
+    <h2 id="opis-tabel">7.2. Opis tabel i pól</h2>
+    
+    <h3>Tabela users:</h3>
+    <ul>
+        <li><code>id</code> (INT, PRIMARY KEY) - identyfikator użytkownika</li>
+        <li><code>first_name</code> (VARCHAR) - imię</li>
+        <li><code>last_name</code> (VARCHAR) - nazwisko</li>
+        <li><code>email</code> (VARCHAR, UNIQUE) - adres email</li>
+        <li><code>password</code> (VARCHAR) - hashowane hasło</li>
+        <li><code>role</code> (ENUM) - rola użytkownika</li>
+        <li><code>created_at</code> (TIMESTAMP) - data utworzenia</li>
+        <li><code>updated_at</code> (TIMESTAMP) - data aktualizacji</li>
+    </ul>
+
+    <h3>Tabela products:</h3>
+    <ul>
+        <li><code>id</code> (INT, PRIMARY KEY) - identyfikator produktu</li>
+        <li><code>name</code> (VARCHAR) - nazwa produktu</li>
+        <li><code>slug</code> (VARCHAR) - URL-friendly nazwa</li>
+        <li><code>description</code> (TEXT) - opis produktu</li>
+        <li><code>price</code> (DECIMAL) - cena regularna</li>
+        <li><code>sale_price</code> (DECIMAL) - cena promocyjna</li>
+        <li><code>stock</code> (INT) - stan magazynowy</li>
+        <li><code>category_id</code> (INT, FOREIGN KEY) - kategoria</li>
+        <li><code>brand_id</code> (INT, FOREIGN KEY) - marka</li>
+        <li><code>status</code> (ENUM) - status produktu</li>
+    </ul>
+
+    <h3>Tabela orders:</h3>
+    <ul>
+        <li><code>id</code> (INT, PRIMARY KEY) - identyfikator zamówienia</li>
+        <li><code>user_id</code> (INT, FOREIGN KEY) - identyfikator użytkownika</li>
+        <li><code>order_number</code> (VARCHAR) - numer zamówienia</li>
+        <li><code>status</code> (ENUM) - status zamówienia</li>
+        <li><code>total_amount</code> (DECIMAL) - wartość zamówienia</li>
+        <li><code>payment_method</code> (ENUM) - metoda płatności</li>
+        <li><code>payment_status</code> (ENUM) - status płatności</li>
+        <li><code>created_at</code> (TIMESTAMP) - data utworzenia</li>
+    </ul>
+
+    <h3>Tabela product_reviews:</h3>
+    <ul>
+        <li><code>id</code> (INT, PRIMARY KEY) - identyfikator recenzji</li>
+        <li><code>product_id</code> (INT, FOREIGN KEY) - identyfikator produktu</li>
+        <li><code>user_id</code> (INT, FOREIGN KEY) - identyfikator użytkownika</li>
+        <li><code>rating</code> (TINYINT) - ocena (1-5)</li>
+        <li><code>title</code> (VARCHAR) - tytuł recenzji</li>
+        <li><code>content</code> (TEXT) - treść recenzji</li>
+        <li><code>status</code> (ENUM) - status recenzji</li>
+    </ul>
+
+    <h3>Tabela shop_settings:</h3>
+    <ul>
+        <li><code>id</code> (INT, PRIMARY KEY) - identyfikator ustawienia</li>
+        <li><code>setting_key</code> (VARCHAR) - klucz ustawienia</li>
+        <li><code>setting_value</code> (TEXT) - wartość ustawienia</li>
+        <li><code>setting_group</code> (VARCHAR) - grupa ustawień</li>
+        <li><code>is_public</code> (TINYINT) - czy publiczne</li>
+    </ul>
+
+    <h2 id="relacje">7.3. Relacje między tabelami</h2>
+    <p>Główne relacje między tabelami to:</p>
+    <ul>
+        <li><code>products</code> → <code>categories</code> (wiele do jednego)</li>
+        <li><code>products</code> → <code>brands</code> (wiele do jednego)</li>
+        <li><code>order_items</code> → <code>products</code> (wiele do jednego)</li>
+        <li><code>order_items</code> → <code>orders</code> (wiele do jednego)</li>
+        <li><code>orders</code> → <code>users</code> (wiele do jednego)</li>
+        <li><code>product_reviews</code> → <code>products</code> (wiele do jednego)</li>
+        <li><code>product_reviews</code> → <code>users</code> (wiele do jednego)</li>
+    </ul>
+
+    <h2 id="zapytania">7.4. Przykładowe zapytania SQL</h2>
+
+    <h3>Pobieranie produktów z filtrowaniem:</h3>
+    <div class="code-block">
+SELECT p.*, c.name AS category_name, b.name AS brand_name
+FROM products p
+LEFT JOIN categories c ON p.category_id = c.id
+LEFT JOIN brands b ON p.brand_id = b.id
+WHERE p.status = 'published'
+AND (p.name LIKE ? OR p.description LIKE ?)
+AND p.category_id = ?
+ORDER BY p.created_at DESC
+LIMIT ?, ?
+    </div>
+
+    <h3>Podsumowanie zamówień:</h3>
+    <div class="code-block">
+SELECT 
+    COUNT(*) AS total_orders,
+    SUM(total_amount) AS total_sales,
+    COUNT(DISTINCT user_id) AS unique_customers
+FROM orders
+WHERE created_at BETWEEN ? AND ?
+AND status != 'cancelled'
+    </div>
+
+    <h3>Średnia ocena produktów:</h3>
+    <div class="code-block">
+SELECT 
+    p.id, 
+    p.name, 
+    AVG(r.rating) AS avg_rating,
+    COUNT(r.id) AS review_count
+FROM products p
+LEFT JOIN product_reviews r ON p.id = r.product_id
+WHERE r.status = 'approved'
+GROUP BY p.id, p.name
+ORDER BY avg_rating DESC
+    </div>
+
+    <h1 id="bezpieczenstwo">8. Bezpieczeństwo</h1>
+
+    <h2 id="walidacja-danych">8.1. Walidacja danych wejściowych</h2>
+    <p>Wszystkie dane wejściowe są walidowane za pomocą:</p>
+    <ul>
+        <li>Funkcji sanityzujących (sanitize())</li>
+        <li>Typowania i castowania danych</li>
+        <li>Walidacji formularzy (zarówno po stronie klienta jak i serwera)</li>
+        <li>Ograniczania długości pól</li>
+    </ul>
+
+    <h2 id="uwierzytelnianie">8.2. Obsługa sesji i uwierzytelnianie</h2>
+    <p>System uwierzytelniania obejmuje:</p>
+    <ul>
+        <li>Bezpieczne przechowywanie haseł (password_hash)</li>
+        <li>Weryfikację haseł (password_verify)</li>
+        <li>Zarządzanie sesją użytkownika</li>
+        <li>Ochronę przed atakami typu session hijacking</li>
+    </ul>
+
+    <h2 id="sql-injection">8.3. Zabezpieczenia przed atakami typu SQL Injection</h2>
+    <p>Zabezpieczenia przed SQL Injection obejmują:</p>
+    <ul>
+        <li>Używanie prepared statements</li>
+        <li>Parametryzację zapytań SQL</li>
+        <li>Walidację i sanityzację danych wejściowych</li>
+        <li>Unikanie dynamicznego generowania zapytań SQL</li>
+    </ul>
+
+    <h2 id="uprawnienia">8.4. Zarządzanie uprawnieniami użytkowników</h2>
+    <p>System uprawnień obejmuje:</p>
+    <ul>
+        <li>Kontrolę dostępu bazującą na rolach</li>
+        <li>Weryfikację uprawnień przed wykonaniem akcji</li>
+        <li>Ograniczanie dostępu do funkcji administracyjnych</li>
+        <li>Logowanie akcji administracyjnych</li>
+    </ul>
+
+    <h1 id="rozbudowa">9. Możliwości rozbudowy</h1>
+
+    <h2 id="integracja-platnosci">9.1. Integracja z systemami płatności</h2>
+    <p>Możliwe rozszerzenia systemu płatności:</p>
+    <ul>
+        <li>Integracja z PayU</li>
+        <li>Integracja z PayPal</li>
+        <li>Integracja z BLIK</li>
+        <li>Obsługa płatności kartami kredytowymi</li>
+    </ul>
+
+    <h2 id="powiadomienia">9.2. System powiadomień e-mail</h2>
+    <p>Rozbudowa systemu powiadomień:</p>
+    <ul>
+        <li>Powiadomienia o statusie zamówień</li>
+        <li>Powiadomienia o nowych recenzjach</li>
+        <li>Newsletter</li>
+        <li>Powiadomienia o promocjach</li>
+    </ul>
+
+    <h2 id="aplikacja-mobilna">9.3. Aplikacja mobilna</h2>
+    <p>Rozwój aplikacji mobilnej:</p>
+    <ul>
+        <li>Wersja na Android i iOS</li>
+        <li>Powiadomienia push</li>
+        <li>Skanowanie kodów QR</li>
+        <li>Wersja offline katalogu</li>
+    </ul>
+
+    <h2 id="analityka">9.4. Analityka i raportowanie</h2>
+    <p>Rozbudowa modułu analityki:</p>
+    <ul>
+        <li>Raporty sprzedażowe</li>
+        <li>Analiza zachowań użytkowników</li>
+        <li>Analiza skuteczności promocji</li>
+        <li>Prognozowanie sprzedaży</li>
+    </ul>
+
+    <h1 id="zalaczniki">10. Załączniki</h1>
+
+    <h2 id="fragmenty-kodu">10.1. Fragmenty kodu źródłowego</h2>
+
+    <h3>Funkcja obsługi dodawania do koszyka (cart-actions.php):</h3>
+    <div class="code-block">
+function addToCart() {
+    global $conn;
+    
+    $product_id = isset($_POST['product_id']) ? (int)$_POST['product_id'] : 0;
+    $quantity = isset($_POST['quantity']) ? (int)$_POST['quantity'] : 1;
+    
+    if ($product_id <= 0) {
+        echo json_encode(['success' => false, 'message' => 'Nieprawidłowy identyfikator produktu']);
+        exit;
+    }
+    
+    if ($quantity <= 0) {
+        $quantity = 1;
+    }
+    
+    // Sprawdzenie czy produkt istnieje i jest dostępny
+    $product_query = "SELECT id, name, price, sale_price, stock FROM products WHERE id = ? AND status = 'published'";
+    $stmt = $conn->prepare($product_query);
+    $stmt->bind_param("i", $product_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if (!$result || $result->num_rows === 0) {
+        echo json_encode(['success' => false, 'message' => 'Produkt nie istnieje lub jest niedostępny']);
+        exit;
+    }
+    
+    $product = $result->fetch_assoc();
+    
+    // Sprawdzenie stanu magazynowego
+    if ($product['stock'] < $quantity) {
+        echo json_encode(['success' => false, 'message' => 'Niewystarczająca ilość produktu w magazynie']);
+        exit;
+    }
+    
+    // Dodanie do koszyka
+    $cart_id = getOrCreateCart();
+    
+    // Sprawdzenie czy produkt już jest w koszyku
+    $check_query = "SELECT id, quantity FROM cart_items WHERE cart_id = ? AND product_id = ?";
+    $check_stmt = $conn->prepare($check_query);
+    $check_stmt->bind_param("ii", $cart_id, $product_id);
+    $check_stmt->execute();
+    $check_result = $check_stmt->get_result();
+    
+    if ($check_result && $check_result->num_rows > 0) {
+        // Aktualizacja ilości
+        $cart_item = $check_result->fetch_assoc();
+        $new_quantity = $cart_item['quantity'] + $quantity;
+        
+        if ($new_quantity > $product['stock']) {
+            $new_quantity = $product['stock'];
+        }
+        
+        $update_query = "UPDATE cart_items SET quantity = ? WHERE id = ?";
+        $update_stmt = $conn->prepare($update_query);
+        $update_stmt->bind_param("ii", $new_quantity, $cart_item['id']);
+        
+        if ($update_stmt->execute()) {
+            echo json_encode([
+                'success' => true, 
+                'message' => 'Zaktualizowano ilość produktu w koszyku',
+                'cart_count' => getCartItemCount(),
+                'product_name' => $product['name']
+            ]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Błąd podczas aktualizacji koszyka']);
+        }
+    } else {
+        // Dodanie nowego produktu do koszyka
+        $insert_query = "INSERT INTO cart_items (cart_id, product_id, quantity) VALUES (?, ?, ?)";
+        $insert_stmt = $conn->prepare($insert_query);
+        $insert_stmt->bind_param("iii", $cart_id, $product_id, $quantity);
+        
+        if ($insert_stmt->execute()) {
+            echo json_encode([
+                'success' => true, 
+                'message' => 'Produkt został dodany do koszyka',
+                'cart_count' => getCartItemCount(),
+                'product_name' => $product['name']
+            ]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Błąd podczas dodawania do koszyka']);
+        }
+    }
+    
+    exit;
+}
+    </div>
+
+    <h3>System zarządzania ustawieniami sklepu (settings_helper.php):</h3>
+    <div class="code-block">
+/**
+ * Pobiera wartość ustawienia z bazy danych
+ * 
+ * @param string $key Klucz ustawienia
+ * @param mixed $default Domyślna wartość jeśli ustawienie nie istnieje
+ * @param bool $force_refresh Czy wymusić odświeżenie z bazy danych
+ * @return mixed Wartość ustawienia
+ */
+function get_setting($key, $default = null, $force_refresh = false) {
+    global $conn;
+    static $settings_cache = [];
+    
+    // Jeśli wartość jest w cache i nie wymuszamy odświeżenia
+    if (!$force_refresh && isset($settings_cache[$key])) {
+        return $settings_cache[$key];
+    }
+    
+    $query = "SELECT setting_value FROM shop_settings WHERE setting_key = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("s", $key);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result && $result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $settings_cache[$key] = $row['setting_value'];
+        return $row['setting_value'];
+    }
+    
+    // Jeśli ustawienie nie istnieje, zwracamy wartość domyślną
+    return $default;
+}
+    </div>
+
+    <h2 id="diagram-bazy">10.3. Diagram bazy danych</h2>
+    <div style="text-align: center; margin: 20px 0;">
+        <object type="image/svg+xml" data="DatabaseDiagram.svg" style="max-width: 100%; width: 800px; height: auto;">
+            <img src="DatabaseDiagram.svg" alt="Diagram bazy danych" style="max-width: 100%; height: auto; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+        </object>
+    </div>
+
+    <h2 id="lista-bledow">10.4. Lista błędów/uwag i pomysłów na ulepszenia</h2>
+
+    <h3>Znane błędy:</h3>
+    <ol>
+        <li>Nieprawidłowe wyświetlanie niektórych znaków diakrytycznych w mailu z potwierdzeniem zamówienia</li>
+        <li>Brak automatycznego odświeżania statusu zamówienia</li>
+        <li>Problem z wyświetlaniem zdjęć na niektórych urządzeniach mobilnych</li>
+        <li>Nieprawidłowe działanie filtrów w katalogu na starszych przeglądarkach</li>
+        <li>Błąd w kalkulacji ceny przy dużej ilości produktów z rabatem</li>
+    </ol>
+
+    <h3>Pomysły na ulepszenia:</h3>
+    <ol>
+        <li>Integracja z systemami płatności online (PayU, PayPal)</li>
+        <li>Wdrożenie systemu punktów lojalnościowych</li>
+        <li>Dodanie zaawansowanego modułu wyszukiwania części wg modelu motocykla</li>
+        <li>Implementacja chatbota dla obsługi klienta</li>
+        <li>Integracja z mediami społecznościowymi</li>
+        <li>Rozbudowa systemu powiadomień email</li>
+        <li>Dodanie wersji PWA aplikacji</li>
+        <li>Integracja z systemem magazynowym</li>
+        <li>Wdrożenie systemu śledzenia przesyłek</li>
+        <li>Dodanie konfiguratora części kompatybilnych z modelem motocykla</li>
+    </ol>
+
+    <div class="footer">
+        <p>Dokumentacja Projektu MotoShop</p>
+        <p>Autorzy: Maciej Rodzinka, Bartłomiej Rogóz</p>
+        <p>Klasa 3AP</p>
+    </div>
+</body></html>

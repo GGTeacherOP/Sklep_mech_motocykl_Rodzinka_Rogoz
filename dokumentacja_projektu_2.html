@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dokumentacja Projektu MotoShop - Część 2</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3, h4 {
+            color: #2c3e50;
+        }
+        h1 {
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-top: 40px;
+        }
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            margin-top: 25px;
+        }
+        code {
+            background-color: #f8f9fa;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            font-size: 0.9em;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            font-size: 0.9em;
+            border-left: 4px solid #3498db;
+        }
+        .code-block {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            font-size: 0.9em;
+            border-left: 4px solid #3498db;
+            white-space: pre;
+        }
+        .db-diagram {
+            font-family: monospace;
+            white-space: pre;
+        }
+    </style>
+</head>
+<body>
+    <h2 id="wymagania-techniczne">2.3. Wymagania techniczne</h2>
+    <p>Do uruchomienia projektu wymagane są:</p>
+    <ul>
+        <li>Serwer z PHP 7.4 lub nowszym</li>
+        <li>Serwer MySQL 5.7 lub nowszy</li>
+        <li>XAMPP (lub alternatywne środowisko z Apache, MySQL, PHP)</li>
+        <li>Nowoczesna przeglądarka internetowa (Chrome, Firefox, Safari, Edge)</li>
+        <li>Połączenie z internetem dla załadowania bibliotek zewnętrznych</li>
+    </ul>
+
+    <h2 id="struktura-katalogow">2.4. Struktura katalogów i plików projektu</h2>
+    <div class="code-block">
+/Sklep_mech_motocykl_Rodzinka_Rogoz/
+│
+├── admin/                   # Panel administracyjny
+│   ├── includes/            # Pliki dołączane w panelu admin
+│   ├── index.php            # Dashboard admina
+│   ├── users.php            # Zarządzanie użytkownikami
+│   ├── administrators.php   # Zarządzanie administratorami
+│   ├── orders.php           # Zarządzanie zamówieniami
+│   ├── reviews.php          # Zarządzanie recenzjami
+│   ├── settings.php         # Ustawienia systemu
+│   └── ...
+│
+├── assets/                  # Zasoby statyczne
+│   ├── css/                 # Pliki CSS
+│   ├── js/                  # Pliki JavaScript
+│   └── images/              # Obrazy
+│
+├── database/                # Pliki SQL do inicjalizacji bazy
+│   ├── motoshop_db.sql      # Główny skrypt bazy danych
+│   └── add_reviews_table.sql # Dodatkowe skrypty
+│
+├── includes/                # Pliki dołączane
+│   ├── config.php           # Konfiguracja połączenia z bazą
+│   ├── header.php           # Nagłówek strony
+│   ├── footer.php           # Stopka strony
+│   └── settings_helper.php  # Helper dla ustawień
+│
+├── index.php                # Strona główna
+├── ProductCatalog.php       # Katalog produktów
+├── product.php              # Strona produktu
+├── cart.php                 # Koszyk zakupowy
+├── cart-actions.php         # Akcje koszyka (AJAX)
+├── checkout.php             # Strona zamówienia
+├── login.php                # Logowanie
+├── register.php             # Rejestracja
+├── account.php              # Panel konta użytkownika
+└── ...
+    </div>
+
+    <h1 id="struktura-strony">3. Struktura strony internetowej</h1>
+
+    <h2 id="strona-glowna">3.1. Strona główna (index.php)</h2>
+    <p>
+        Strona główna sklepu prezentuje:
+    </p>
+    <ul>
+        <li>Banner z promocjami</li>
+        <li>Wybrane kategorie produktów</li>
+        <li>Polecane produkty</li>
+        <li>Nowości w ofercie</li>
+        <li>Sekcję usług serwisowych</li>
+        <li>Sekcję motocykli używanych</li>
+    </ul>
+
+    <h2 id="katalog-produktow">3.2. Katalog produktów (ProductCatalog.php)</h2>
+    <p>Katalog produktów umożliwia:</p>
+    <ul>
+        <li>Przeglądanie produktów z podziałem na kategorie</li>
+        <li>Filtrowanie po atrybutach (cena, marka, itp.)</li>
+        <li>Sortowanie wyników</li>
+        <li>Wyszukiwanie produktów</li>
+        <li>Paginację wyników</li>
+    </ul>
+
+    <h2 id="strona-produktu">3.3. Strona produktu (product.php)</h2>
+    <p>Strona produktu zawiera:</p>
+    <ul>
+        <li>Galerie zdjęć produktu</li>
+        <li>Szczegółowy opis</li>
+        <li>Specyfikację techniczną</li>
+        <li>System recenzji i ocen</li>
+        <li>Możliwość dodania produktu do koszyka</li>
+        <li>Wybór ilości</li>
+        <li>Informację o dostępności</li>
+        <li>Polecane produkty</li>
+    </ul>
+
+    <h2 id="koszyk">3.4. Koszyk zakupowy (cart.php)</h2>
+    <p>Koszyk zakupowy umożliwia:</p>
+    <ul>
+        <li>Przeglądanie dodanych produktów</li>
+        <li>Aktualizację ilości</li>
+        <li>Usuwanie produktów</li>
+        <li>Obliczanie wartości zamówienia</li>
+        <li>Przejście do płatności</li>
+    </ul>
+
+    <h2 id="proces-zakupowy">3.5. Proces zakupowy (checkout.php, order-confirmation.php)</h2>
+    <p>Proces zakupowy obejmuje:</p>
+    <ul>
+        <li>Formularz danych osobowych i adresowych</li>
+        <li>Wybór metody dostawy</li>
+        <li>Wybór metody płatności</li>
+        <li>Podsumowanie zamówienia</li>
+        <li>Potwierdzenie zamówienia z instrukcjami płatności</li>
+    </ul>
+
+    <h2 id="panel-konta">3.6. Panel konta użytkownika (account.php)</h2>
+    <p>Panel konta użytkownika zawiera:</p>
+    <ul>
+        <li>Zarządzanie danymi osobowymi</li>
+        <li>Historię zamówień</li>
+        <li>Możliwość zmiany hasła</li>
+        <li>Zapisane adresy dostawy</li>
+    </ul>
+
+    <h2 id="system-logowania">3.7. System logowania i rejestracji (login.php, register.php)</h2>
+    <p>System logowania i rejestracji obejmuje:</p>
+    <ul>
+        <li>Formularz logowania</li>
+        <li>Formularz rejestracji</li>
+        <li>Odzyskiwanie hasła</li>
+        <li>Weryfikację danych</li>
+    </ul>
+
+    <h2 id="panel-administracyjny">3.8. Panel administracyjny (admin/*.php)</h2>
+    <p>Panel administracyjny zawiera:</p>
+    <ul>
+        <li>Dashboard z podsumowaniem</li>
+        <li>Zarządzanie produktami</li>
+        <li>Zarządzanie kategoriami</li>
+        <li>Zarządzanie zamówieniami</li>
+        <li>Zarządzanie użytkownikami</li>
+        <li>Zarządzanie recenzjami</li>
+        <li>Zarządzanie usługami serwisowymi</li>
+        <li>Zarządzanie motocyklami używanymi</li>
+        <li>Ustawienia systemu</li>
+    </ul>
+
+    <h1 id="elementy-statyczne">4. Elementy statyczne</h1>
+
+    <h2 id="html">4.1. HTML – struktura dokumentów</h2>
+    <p>
+        Witryna wykorzystuje semantyczny HTML5 z odpowiednimi tagami dla poszczególnych elementów strony:
+    </p>
+    <ul>
+        <li><code>&lt;header&gt;</code> dla nagłówka strony</li>
+        <li><code>&lt;nav&gt;</code> dla nawigacji</li>
+        <li><code>&lt;main&gt;</code> dla głównej zawartości</li>
+        <li><code>&lt;aside&gt;</code> dla elementów pobocznych</li>
+        <li><code>&lt;footer&gt;</code> dla stopki</li>
+        <li><code>&lt;section&gt;</code> i <code>&lt;article&gt;</code> dla organizacji treści</li>
+    </ul>
+
+    <h2 id="css">4.2. CSS – stylizacja (TailwindCSS)</h2>
+    <p>Projekt wykorzystuje framework TailwindCSS do stylizacji:</p>
+    <ul>
+        <li>Klasy utility dla szybkiego stylowania</li>
+        <li>Responsywny design (mobile-first)</li>
+        <li>System kolorów i typografii</li>
+        <li>Customowe komponenty</li>
+        <li>Animacje i efekty przejścia</li>
+    </ul>
+
+    <h2 id="biblioteki">4.3. Biblioteki zewnętrzne</h2>
+    <p>W projekcie wykorzystano następujące biblioteki:</p>
+    <ul>
+        <li><strong>Remixicon</strong> - zestaw ikon</li>
+        <li><strong>Alpine.js</strong> - lekki framework JavaScript dla interaktywności</li>
+        <li><strong>Swiper.js</strong> - biblioteka do tworzenia sliderów</li>
+        <li><strong>Tailwind CSS</strong> - framework CSS</li>
+    </ul>
+
+    <h1 id="javascript">5. JavaScript</h1>
+
+    <h2 id="interakcje">5.1. Interakcje na stronie produktu</h2>
+    <p>JavaScript na stronie produktu obsługuje:</p>
+    <ul>
+        <li>Galerię zdjęć produktu</li>
+        <li>Wybór ilości produktu</li>
+        <li>System ocen gwiazdkowych</li>
+        <li>Przełączanie między zakładkami (opis, specyfikacja, recenzje)</li>
+    </ul>
+
+    <h2 id="dynamiczny-koszyk">5.2. Dynamiczny koszyk zakupowy</h2>
+    <p>System koszyka wykorzystuje AJAX do:</p>
+    <ul>
+        <li>Dodawania produktów bez przeładowania strony</li>
+        <li>Aktualizacji ilości produktów</li>
+        <li>Usuwania produktów</li>
+        <li>Obliczania sum częściowych i całkowitych</li>
+    </ul>
+
+    <h2 id="walidacja">5.3. Walidacja formularzy</h2>
+    <p>JavaScript waliduje formularze:</p>
+    <ul>
+        <li>Dane osobowe i adresowe</li>
+        <li>Formularze logowania i rejestracji</li>
+        <li>Formularze recenzji</li>
+        <li>Formularze rezerwacji usług</li>
+    </ul>
+
+    <h2 id="recenzje-js">5.4. System recenzji produktów</h2>
+    <p>System recenzji wykorzystuje JavaScript do:</p>
+    <ul>
+        <li>Interaktywnego systemu ocen gwiazdkowych</li>
+        <li>Walidacji formularza recenzji</li>
+        <li>Dynamicznego wyświetlania nowych recenzji</li>
+    </ul>
+</body>
+</html>

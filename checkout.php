@@ -167,9 +167,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $product_id = $item['product_id'];
                 $quantity = $item['quantity'];
                 $price = !empty($item['sale_price']) ? $item['sale_price'] : $item['price'];
+                $product_name = $conn->real_escape_string($item['name']);
                 
-                $item_query = "INSERT INTO order_items (order_id, product_id, quantity, price) 
-                               VALUES ($order_id, $product_id, $quantity, $price)";
+                $item_query = "INSERT INTO order_items (order_id, product_id, product_name, quantity, price) 
+                               VALUES ($order_id, $product_id, '$product_name', $quantity, $price)";
                 
                 if ($conn->query($item_query) !== TRUE) {
                     $success = false;

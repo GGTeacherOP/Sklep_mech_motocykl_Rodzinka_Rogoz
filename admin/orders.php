@@ -241,7 +241,7 @@ include 'includes/header.php';
                                 <?php echo date('d.m.Y H:i', strtotime($order['created_at'])); ?>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                                <?php echo number_format($order['total'], 2, ',', ' '); ?> zł
+                                <?php echo number_format($order['total_amount'], 2, ',', ' '); ?> zł
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <?php
