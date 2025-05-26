@@ -6,15 +6,15 @@
                     <p class="text-gray-400 mb-6">MotoShop to kompleksowy sklep motocyklowy oferujący części, akcesoria,
                         serwis oraz motocykle używane. Jesteśmy na rynku od 2005 roku.</p>
                     <div class="flex space-x-4">
-                        <a href="#"
+                        <a href="https://www.facebook.com/groups/1310042155687488" target="_blank"
                             class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary transition">
                             <i class="ri-facebook-fill"></i>
                         </a>
-                        <a href="#"
+                        <a href="https://www.instagram.com/rogo_rek/?next=%2Findex.htm%2F" target="_blank"
                             class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary transition">
                             <i class="ri-instagram-line"></i>
                         </a>
-                        <a href="#"
+                        <a href="https://www.youtube.com/@GIGAHERTZ." target="_blank"
                             class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary transition">
                             <i class="ri-youtube-line"></i>
                         </a>
@@ -74,9 +74,9 @@
             <div class="pt-8 border-t border-gray-700 flex flex-col md:flex-row justify-between items-center">
                 <p class="text-gray-400 text-sm mb-4 md:mb-0">© 2025 MotoShop. Wszelkie prawa zastrzeżone.</p>
                 <div class="flex items-center space-x-4">
-                    <a href="privacy-policy.php" class="text-gray-400 hover:text-white text-sm transition">Polityka prywatności</a>
-                    <a href="terms.php" class="text-gray-400 hover:text-white text-sm transition">Regulamin</a>
-                    <a href="sitemap.php" class="text-gray-400 hover:text-white text-sm transition">Mapa strony</a>
+                    <a href="privacy-policy.html" class="text-gray-400 hover:text-white text-sm transition">Polityka prywatności</a>
+                    <a href="terms.html" class="text-gray-400 hover:text-white text-sm transition">Regulamin</a>
+                    <a href="sitemap.html" class="text-gray-400 hover:text-white text-sm transition">Mapa strony</a>
                 </div>
             </div>
         </div>

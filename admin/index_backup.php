@@ -53,7 +53,7 @@ $date_column = ($column_result && $column_result->num_rows > 0) ? 'created_at' :
 $sales_query = "SELECT 
                 DATE(o.$date_column) as date,
                 COUNT(*) as orders_count,
-                SUM(o.total) as daily_revenue
+                SUM(o.total_amount) as daily_revenue
                 FROM orders o 
                 WHERE 1=1 " . str_replace('o.created_at', "o.$date_column", $interval) . "
                 GROUP BY DATE(o.$date_column)
@@ -78,7 +78,7 @@ $avg_cart_value = $total_orders > 0 ? $total_revenue / $total_orders : 0;
 $orders_stats_query = "SELECT 
                 status,
                 COUNT(*) as count,
-                SUM(total) as revenue
+                SUM(total_amount) as revenue
                 FROM orders o
                 WHERE 1=1 " . str_replace('o.created_at', "o.$date_column", $interval) . "
                 GROUP BY status";

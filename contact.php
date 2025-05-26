@@ -203,13 +203,13 @@ include 'includes/header.php';
             <div class="bg-white rounded-lg shadow-sm p-8">
                 <h2 class="text-2xl font-bold mb-6">Media społecznościowe</h2>
                 <div class="flex space-x-4">
-                    <a href="#" class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full hover:bg-primary/20 transition">
+                    <a href="https://www.facebook.com/groups/1310042155687488" target="_blank" class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full hover:bg-primary/20 transition">
                         <i class="ri-facebook-fill text-primary text-xl"></i>
                     </a>
-                    <a href="#" class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full hover:bg-primary/20 transition">
+                    <a href="https://www.instagram.com/rogo_rek/?next=%2Findex.htm%2F" target="_blank" class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full hover:bg-primary/20 transition">
                         <i class="ri-instagram-line text-primary text-xl"></i>
                     </a>
-                    <a href="#" class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full hover:bg-primary/20 transition">
+                    <a href="https://www.youtube.com/@GIGAHERTZ." target="_blank" class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full hover:bg-primary/20 transition">
                         <i class="ri-youtube-line text-primary text-xl"></i>
                     </a>
                     <a href="#" class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full hover:bg-primary/20 transition">

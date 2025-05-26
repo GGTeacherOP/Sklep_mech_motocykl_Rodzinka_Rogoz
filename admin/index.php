@@ -40,7 +40,7 @@ if ($users_result && $users_result->num_rows > 0) {
 $orders_count = 0;
 $orders_revenue = 0;
 
-$orders_result = $conn->query("SELECT COUNT(*) as count, SUM(total) as revenue FROM orders");
+$orders_result = $conn->query("SELECT COUNT(*) as count, SUM(total_amount) as revenue FROM orders");
 if ($orders_result && $orders_result->num_rows > 0) {
     $orders_data = $orders_result->fetch_assoc();
     $orders_count = $orders_data['count'];
@@ -225,21 +225,10 @@ include 'includes/sidebar.php';
                             </td>
                             <td class="py-2">
                                 <?php 
-                                // Próbujemy wyświetlić kwotę zamówienia, jeśli istnieje odpowiednia kolumna
-                                $amount = "--";
-                                
-                                // Sprawdź różne popularne nazwy kolumn
-                                if (isset($order['total']) && is_numeric($order['total'])) {
-                                    $amount = number_format($order['total'], 2, ',', ' ') . " zł";
-                                } elseif (isset($order['order_total']) && is_numeric($order['order_total'])) {
-                                    $amount = number_format($order['order_total'], 2, ',', ' ') . " zł";
-                                } elseif (isset($order['grand_total']) && is_numeric($order['grand_total'])) {
-                                    $amount = number_format($order['grand_total'], 2, ',', ' ') . " zł";
-                                } elseif (isset($order['amount']) && is_numeric($order['amount'])) {
-                                    $amount = number_format($order['amount'], 2, ',', ' ') . " zł";
-                                }
-                                
-                                echo $amount; ?>
+                                // Wyświetlanie kwoty zamówienia z kolumny total_amount
+                                $amount = isset($order['total_amount']) ? number_format($order['total_amount'], 2, ',', ' ') . " zł" : "--";
+                                echo $amount; 
+                                ?>
                             </td>
                             <td class="py-2">
                                 <a href="orders.php?id=<?php echo $order['id']; ?>" class="text-blue-600 hover:underline">
