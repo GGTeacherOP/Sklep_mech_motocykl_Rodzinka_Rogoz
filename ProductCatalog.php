@@ -6,6 +6,10 @@ require_once 'includes/config.php';
 // Obsługa filtrów
 $category = isset($_GET['category']) ? (array)$_GET['category'] : [];
 $brand = isset($_GET['brand']) ? (array)$_GET['brand'] : [];
+// Upewnij się, że $brand jest zawsze tablicą
+if (!is_array($brand)) {
+    $brand = [];
+}
 $price_min = isset($_GET['price_min']) ? (int)$_GET['price_min'] : 0;
 $price_max = isset($_GET['price_max']) ? (int)$_GET['price_max'] : 0;
 $sort = isset($_GET['sort']) ? sanitize($_GET['sort']) : 'price_asc';
@@ -17,23 +21,55 @@ $offset = ($page - 1) * $per_page;
 $query = "SELECT p.*, pi.image_path, b.name as brand_name, c.name as category_name 
           FROM products p 
           LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_main = 1
-          LEFT JOIN brands b ON p.brand_id = b.id
-          LEFT JOIN categories c ON p.category_id = c.id
+          INNER JOIN brands b ON p.brand_id = b.id
+          INNER JOIN categories c ON p.category_id = c.id
           WHERE p.status = 'published'";
+
+// Pobieranie marek dla filtrów
+$brands_query = "SELECT * FROM brands ORDER BY name";
+$brands = [];
+$brands_result = $conn->query($brands_query);
+
+if ($brands_result && $brands_result->num_rows > 0) {
+    while ($row = $brands_result->fetch_assoc()) {
+        $brands[] = $row;
+    }
+}
+
+// Pobieranie kategorii dla filtrów
+$categories_query = "SELECT * FROM categories ORDER BY name";
+$categories = [];
+$categories_result = $conn->query($categories_query);
+
+if ($categories_result && $categories_result->num_rows > 0) {
+    while ($row = $categories_result->fetch_assoc()) {
+        $categories[] = $row;
+    }
+}
 
 // Dodanie filtrów do zapytania
 if (!empty($category)) {
-    $category_slugs = array_map(function($cat) use ($conn) {
-        return "'" . $conn->real_escape_string($cat) . "'";
-    }, $category);
-    $query .= " AND c.slug IN (" . implode(',', $category_slugs) . ")";
+    $category_ids = [];
+    foreach ($categories as $cat_row) {
+        if (in_array($cat_row['slug'], $category)) {
+            $category_ids[] = (int)$cat_row['id'];
+        }
+    }
+    if (!empty($category_ids)) {
+        $query .= " AND p.category_id IN (" . implode(',', $category_ids) . ")";
+    }
 }
 
 if (!empty($brand)) {
-    $brand_slugs = array_map(function($br) use ($conn) {
-        return "'" . $conn->real_escape_string($br) . "'";
-    }, $brand);
-    $query .= " AND b.slug IN (" . implode(',', $brand_slugs) . ")";
+    $brand_ids = [];
+    foreach ($brands as $b) {
+        if (in_array($b['slug'], $brand)) {
+            $brand_ids[] = (int)$b['id'];
+        }
+    }
+    if (!empty($brand_ids)) {
+        $query .= " AND p.brand_id IN (" . implode(',', $brand_ids) . ")";
+    }
 }
 
 if ($price_min > 0) {
@@ -85,28 +121,6 @@ $result = $conn->query($query);
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $products[] = $row;
-    }
-}
-
-// Pobieranie kategorii dla filtrów
-$categories_query = "SELECT * FROM categories ORDER BY name";
-$categories = [];
-$categories_result = $conn->query($categories_query);
-
-if ($categories_result && $categories_result->num_rows > 0) {
-    while ($row = $categories_result->fetch_assoc()) {
-        $categories[] = $row;
-    }
-}
-
-// Pobieranie marek dla filtrów
-$brands_query = "SELECT * FROM brands ORDER BY name";
-$brands = [];
-$brands_result = $conn->query($brands_query);
-
-if ($brands_result && $brands_result->num_rows > 0) {
-    while ($row = $brands_result->fetch_assoc()) {
-        $brands[] = $row;
     }
 }
 
@@ -182,6 +196,8 @@ include 'includes/header.php';
             <!-- Panel filtrów -->
             <div id="filters-panel" class="hidden lg:block bg-white rounded-lg shadow-sm p-6 mb-6">
                 <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="GET" id="filters-form">
+                    <!-- Ukryte pole sortowania -->
+                    <input type="hidden" name="sort" value="<?php echo htmlspecialchars($sort); ?>">
                     <!-- Kategorie -->
                     <div class="mb-6">
                         <h3 class="font-semibold text-lg mb-4">Kategorie</h3>
@@ -189,7 +205,7 @@ include 'includes/header.php';
                             <?php foreach ($categories as $cat): ?>
                             <li>
                                 <label class="custom-checkbox">
-                                    <input type="checkbox" name="category[]" value="<?php echo $cat['slug']; ?>" <?php echo in_array($cat['slug'], $category) ? 'checked' : ''; ?>>
+                                    <input type="checkbox" name="category[]" value="<?php echo $cat['slug']; ?>" <?php echo in_array($cat['slug'], $category) ? 'checked' : ''; ?> onchange="this.form.submit();">
                                     <span class="checkmark"></span>
                                     <?php echo $cat['name']; ?>
                                 </label>
@@ -205,7 +221,7 @@ include 'includes/header.php';
                             <?php foreach ($brands as $b): ?>
                             <li>
                                 <label class="custom-checkbox">
-                                    <input type="checkbox" name="brand[]" value="<?php echo $b['slug']; ?>" <?php echo in_array($b['slug'], $brand) ? 'checked' : ''; ?>>
+                                    <input type="checkbox" name="brand[]" value="<?php echo $b['slug']; ?>" <?php echo in_array($b['slug'], $brand) ? 'checked' : ''; ?> onchange="this.form.submit();">
                                     <span class="checkmark"></span>
                                     <?php echo $b['name']; ?>
                                 </label>
@@ -234,7 +250,7 @@ include 'includes/header.php';
                         <button type="submit" class="flex-1 bg-primary text-white py-2 rounded-button font-medium hover:bg-opacity-90 transition">
                             Filtruj
                         </button>
-                        <button type="reset" id="reset-filters" class="flex-1 bg-gray-200 text-gray-800 py-2 rounded-button font-medium hover:bg-gray-300 transition">
+                        <button type="button" id="reset-filters" class="flex-1 bg-gray-200 text-gray-800 py-2 rounded-button font-medium hover:bg-gray-300 transition">
                             Resetuj
                         </button>
                     </div>
