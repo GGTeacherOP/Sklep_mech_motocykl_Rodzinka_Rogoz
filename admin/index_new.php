@@ -39,7 +39,7 @@ if ($users_result && $users_result->num_rows > 0) {
 // Zamówienia
 $orders_count = 0;
 $orders_revenue = 0;
-$orders_result = $conn->query("SELECT COUNT(*) as count, SUM(total) as revenue FROM orders");
+$orders_result = $conn->query("SELECT COUNT(*) as count, SUM(total_amount) as revenue FROM orders");
 if ($orders_result && $orders_result->num_rows > 0) {
     $orders_data = $orders_result->fetch_assoc();
     $orders_count = $orders_data['count'];
@@ -213,7 +213,7 @@ include 'includes/sidebar.php';
                                     <?php echo $status_text; ?>
                                 </span>
                             </td>
-                            <td class="py-2"><?php echo number_format($order['total'] ?? 0, 2, ',', ' '); ?> zł</td>
+                            <td class="py-2"><?php echo number_format($order['total_amount'] ?? 0, 2, ',', ' '); ?> zł</td>
                             <td class="py-2">
                                 <a href="orders.php?id=<?php echo $order['id']; ?>" class="text-blue-600 hover:underline">
                                     Szczegóły

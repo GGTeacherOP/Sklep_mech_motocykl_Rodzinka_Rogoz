@@ -393,6 +393,17 @@ function updatePrices() {
     const couponDiscount = parseFloat(document.querySelector('.coupon-discount')?.getAttribute('data-discount') || 0);
     const finalTotal = cartTotal - couponDiscount;
     document.querySelector('.final-total').textContent = finalTotal.toFixed(2).replace('.', ',') + ' zł';
+
+    // Aktualizacja licznika w nawigacji
+    const navCartCount = document.getElementById('cartCount');
+    if (navCartCount) {
+        navCartCount.textContent = cartCount;
+        if (cartCount === 0) {
+            navCartCount.classList.add('hidden');
+        } else {
+            navCartCount.classList.remove('hidden');
+        }
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -418,6 +429,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (currentValue < maxValue) {
                 input.value = currentValue + 1;
                 updatePrices();
+                saveQuantityChange(input);
             } else {
                 alert('Nie możesz dodać więcej tego produktu (dostępna ilość: ' + maxValue + ')');
             }
@@ -433,6 +445,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (currentValue > 1) {
                 input.value = currentValue - 1;
                 updatePrices();
+                saveQuantityChange(input);
             }
         });
     });
@@ -452,42 +465,34 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             updatePrices();
+            saveQuantityChange(this);
         });
     });
-    
-    const updateButton = document.getElementById('update-cart');
-    if (updateButton) {
-        updateButton.addEventListener('click', function() {
-            const rows = document.querySelectorAll('tr[data-product-id]');
-            let promises = [];
-            
-            rows.forEach(row => {
-                const productId = row.getAttribute('data-product-id');
-                const quantityInput = row.querySelector('.quantity-input');
-                const quantity = parseInt(quantityInput.value);
-                
-                if (quantity > 0) {
-                    promises.push(
-                        fetch('cart-actions.php', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded',
-                            },
-                            body: 'action=update&product_id=' + productId + '&quantity=' + quantity
-                        })
-                        .then(response => response.json())
-                    );
-                }
-            });
-            
-            Promise.all(promises)
-                .then(() => {
-                    window.location.reload();
-                })
-                .catch(error => {
-                    console.error('Error updating cart:', error);
-                    alert('Wystąpił błąd podczas aktualizacji koszyka');
-                });
+
+    // Funkcja zapisująca zmianę ilości
+    function saveQuantityChange(input) {
+        const productId = input.getAttribute('data-product-id');
+        const quantity = parseInt(input.value);
+        
+        fetch('cart-actions.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'action=update&product_id=' + productId + '&quantity=' + quantity
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (!data.success) {
+                alert('Wystąpił błąd podczas aktualizacji ilości: ' + data.message);
+                // Przywróć poprzednią wartość w przypadku błędu
+                window.location.reload();
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Wystąpił błąd podczas aktualizacji ilości produktu');
+            window.location.reload();
         });
     }
     

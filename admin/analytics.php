@@ -57,7 +57,7 @@ if ($orders_table_exists) {
     $monthly_sales_query = "SELECT 
                               MONTH(order_date) as month, 
                               COUNT(*) as order_count, 
-                              SUM(total) as revenue
+                              SUM(total_amount) as revenue
                             FROM orders 
                             WHERE YEAR(order_date) = $current_year
                             GROUP BY MONTH(order_date)
@@ -175,7 +175,7 @@ if ($orders_table_exists && $has_orders) {
     $payment_query = "SELECT 
                         payment_method,
                         COUNT(*) as count,
-                        SUM(total) as revenue
+                        SUM(total_amount) as revenue
                       FROM 
                         orders 
                       GROUP BY 
@@ -243,7 +243,7 @@ include 'includes/header.php';
                             <?php 
                             $total_revenue = 0;
                             if ($orders_table_exists) {
-                                $revenue_query = "SELECT SUM(total) as revenue FROM orders";
+                                $revenue_query = "SELECT SUM(total_amount) as revenue FROM orders";
                                 $revenue_result = $conn->query($revenue_query);
                                 if ($revenue_result && $revenue_result->num_rows > 0) {
                                     $total_revenue = $revenue_result->fetch_assoc()['revenue'] ?? 0;

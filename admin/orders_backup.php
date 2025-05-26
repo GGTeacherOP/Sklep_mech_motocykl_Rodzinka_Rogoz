@@ -326,7 +326,7 @@ include 'includes/header.php';
                             </span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm font-medium text-gray-900"><?php echo number_format($order['total'], 2, ',', ' '); ?> zł</div>
+                            <div class="text-sm font-medium text-gray-900"><?php echo number_format($order['total_amount'], 2, ',', ' '); ?> zł</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <button class="text-blue-600 hover:text-blue-900 mr-3 edit-status" data-order-id="<?php echo $order['id']; ?>" data-order-number="<?php echo $order['order_number']; ?>" data-status="<?php echo $order['status']; ?>">
