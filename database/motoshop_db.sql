@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Cze 04, 2025 at 09:59 PM
+-- Generation Time: Cze 04, 2025 at 11:46 PM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -308,7 +308,8 @@ INSERT INTO `orders` (`id`, `user_id`, `order_number`, `status`, `order_date`, `
 (15, 5, 'MS-20250523-F2108', 'shipped', '2025-05-23 16:32:47', 654.99, 'Bartłomiej', 'Rogóz', 'bartibarti58@gmail.com', '123456789', 'Szczeka 4', 'Rytwiany', '28-236', 'online', 639.99, 'courier', 15.00, 654.99, 'pending', '2025-05-23 14:32:47', '2025-05-26 12:25:27'),
 (16, 5, 'MS-20250524-2D2AC', 'shipped', '2025-05-24 14:21:25', 144.99, 'Bartłomiej', 'Rogóz', 'bartibarti58@gmail.com', '123456789', 'Szczeka 4', 'Rytwiany', '28-236', 'online', 129.99, 'courier', 15.00, 0.00, 'pending', '2025-05-24 12:21:25', '2025-05-26 12:17:32'),
 (17, 3, 'MS-20250526-65B8E', 'pending', '2025-05-26 23:46:04', 254.98, 'Maciej', 'Rodzinka', 'maciek.rodzinka@gmail.com', '782383709', 'Dębowa 6', 'Mielec', '39-300', 'online', 239.98, 'courier', 15.00, 0.00, 'pending', '2025-05-26 21:46:04', '2025-05-26 21:46:04'),
-(18, 3, 'MS-20250526-D70B6', 'shipped', '2025-05-26 23:47:53', 254.98, 'Maciej', 'Rodzinka', 'maciek.rodzinka@gmail.com', '782383709', 'Dębowa 6', 'Mielec', '39-300', 'online', 239.98, 'courier', 15.00, 0.00, 'pending', '2025-05-26 21:47:53', '2025-05-26 21:50:18');
+(18, 3, 'MS-20250526-D70B6', 'shipped', '2025-05-26 23:47:53', 254.98, 'Maciej', 'Rodzinka', 'maciek.rodzinka@gmail.com', '782383709', 'Dębowa 6', 'Mielec', '39-300', 'online', 239.98, 'courier', 15.00, 0.00, 'pending', '2025-05-26 21:47:53', '2025-05-26 21:50:18'),
+(19, 5, 'MS-20250604-8E48B', 'cancelled', '2025-06-04 23:00:08', 1154.94, 'Bartłomiej', 'Rogóz', 'bartibarti58@gmail.com', '123456789', 'Szczeka 4', 'Rytwiany', '28-236', 'online', 1139.94, 'courier', 15.00, 0.00, 'pending', '2025-06-04 21:00:08', '2025-06-04 21:37:08');
 
 -- --------------------------------------------------------
 
@@ -348,7 +349,9 @@ INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `product_name`, `quan
 (16, 14, 17, '', 2, 119.99, '2025-05-23 14:25:59'),
 (17, 15, 1, '', 1, 639.99, '2025-05-23 14:32:47'),
 (18, 16, 7, '', 1, 129.99, '2025-05-24 12:21:25'),
-(19, 18, 17, 'Olej silnikowy Castrol Power 1 Racing 4T', 2, 119.99, '2025-05-26 21:47:53');
+(19, 18, 17, 'Olej silnikowy Castrol Power 1 Racing 4T', 2, 119.99, '2025-05-26 21:47:53'),
+(20, 19, 7, 'Olej silnikowy Motul 300V 4T', 3, 129.99, '2025-06-04 21:00:08'),
+(21, 19, 20, 'Akumulator motocyklowy Shido YTX14-BS', 3, 249.99, '2025-06-04 21:00:08');
 
 -- --------------------------------------------------------
 
@@ -385,12 +388,12 @@ INSERT INTO `products` (`id`, `name`, `slug`, `description`, `short_description`
 (4, 'Kurtka motocyklowa Dainese Super Speed', 'kurtka-motocyklowa-dainese-super-speed', 'Kurtka motocyklowa Dainese Super Speed to lekka i przewiewna kurtka sportowa. Wykonana z materiału D-Skin, posiada system wentylacji i wymienne ochraniacze.', 'Kurtka motocyklowa Dainese Super Speed - lekkość i ochrona', 1499.99, 1399.99, 40, 'DAI-SS-001', 1, 'published', 2, 2, '2025-05-21 21:02:49', '2025-05-26 11:35:00'),
 (5, 'Spodnie motocyklowe Alpinestars Bionic Pro', 'spodnie-motocyklowe-alpinestars-bionic-pro', 'Spodnie motocyklowe Alpinestars Bionic Pro to spodnie z wbudowanymi ochraniaczami. Wykonane z materiału stretch, posiadają system wentylacji i wymienne ochraniacze.', 'Spodnie motocyklowe Alpinestars Bionic Pro - ochrona i komfort', 799.99, NULL, 60, 'ALP-BP-001', 0, 'published', 2, 1, '2025-05-21 21:02:49', '2025-05-26 11:35:13'),
 (6, 'Buty motocyklowe Sidi Mag-1', 'buty-motocyklowe-sidi-mag-1', 'Buty motocyklowe Sidi Mag-1 to profesjonalne buty sportowe. Wykonane ze skóry z dodatkowymi wzmocnieniami, posiadają podeszwę antypoślizgową i system zapięcia.', 'Buty motocyklowe Sidi Mag-1 - profesjonalna ochrona stóp', 599.99, 549.99, 45, 'SID-MAG1-001', 0, 'published', 2, 21, '2025-05-21 21:02:49', '2025-06-04 19:22:33'),
-(7, 'Olej silnikowy Motul 300V 4T', 'olej-silnikowy-motul-300v-4t', 'Olej silnikowy Motul 300V 4T to olej syntetyczny najwyższej jakości. Wysoka wydajność i ochrona silnika, odpowiedni dla nowoczesnych motocykli sportowych.', 'Olej silnikowy Motul 300V 4T - najwyższa jakość', 129.99, NULL, 148, 'MOT-300V-001', 0, 'published', 4, 5, '2025-05-21 21:02:49', '2025-05-24 12:21:25'),
+(7, 'Olej silnikowy Motul 300V 4T', 'olej-silnikowy-motul-300v-4t', 'Olej silnikowy Motul 300V 4T to olej syntetyczny najwyższej jakości. Wysoka wydajność i ochrona silnika, odpowiedni dla nowoczesnych motocykli sportowych.', 'Olej silnikowy Motul 300V 4T - najwyższa jakość', 129.99, NULL, 145, 'MOT-300V-001', 0, 'published', 4, 5, '2025-05-21 21:02:49', '2025-06-04 21:00:08'),
 (8, 'Łańcuch napędowy RK 520GXW', 'a-cuch-nap-dowy-rk-520gxw', 'Łańcuch napędowy RK 520GXW to łańcuch z powłoką X-Ring. Wysoka wytrzymałość i trwałość, odpowiedni dla motocykli sportowych i turystycznych.', 'Łańcuch napędowy RK 520GXW - trwałość i wydajność', 449.99, 399.99, 55, 'RK-520GXW-001', 0, 'published', 3, 20, '2025-05-21 21:02:49', '2025-06-04 19:21:12'),
 (9, 'Hamulce tarczowe Brembo Serie Oro', 'hamulce-tarczowe-brembo-serie-oro', 'Tarcze hamulcowe Brembo Serie Oro to profesjonalne tarcze sportowe. Wysoka wydajność hamowania, odpowiednie dla motocykli sportowych.', 'Hamulce tarczowe Brembo Serie Oro - profesjonalne hamowanie', 799.99, NULL, 30, 'BRE-SO-001', 1, 'published', 3, 22, '2025-05-21 21:02:49', '2025-06-04 19:23:39'),
 (10, 'Akumulator motocyklowy Yuasa YTX14-BS', 'akumulator-motocyklowy-yuasa-ytx14-bs', 'Akumulator motocyklowy Yuasa YTX14-BS to akumulator 12V 12Ah. Wysoka wydajność i trwałość, odpowiedni dla większych motocykli.', 'Akumulator motocyklowy Yuasa YTX14-BS - niezawodność', 299.99, 279.99, 64, 'YUA-YTX14-001', 0, 'published', 5, 19, '2025-05-21 21:02:49', '2025-06-04 19:20:23'),
 (11, 'Opony motocyklowe Pirelli Diablo Rosso IV', 'opony-motocyklowe-pirelli-diablo-rosso-iv', 'Opony motocyklowe Pirelli Diablo Rosso IV to opony sportowe z doskonałą przyczepnością. Długa żywotność, odpowiednie dla motocykli sportowych.', 'Opony motocyklowe Pirelli Diablo Rosso IV - sportowa przyczepność', 999.99, 949.99, 35, 'PIR-DR4-001', 1, 'published', 3, 23, '2025-05-21 21:02:49', '2025-06-04 19:24:24'),
-(12, 'Kask motocyklowy AGV K6', 'kask-motocyklowy-agv-k6', 'Kask motocyklowy AGV K6 to nowoczesny kask sportowy z kompozytu włókna węglowego. Posiada system wentylacji, wyjmowaną wkładkę i jest kompatybilny z systemem komunikacji.', 'Kask motocyklowy AGV K6 - nowoczesność i bezpieczeństwo', 1499.99, 0.00, 25, 'AGV-K6-001', 1, 'published', 1, 1, '2025-05-21 21:07:05', '2025-05-21 21:21:38'),
+(12, 'Kask motocyklowy AGV K6', 'kask-motocyklowy-agv-k6', 'Kask motocyklowy AGV K6 to nowoczesny kask sportowy z kompozytu włókna węglowego. Posiada system wentylacji, wyjmowaną wkładkę i jest kompatybilny z systemem komunikacji.', 'Kask motocyklowy AGV K6 - nowoczesność i bezpieczeństwo', 1499.99, 799.00, 25, 'AGV-K6-001', 1, 'published', 1, 1, '2025-05-21 21:07:05', '2025-06-04 21:33:23'),
 (13, 'Rękawice motocyklowe Dainese 4 Stroke Evo', 'r-kawice-motocyklowe-dainese-4-stroke-evo', 'Rękawice motocyklowe Dainese 4 Stroke Evo to uniwersalne rękawice sportowe. Wykonane ze skóry bydlęcej z dodatkowymi wzmocnieniami, posiadają system wentylacji i ochronę kostek.', 'Rękawice motocyklowe Dainese 4 Stroke Evo - uniwersalna ochrona', 349.99, NULL, 40, 'DAI-4SE-001', 0, 'published', 2, 2, '2025-05-21 21:07:05', '2025-05-21 21:21:38'),
 (14, 'Kurtka motocyklowa Alpinestars GP Plus R', 'kurtka-motocyklowa-alpinestars-gp-plus-r', 'Kurtka motocyklowa Alpinestars GP Plus R to profesjonalna kurtka sportowa. Wykonana z materiału 600D, posiada system wentylacji, wymienne ochraniacze i jest kompatybilna z systemem Airbag.', 'Kurtka motocyklowa Alpinestars GP Plus R - profesjonalna ochrona', 1999.99, 1899.99, 15, 'ALP-GPPR-001', 1, 'published', 2, 1, '2025-05-21 21:07:05', '2025-05-26 11:37:12'),
 (15, 'Spodnie motocyklowe Dainese Super Speed Textile', 'spodnie-motocyklowe-dainese-super-speed-textile', 'Spodnie motocyklowe Dainese Super Speed Textile to spodnie z materiału tekstylnego. Posiadają wbudowane ochraniacze, system wentylacji i są kompatybilne z kurtkami Dainese.', 'Spodnie motocyklowe Dainese Super Speed Textile - lekkość i ochrona', 899.99, NULL, 30, 'DAI-SST-001', 0, 'published', 2, 2, '2025-05-21 21:07:05', '2025-05-21 21:21:38'),
@@ -398,7 +401,7 @@ INSERT INTO `products` (`id`, `name`, `slug`, `description`, `short_description`
 (17, 'Olej silnikowy Castrol Power 1 Racing 4T', 'olej-silnikowy-castrol-power-1-racing-4t', 'Olej silnikowy Castrol Power 1 Racing 4T to olej syntetyczny najwyższej jakości. Wysoka wydajność i ochrona silnika, odpowiedni dla nowoczesnych motocykli sportowych.', 'Olej silnikowy Castrol Power 1 Racing 4T - maksymalna wydajność', 119.99, NULL, 95, 'CAS-P1R-001', 0, 'published', 4, 14, '2025-05-21 21:07:05', '2025-05-26 21:47:53'),
 (18, 'Łańcuch napędowy DID 520VX3', 'a-cuch-nap-dowy-did-520vx3', 'Łańcuch napędowy DID 520VX3 to łańcuch z powłoką X-Ring. Wysoka wytrzymałość i trwałość, odpowiedni dla motocykli sportowych i turystycznych.', 'Łańcuch napędowy DID 520VX3 - trwałość i wydajność', 499.99, 449.99, 45, 'DID-520VX3-001', 0, 'published', 3, 15, '2025-05-21 21:07:05', '2025-05-26 11:38:23'),
 (19, 'Hamulce tarczowe Galfer Wave', 'hamulce-tarczowe-galfer-wave-1', 'Tarcze hamulcowe Galfer Wave to profesjonalne tarcze sportowe. Wysoka wydajność hamowania, odpowiednie dla motocykli sportowych.', 'Hamulce tarczowe Galfer Wave - profesjonalne hamowanie', 899.99, NULL, 20, 'GAL-WAVE-001', 1, 'published', 3, 16, '2025-05-21 21:08:54', '2025-05-26 11:38:34'),
-(20, 'Akumulator motocyklowy Shido YTX14-BS', 'akumulator-motocyklowy-shido-ytx14-bs-1', 'Akumulator motocyklowy Shido YTX14-BS to akumulator 12V 12Ah. Wysoka wydajność i trwałość, odpowiedni dla większych motocykli.', 'Akumulator motocyklowy Shido YTX14-BS - niezawodność', 279.99, 249.99, 46, 'SHI-YTX14-001', 0, 'published', 5, 17, '2025-05-21 21:08:54', '2025-05-26 11:38:46'),
+(20, 'Akumulator motocyklowy Shido YTX14-BS', 'akumulator-motocyklowy-shido-ytx14-bs-1', 'Akumulator motocyklowy Shido YTX14-BS to akumulator 12V 12Ah. Wysoka wydajność i trwałość, odpowiedni dla większych motocykli.', 'Akumulator motocyklowy Shido YTX14-BS - niezawodność', 279.99, 249.99, 43, 'SHI-YTX14-001', 0, 'published', 5, 17, '2025-05-21 21:08:54', '2025-06-04 21:00:08'),
 (21, 'Opony motocyklowe Michelin Power 5', 'opony-motocyklowe-michelin-power-5-1', 'Opony motocyklowe Michelin Power 5 to opony sportowe z doskonałą przyczepnością. Długa żywotność, odpowiednie dla motocykli sportowych.', 'Opony motocyklowe Michelin Power 5 - sportowa przyczepność', 1099.99, 999.99, 25, 'MIC-P5-001', 1, 'published', 3, 18, '2025-05-21 21:08:54', '2025-06-04 19:24:57');
 
 -- --------------------------------------------------------
@@ -440,7 +443,7 @@ INSERT INTO `product_images` (`id`, `product_id`, `image_path`, `is_main`, `crea
 (18, 18, 'uploads/products/8.jpg', 1, '2025-05-26 12:43:18'),
 (19, 19, 'uploads\\products\\galfer-wave-mtb-2-216987-f-sk7-w780-h554_1.jpg', 1, '2025-05-26 12:46:41'),
 (20, 20, 'uploads\\products\\akumulator-litowo-jonowy-shido-ltx14-bs-lion--s--li-ion-12v-4ah_2.jpg', 1, '2025-05-26 12:46:41'),
-(21, 21, 'uploads\\products\\1000x1000_michelin_power_5_6074238712e90.jpg', 1, '2025-05-26 12:47:08');
+(21, 21, 'uploads/products/1000x1000_michelin_power_5_6074238712e90.jpg', 1, '2025-05-26 12:47:08');
 
 -- --------------------------------------------------------
 
@@ -472,6 +475,7 @@ CREATE TABLE `services` (
   `description` text DEFAULT NULL,
   `price` decimal(10,2) DEFAULT NULL,
   `duration` int(11) DEFAULT NULL,
+  `status` varchar(20) NOT NULL DEFAULT 'active',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -480,11 +484,11 @@ CREATE TABLE `services` (
 -- Dumping data for table `services`
 --
 
-INSERT INTO `services` (`id`, `name`, `description`, `price`, `duration`, `created_at`, `updated_at`) VALUES
-(1, 'Przegląd okresowy', 'Podstawowy przegląd motocykla zgodnie z zaleceniami producenta', 250.00, 120, '2025-05-19 12:49:34', '2025-05-19 12:49:34'),
-(2, 'Naprawa', 'Naprawa usterek mechanicznych', 300.00, 180, '2025-05-19 12:49:34', '2025-05-19 12:49:34'),
-(3, 'Diagnostyka', 'Pełna diagnostyka komputerowa', 150.00, 60, '2025-05-19 12:49:34', '2025-05-19 12:49:34'),
-(4, 'Konserwacja', 'Konserwacja i przygotowanie motocykla do sezonu lub zimowania', 200.00, 90, '2025-05-19 12:49:34', '2025-05-19 12:49:34');
+INSERT INTO `services` (`id`, `name`, `description`, `price`, `duration`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Przegląd okresowy', 'Podstawowy przegląd motocykla zgodnie z zaleceniami producenta', 250.00, 120, 'active', '2025-05-19 12:49:34', '2025-05-19 12:49:34'),
+(2, 'Naprawa', 'Naprawa usterek mechanicznych', 300.00, 180, 'active', '2025-05-19 12:49:34', '2025-05-19 12:49:34'),
+(3, 'Diagnostyka', 'Pełna diagnostyka komputerowa', 150.00, 60, 'active', '2025-05-19 12:49:34', '2025-05-19 12:49:34'),
+(4, 'Konserwacja', 'Konserwacja i przygotowanie motocykla do sezonu lub zimowania', 200.00, 90, 'active', '2025-05-19 12:49:34', '2025-05-19 12:49:34');
 
 -- --------------------------------------------------------
 
@@ -661,7 +665,7 @@ INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `passwor
 (3, 'Maciej', 'Rodzinka', 'maciek.rodzinka@gmail.com', '782383709', '$2y$10$Cy.bhEd504GhMbyaZnQa3.9PINnDN/dc0ns/V7UYR2TEbfEkEhPBO', NULL, NULL, 'admin', 0, '2025-05-19 12:56:29', '2025-05-26 19:16:34', 'Dębowa 6', 'Mielec', '39-300', NULL, NULL),
 (4, 'Admin', 'Ad', 'admin@gmail.com', '675353112', '$2y$10$LWy/kEvL6uivpC7yakx3LuyeDiHbgM1BXtKBMBie1J8Rldm4sUZ0S', NULL, NULL, 'mechanic', 0, '2025-05-19 16:15:36', '2025-05-26 13:00:56', NULL, NULL, NULL, NULL, NULL),
 (5, 'Bartłomiej', 'Rogóz', 'bartibarti58@gmail.com', '123456789', '$2y$10$3S8IrMvpfh95UiTkp1ztsOL0kBGRCVxCeDZriBsD.hlAHv6v3ZWFm', NULL, NULL, 'admin', 0, '2025-05-21 20:08:16', '2025-06-04 19:54:42', NULL, NULL, NULL, NULL, NULL),
-(6, 'Barti', 'R', 'br.rogoz@gmail.com', '123456789', '$2y$10$35FvCfjS6TZc57YJcyPzA.07IGBsYL0OO2gXGgUevnWB7ziI.zapi', NULL, NULL, 'user', 0, '2025-05-26 11:08:45', '2025-05-26 11:08:45', NULL, NULL, NULL, NULL, NULL);
+(6, 'Barti', 'R', 'br.rogoz@gmail.com', '123456789', '$2y$10$35FvCfjS6TZc57YJcyPzA.07IGBsYL0OO2gXGgUevnWB7ziI.zapi', NULL, NULL, 'user', 0, '2025-05-26 11:08:45', '2025-06-04 20:24:01', NULL, NULL, NULL, 'd2b131e2676205866b638974036ea25b9d23872d247806a365eafeb278a95e27', '2025-06-04 23:24:01');
 
 -- --------------------------------------------------------
 
@@ -871,7 +875,7 @@ ALTER TABLE `carts`
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -913,13 +917,13 @@ ALTER TABLE `motorcycle_viewings`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `products`
