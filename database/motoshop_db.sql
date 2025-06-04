@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Cze 04, 2025 at 09:33 PM
+-- Generation Time: Cze 04, 2025 at 09:59 PM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -646,20 +646,22 @@ CREATE TABLE `users` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `address` varchar(255) DEFAULT NULL,
   `city` varchar(100) DEFAULT NULL,
-  `postal_code` varchar(20) DEFAULT NULL
+  `postal_code` varchar(20) DEFAULT NULL,
+  `reset_token` varchar(64) DEFAULT NULL,
+  `reset_token_expires` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `password`, `google_id`, `apple_id`, `role`, `newsletter`, `created_at`, `updated_at`, `address`, `city`, `postal_code`) VALUES
-(1, 'Admin', 'Admin', 'admin@motoshop.pl', '123456789', '$2y$10$92IOy1KN4xkbGpVaKnS0qO7rZ48uBEfBu2oEQ0671Z95YBhqPMcJW', NULL, NULL, 'admin', 0, '2025-05-19 12:49:34', '2025-05-19 12:49:34', NULL, NULL, NULL),
-(2, 'Jan', 'Nowak', 'jan.nowak@example.com', '987654321', '$2y$10$92IOy1KN4xkbGpVaKnS0qO7rZ48uBEfBu2oEQ0671Z95YBhqPMcJW', NULL, NULL, 'user', 0, '2025-05-19 12:49:34', '2025-05-19 12:49:34', NULL, NULL, NULL),
-(3, 'Maciej', 'Rodzinka', 'maciek.rodzinka@gmail.com', '782383709', '$2y$10$Cy.bhEd504GhMbyaZnQa3.9PINnDN/dc0ns/V7UYR2TEbfEkEhPBO', NULL, NULL, 'admin', 0, '2025-05-19 12:56:29', '2025-05-26 19:16:34', 'Dębowa 6', 'Mielec', '39-300'),
-(4, 'Admin', 'Ad', 'admin@gmail.com', '675353112', '$2y$10$LWy/kEvL6uivpC7yakx3LuyeDiHbgM1BXtKBMBie1J8Rldm4sUZ0S', NULL, NULL, 'mechanic', 0, '2025-05-19 16:15:36', '2025-05-26 13:00:56', NULL, NULL, NULL),
-(5, 'Bartłomiej', 'Rogóz', 'bartibarti58@gmail.com', '123456789', '$2y$10$3Ph3VRw4g2OL0V1k10HKxuuZIcs/NoIQoRV.L9qvBXzJsVebZUpGG', NULL, NULL, 'admin', 0, '2025-05-21 20:08:16', '2025-05-21 20:30:05', NULL, NULL, NULL),
-(6, 'Barti', 'R', 'br.rogoz@gmail.com', '123456789', '$2y$10$35FvCfjS6TZc57YJcyPzA.07IGBsYL0OO2gXGgUevnWB7ziI.zapi', NULL, NULL, 'user', 0, '2025-05-26 11:08:45', '2025-05-26 11:08:45', NULL, NULL, NULL);
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `password`, `google_id`, `apple_id`, `role`, `newsletter`, `created_at`, `updated_at`, `address`, `city`, `postal_code`, `reset_token`, `reset_token_expires`) VALUES
+(1, 'Admin', 'Admin', 'admin@motoshop.pl', '123456789', '$2y$10$92IOy1KN4xkbGpVaKnS0qO7rZ48uBEfBu2oEQ0671Z95YBhqPMcJW', NULL, NULL, 'admin', 0, '2025-05-19 12:49:34', '2025-05-19 12:49:34', NULL, NULL, NULL, NULL, NULL),
+(2, 'Jan', 'Nowak', 'jan.nowak@example.com', '987654321', '$2y$10$92IOy1KN4xkbGpVaKnS0qO7rZ48uBEfBu2oEQ0671Z95YBhqPMcJW', NULL, NULL, 'user', 0, '2025-05-19 12:49:34', '2025-05-19 12:49:34', NULL, NULL, NULL, NULL, NULL),
+(3, 'Maciej', 'Rodzinka', 'maciek.rodzinka@gmail.com', '782383709', '$2y$10$Cy.bhEd504GhMbyaZnQa3.9PINnDN/dc0ns/V7UYR2TEbfEkEhPBO', NULL, NULL, 'admin', 0, '2025-05-19 12:56:29', '2025-05-26 19:16:34', 'Dębowa 6', 'Mielec', '39-300', NULL, NULL),
+(4, 'Admin', 'Ad', 'admin@gmail.com', '675353112', '$2y$10$LWy/kEvL6uivpC7yakx3LuyeDiHbgM1BXtKBMBie1J8Rldm4sUZ0S', NULL, NULL, 'mechanic', 0, '2025-05-19 16:15:36', '2025-05-26 13:00:56', NULL, NULL, NULL, NULL, NULL),
+(5, 'Bartłomiej', 'Rogóz', 'bartibarti58@gmail.com', '123456789', '$2y$10$3S8IrMvpfh95UiTkp1ztsOL0kBGRCVxCeDZriBsD.hlAHv6v3ZWFm', NULL, NULL, 'admin', 0, '2025-05-21 20:08:16', '2025-06-04 19:54:42', NULL, NULL, NULL, NULL, NULL),
+(6, 'Barti', 'R', 'br.rogoz@gmail.com', '123456789', '$2y$10$35FvCfjS6TZc57YJcyPzA.07IGBsYL0OO2gXGgUevnWB7ziI.zapi', NULL, NULL, 'user', 0, '2025-05-26 11:08:45', '2025-05-26 11:08:45', NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 

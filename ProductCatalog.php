@@ -293,7 +293,7 @@ include 'includes/header.php';
                             $discount_percentage = round(100 - ($product['sale_price'] / $product['price'] * 100));
                         }
                         ?>
-                        <div class="bg-white rounded-lg shadow-sm overflow-hidden group">
+                        <div class="bg-white rounded-lg shadow-sm overflow-hidden group flex flex-col">
                             <a href="product.php?slug=<?php echo $product['slug']; ?>" class="block relative">
                                 <!-- Znacznik promocji -->
                                 <?php if (!empty($discount_percentage)): ?>
@@ -305,17 +305,17 @@ include 'includes/header.php';
                                 <img src="<?php echo $image; ?>" alt="<?php echo $product['name']; ?>" class="w-full h-48 object-cover">
                             </a>
                             
-                            <div class="p-4">
+                            <div class="p-4 flex flex-col flex-grow">
                                 <div class="text-xs text-gray-500 mb-1"><?php echo $product['brand_name'] ?? ''; ?> | <?php echo $product['category_name'] ?? ''; ?></div>
                                 <a href="product.php?slug=<?php echo $product['slug']; ?>" class="block mb-2">
                                     <h3 class="font-semibold text-gray-800 group-hover:text-primary transition line-clamp-2"><?php echo $product['name']; ?></h3>
                                 </a>
                                 
-                                <div class="flex justify-between items-center">
-                                    <div>
+                                <div class="flex justify-between items-center mt-auto">
+                                    <div class="min-h-[2.5rem] flex flex-col justify-center">
                                         <?php if (!empty($product['sale_price'])): ?>
                                         <span class="text-primary font-bold"><?php echo number_format($product['sale_price'], 2, ',', ' '); ?> zł</span>
-                                        <span class="text-gray-400 line-through text-sm ml-2"><?php echo number_format($product['price'], 2, ',', ' '); ?> zł</span>
+                                        <span class="text-gray-400 line-through text-sm"><?php echo number_format($product['price'], 2, ',', ' '); ?> zł</span>
                                         <?php else: ?>
                                         <span class="text-primary font-bold"><?php echo number_format($product['price'], 2, ',', ' '); ?> zł</span>
                                         <?php endif; ?>
