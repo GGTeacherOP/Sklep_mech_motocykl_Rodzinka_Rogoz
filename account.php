@@ -184,6 +184,13 @@ include 'includes/header.php';
                                         <i class="ri-lock-line mr-2"></i> Zmiana hasła
                                     </a>
                                 </li>
+                                <?php if ($user['role'] === 'admin'): ?>
+                                <li>
+                                    <a href="admin/index.php" class="block py-2 px-4 rounded-lg hover:bg-gray-100">
+                                        <i class="ri-settings-line mr-2"></i> Panel admina
+                                    </a>
+                                </li>
+                                <?php endif; ?>
                                 <li>
                                     <a href="logout.php" class="block py-2 px-4 rounded-lg text-red-600 hover:bg-red-50">
                                         <i class="ri-logout-box-r-line mr-2"></i> Wyloguj się

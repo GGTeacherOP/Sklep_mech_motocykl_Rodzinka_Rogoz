@@ -213,8 +213,16 @@ $admin_role = $_SESSION['admin_role'] ?? 'admin';
                     <span>Rezerwacje oględzin</span>
                 </a>
             </li>
-            
+			
+			<!-- Link do strony głównej -->
             <li class="pt-4 mt-4 border-t">
+                <a href="../index.php" class="flex items-center py-2 px-4 rounded-lg text-gray-700 hover:bg-gray-100" target="_blank">
+                    <i class="ri-external-link-line mr-3 text-lg"></i> 
+                    <span>Przejdź do strony głównej</span>
+                </a>
+            </li>
+            
+            <li class="pt-2 mt-2 border-t">
                 <a href="logout.php" class="flex items-center py-2 px-4 rounded-lg text-red-600 hover:bg-red-50">
                     <i class="ri-logout-box-r-line mr-3 text-lg"></i> 
                     <span>Wyloguj się</span>

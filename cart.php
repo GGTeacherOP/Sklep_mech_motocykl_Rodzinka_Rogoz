@@ -44,34 +44,49 @@ if (isLoggedIn()) {
     // Dla niezalogowanego użytkownika - pobieranie z sesji
     if (isset($_SESSION['cart_items']) && !empty($_SESSION['cart_items'])) {
         $session_items = $_SESSION['cart_items'];
+        $grouped_cart_items = [];
         
-        // Pobieranie szczegółów produktów z bazy danych
+        // Grupujemy produkty po product_id i sumujemy ilości
         foreach ($session_items as $session_item) {
             $product_id = $session_item['product_id'];
-            $product_query = "SELECT p.*, pi.image_path 
-                            FROM products p 
-                            LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_main = 1 
-                            WHERE p.id = $product_id AND p.status = 'published'";
-            $product_result = $conn->query($product_query);
-            
-            if ($product_result && $product_result->num_rows > 0) {
-                $product = $product_result->fetch_assoc();
-                $item = [
-                    'product_id' => $product_id,
-                    'quantity' => $session_item['quantity'],
-                    'name' => $product['name'],
-                    'slug' => $product['slug'],
-                    'price' => $product['price'],
-                    'sale_price' => $product['sale_price'],
-                    'stock' => $product['stock'],
-                    'image_path' => $product['image_path']
-                ];
+            $quantity = $session_item['quantity'];
+
+            if (isset($grouped_cart_items[$product_id])) {
+                $grouped_cart_items[$product_id]['quantity'] += $quantity;
+            } else {
+                // Pobieranie szczegółów produktu z bazy danych tylko raz na produkt
+                $product_query = "SELECT p.*, pi.image_path 
+                                FROM products p 
+                                LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_main = 1 
+                                WHERE p.id = $product_id AND p.status = 'published'";
+                $product_result = $conn->query($product_query);
                 
-                $cart_items[] = $item;
-                $price = !empty($product['sale_price']) ? $product['sale_price'] : $product['price'];
-                $cart_total += $price * $session_item['quantity'];
-                $cart_count += $session_item['quantity'];
+                if ($product_result && $product_result->num_rows > 0) {
+                    $product = $product_result->fetch_assoc();
+                    $grouped_cart_items[$product_id] = [
+                        'product_id' => $product_id,
+                        'quantity' => $quantity,
+                        'name' => $product['name'],
+                        'slug' => $product['slug'],
+                        'price' => $product['price'],
+                        'sale_price' => $product['sale_price'],
+                        'stock' => $product['stock'],
+                        'image_path' => $product['image_path']
+                    ];
+                }
             }
+        }
+        
+        // Konwertujemy pogrupowaną tablicę na format używany do wyświetlenia
+        $cart_items = array_values($grouped_cart_items);
+
+        // Obliczanie sumy koszyka po pogrupowaniu
+        $cart_total = 0;
+        $cart_count = 0;
+        foreach ($cart_items as $item) {
+            $price = !empty($item['sale_price']) ? $item['sale_price'] : $item['price'];
+            $cart_total += $price * $item['quantity'];
+            $cart_count += $item['quantity'];
         }
     }
 }
@@ -210,6 +225,7 @@ $final_total = $cart_total - $coupon_discount;
                                                     <i class="ri-add-line"></i>
                                                 </button>
                                             </div>
+                                            <div class="text-xs text-gray-500 mt-1">Dostępne: <?php echo $item['stock']; ?></div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary item-total">
                                             <?php echo number_format($item_total, 2, ',', ' '); ?> zł
@@ -292,7 +308,7 @@ $final_total = $cart_total - $coupon_discount;
         </div>
         <p class="text-gray-600 mb-6">Aby przejść do kasy, musisz się zalogować.</p>
         <div class="flex gap-4">
-            <a href="login.php" class="flex-1 bg-primary text-white text-center py-2 rounded-button hover:bg-opacity-90 transition">
+            <a href="login.php?redirect=checkout.php" class="flex-1 bg-primary text-white text-center py-2 rounded-button hover:bg-opacity-90 transition">
                 Zaloguj się
             </a>
             <a href="register.php" class="flex-1 bg-gray-200 text-gray-800 text-center py-2 rounded-button hover:bg-gray-300 transition">

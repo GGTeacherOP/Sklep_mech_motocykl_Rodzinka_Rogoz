@@ -409,6 +409,10 @@ include 'includes/header.php';
 $extra_js = <<<EOT
 <script>
 function addToCart(productId) {
+    const button = event.currentTarget; // Pobierz kliknięty przycisk
+    button.disabled = true; // Zablokuj przycisk
+    button.classList.add('opacity-50', 'cursor-not-allowed'); // Dodaj style informujące o zablokowaniu
+
     fetch('cart-actions.php', {
         method: 'POST',
         headers: {
@@ -458,6 +462,11 @@ function addToCart(productId) {
     .catch(error => {
         console.error('Error:', error);
         alert('Wystąpił błąd podczas dodawania produktu do koszyka');
+    })
+    .finally(() => {
+        // Odblokuj przycisk po zakończeniu żądania (sukces lub błąd)
+        button.disabled = false;
+        button.classList.remove('opacity-50', 'cursor-not-allowed');
     });
 }
 

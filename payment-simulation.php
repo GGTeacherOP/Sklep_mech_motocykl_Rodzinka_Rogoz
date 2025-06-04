@@ -54,7 +54,7 @@ include 'includes/header.php';
                 <!-- Logo i nagłówek -->
                 <div class="text-center mb-8">
                     <div class="inline-block p-4 bg-white rounded-lg shadow-sm mb-4">
-                        <img src="assets/images/logo.png" alt="MotoShop" class="h-12">
+                        <span class="text-3xl font-['Pacifico'] text-primary">MotoShop</span>
                     </div>
                     <h1 class="text-2xl font-bold text-gray-900 mb-2">Bezpieczna płatność</h1>
                     <p class="text-gray-600">Zamówienie nr: <?php echo $order['order_number']; ?></p>

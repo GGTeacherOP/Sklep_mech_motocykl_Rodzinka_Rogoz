@@ -3,6 +3,95 @@
 $page_title = "Logowanie";
 require_once 'includes/config.php';
 
+// --- FUNKCJA PRZENOSZĄCA KOSZYK SESYJNY DO KOSZYKA UŻYTKOWNIKA ---
+/**
+ * Przenosi produkty z koszyka sesyjnego do koszyka zalogowanego użytkownika.
+ * 
+ * @param int $user_id ID zalogowanego użytkownika.
+ * @param mysqli $conn Połączenie z bazą danych.
+ */
+function transferSessionCartToUserCart($user_id, $conn) {
+    // TEMPORARY DEBUG LOG: Check session cart status at the beginning of the function
+    error_log("transferSessionCartToUserCart (login.php): Start. Session cart: " . print_r($_SESSION['cart_items'], true));
+
+    // Sprawdzenie czy koszyk sesyjny istnieje i nie jest pusty
+    if (isset($_SESSION['cart_items']) && !empty($_SESSION['cart_items'])) {
+        // Pobieranie lub tworzenie koszyka użytkownika w bazie danych
+        $cart_query = "SELECT id FROM carts WHERE user_id = ?";
+        $cart_stmt = $conn->prepare($cart_query);
+        $cart_stmt->bind_param("i", $user_id);
+        $cart_stmt->execute();
+        $cart_result = $cart_stmt->get_result();
+        $cart_stmt->close();
+
+        $cart_id = 0;
+        if ($cart_result && $cart_result->num_rows > 0) {
+            $cart = $cart_result->fetch_assoc();
+            $cart_id = $cart['id'];
+        } else {
+            // Tworzenie nowego koszyka jeśli użytkownik go nie ma
+            $insert_cart_query = "INSERT INTO carts (user_id) VALUES (?)";
+            $insert_cart_stmt = $conn->prepare($insert_cart_query);
+            $insert_cart_stmt->bind_param("i", $user_id);
+            if ($insert_cart_stmt->execute()) {
+                $cart_id = $conn->insert_id;
+            } else {
+                 error_log("Błąd tworzenia koszyka użytkownika (login.php): " . $insert_cart_stmt->error);
+                 return; // Przerywamy jeśli nie udało się utworzyć koszyka
+            }
+             $insert_cart_stmt->close();
+        }
+        
+        // Jeśli mamy ID koszyka, przenosimy produkty
+        if ($cart_id > 0) {
+             // Przenoszenie produktów z sesji do bazy danych
+             foreach ($_SESSION['cart_items'] as $session_item) {
+                 $product_id = $session_item['product_id'];
+                 $quantity = $session_item['quantity'];
+
+                 // Sprawdzenie czy produkt już jest w koszyku użytkownika
+                 $check_query = "SELECT id, quantity FROM cart_items WHERE cart_id = ? AND product_id = ?";
+                 $check_stmt = $conn->prepare($check_query);
+                 $check_stmt->bind_param("ii", $cart_id, $product_id);
+                 $check_stmt->execute();
+                 $check_result = $check_stmt->get_result();
+
+                 if ($check_result && $check_result->num_rows > 0) {
+                     // Aktualizacja ilości istniejącego produktu
+                     $item = $check_result->fetch_assoc();
+                     $new_quantity = $item['quantity'] + $quantity;
+
+                     $update_query = "UPDATE cart_items SET quantity = ? WHERE id = ?";
+                     $update_stmt = $conn->prepare($update_query);
+                     $update_stmt->bind_param("ii", $new_quantity, $item['id']);
+                     if (!$update_stmt->execute()) {
+                         error_log("Błąd aktualizacji ilości produktu w koszyku (login.php): " . $update_stmt->error);
+                     }
+                     $update_stmt->close();
+                 } else {
+                     // Dodanie nowego produktu do koszyka
+                     $insert_query = "INSERT INTO cart_items (cart_id, product_id, quantity) VALUES (?, ?, ?)";
+                     $insert_stmt = $conn->prepare($insert_query);
+                     $insert_stmt->bind_param("iii", $cart_id, $product_id, $quantity);
+                     if (!$insert_stmt->execute()) {
+                         error_log("Błąd dodawania produktu do koszyka (login.php): " . $insert_stmt->error);
+                     }
+                     $insert_stmt->close();
+                 }
+                 $check_stmt->close();
+             }
+             
+             // Czyszczenie koszyka sesyjnego po pomyślnym przeniesieniu
+             unset($_SESSION['cart_items']);
+
+             // TEMPORARY DEBUG LOG: Check session cart status after unset
+             error_log("transferSessionCartToUserCart (login.php): After unset. Session cart: " . print_r($_SESSION['cart_items'], true));
+        }
+    }
+}
+
+// --- KONIEC FUNKCJI PRZENOSZĄCEJ KOSZYK ---
+
 // Sprawdzenie czy użytkownik jest już zalogowany
 if (isLoggedIn()) {
     redirect('account.php');
@@ -38,14 +127,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     // Tutaj dodać obsługę cookies dla "zapamiętaj mnie"
                 }
                 
-                // Sprawdź rolę użytkownika i przekieruj odpowiednio
+                // --- PRZENIESIENIE KOSZYKA SESYJNEGO DO KOSZYKA UŻYTKOWNIKA ---
+                transferSessionCartToUserCart($user['id'], $conn);
+                // --- KONIEC PRZENOSZENIA KOSZYKA ---
+
+                // Ustalenie ścieżki przekierowania po zalogowaniu
+                $redirect_url = 'account.html'; // Domyślna ścieżka dla użytkownika
+
+                // Sprawdzenie roli użytkownika
                 if (isset($user['role']) && in_array($user['role'], ['admin', 'mechanic', 'owner'])) {
-                    // Przekierowanie do panelu administracyjnego dla wszystkich ról administracyjnych
-                    redirect('admin/index.php');
-                } else {
-                    // Przekierowanie na stronę główną dla zwykłych użytkowników
-                    redirect('index.php');
+                     $redirect_url = 'admin/index.php'; // Domyślna ścieżka dla admina/mechanika/właściciela
                 }
+
+                // Sprawdzenie czy w żądaniu jest parametr 'redirect' (np. z modala logowania)
+                if (isset($_POST['redirect']) && !empty($_POST['redirect'])) {
+                    $requested_redirect = sanitize($_POST['redirect']);
+                     // Lista dozwolonych stron do przekierowania - zabezpieczenie przed otwartym przekierowaniem
+                    $allowed_redirects = ['checkout.php', 'cart.php', 'index.php', 'account.html', 'admin/index.php'];
+                    if (in_array($requested_redirect, $allowed_redirects)) {
+                        $redirect_url = $requested_redirect;
+                    }
+                } else if (isset($_GET['redirect']) && !empty($_GET['redirect'])) { // Obsługa przekierowania z GET (np. po kliknięciu w link w modalu)
+                     $requested_redirect = sanitize($_GET['redirect']);
+                     $allowed_redirects = ['checkout.php', 'cart.php', 'index.php', 'account.html', 'admin/index.php'];
+                     if (in_array($requested_redirect, $allowed_redirects)) {
+                         $redirect_url = $requested_redirect;
+                     }
+                }
+                
+                redirect($redirect_url); // Przekierowanie na docelową stronę
             } else {
                 // Niepoprawne hasło
                 setMessage('Niepoprawny email lub hasło', 'error');

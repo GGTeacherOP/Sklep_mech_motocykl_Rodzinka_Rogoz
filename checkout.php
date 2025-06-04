@@ -322,7 +322,7 @@ include 'includes/header.php';
                             <h2 class="text-lg font-semibold mb-4">Metoda dostawy</h2>
                             
                             <div class="space-y-4">
-                                <div class="flex items-center border border-gray-200 rounded-lg p-4 cursor-pointer shipping-option" data-cost="15.00">
+                                <div class="flex items-center border border-gray-200 rounded-lg p-4 cursor-pointer hover:border-primary transition-colors shipping-option" data-cost="15.00">
                                     <input type="radio" id="shipping_courier" name="shipping_method" value="courier" checked
                                         class="h-4 w-4 text-primary focus:ring-primary border-gray-300">
                                     <label for="shipping_courier" class="flex flex-1 ml-3 cursor-pointer">
@@ -334,7 +334,7 @@ include 'includes/header.php';
                                     </label>
                                 </div>
                                 
-                                <div class="flex items-center border border-gray-200 rounded-lg p-4 cursor-pointer shipping-option" data-cost="12.00">
+                                <div class="flex items-center border border-gray-200 rounded-lg p-4 cursor-pointer hover:border-primary transition-colors shipping-option" data-cost="12.00">
                                     <input type="radio" id="shipping_inpost" name="shipping_method" value="inpost"
                                         class="h-4 w-4 text-primary focus:ring-primary border-gray-300">
                                     <label for="shipping_inpost" class="flex flex-1 ml-3 cursor-pointer">
@@ -346,7 +346,7 @@ include 'includes/header.php';
                                     </label>
                                 </div>
                                 
-                                <div class="flex items-center border border-gray-200 rounded-lg p-4 cursor-pointer shipping-option" data-cost="0">
+                                <div class="flex items-center border border-gray-200 rounded-lg p-4 cursor-pointer hover:border-primary transition-colors shipping-option" data-cost="0">
                                     <input type="radio" id="shipping_pickup" name="shipping_method" value="pickup"
                                         class="h-4 w-4 text-primary focus:ring-primary border-gray-300">
                                     <label for="shipping_pickup" class="flex flex-1 ml-3 cursor-pointer">
@@ -365,37 +365,47 @@ include 'includes/header.php';
                             <h2 class="text-lg font-semibold mb-4">Metoda płatności</h2>
                             
                             <div class="space-y-4">
-                                <div class="flex items-center border border-gray-200 rounded-lg p-4 cursor-pointer">
+                                <div class="flex items-center border border-gray-200 rounded-lg p-4 cursor-pointer hover:border-primary transition-colors">
                                     <input type="radio" id="payment_online" name="payment_method" value="online" checked
                                         class="h-4 w-4 text-primary focus:ring-primary border-gray-300">
-                                    <label for="payment_online" class="ml-3 flex items-center cursor-pointer">
-                                        <span class="font-medium text-gray-900">Płatność online (Przelewy24)</span>
-                                        <img src="assets/images/payment-icons.png" alt="Metody płatności" class="h-8 ml-3">
+                                    <label for="payment_online" class="ml-3 flex items-center cursor-pointer w-full">
+                                        <div class="flex items-center">
+                                            <img src="assets\images\payment\przelewy24-svgrepo-com.svg" alt="Przelewy24" class="h-8 mr-3">
+                                            <span class="font-medium text-gray-900">Płatność online (Przelewy24)</span>
+                                        </div>
                                     </label>
                                 </div>
                                 
-                                <div class="flex items-center border border-gray-200 rounded-lg p-4 cursor-pointer">
+                                <div class="flex items-center border border-gray-200 rounded-lg p-4 cursor-pointer hover:border-primary transition-colors">
                                     <input type="radio" id="payment_card" name="payment_method" value="card"
                                         class="h-4 w-4 text-primary focus:ring-primary border-gray-300">
-                                    <label for="payment_card" class="ml-3 flex items-center cursor-pointer">
-                                        <span class="font-medium text-gray-900">Karta płatnicza</span>
-                                        <img src="assets/images/cards.png" alt="Karty płatnicze" class="h-6 ml-3">
+                                    <label for="payment_card" class="ml-3 flex items-center cursor-pointer w-full">
+                                        <div class="flex items-center">
+                                            <img src="assets\images\payment\mastercard.svg" alt="Karta płatnicza" class="h-8 mr-3">
+                                            <span class="font-medium text-gray-900">Karta płatnicza</span>
+                                        </div>
                                     </label>
                                 </div>
                                 
-                                <div class="flex items-center border border-gray-200 rounded-lg p-4 cursor-pointer">
+                                <div class="flex items-center border border-gray-200 rounded-lg p-4 cursor-pointer hover:border-primary transition-colors">
                                     <input type="radio" id="payment_cash" name="payment_method" value="cash"
                                         class="h-4 w-4 text-primary focus:ring-primary border-gray-300">
-                                    <label for="payment_cash" class="ml-3 cursor-pointer">
-                                        <span class="font-medium text-gray-900">Płatność przy odbiorze</span>
+                                    <label for="payment_cash" class="ml-3 flex items-center cursor-pointer w-full">
+                                        <div class="flex items-center">
+                                            <img src="assets\images\payment\payment-method.png" alt="Gotówka" class="h-8 mr-3">
+                                            <span class="font-medium text-gray-900">Płatność przy odbiorze</span>
+                                        </div>
                                     </label>
                                 </div>
                                 
-                                <div class="flex items-center border border-gray-200 rounded-lg p-4 cursor-pointer">
+                                <div class="flex items-center border border-gray-200 rounded-lg p-4 cursor-pointer hover:border-primary transition-colors">
                                     <input type="radio" id="payment_transfer" name="payment_method" value="transfer"
                                         class="h-4 w-4 text-primary focus:ring-primary border-gray-300">
-                                    <label for="payment_transfer" class="ml-3 cursor-pointer">
-                                        <span class="font-medium text-gray-900">Przelew tradycyjny</span>
+                                    <label for="payment_transfer" class="ml-3 flex items-center cursor-pointer w-full">
+                                        <div class="flex items-center">
+                                            <img src="assets\images\payment\handpayment.png" alt="Przelew" class="h-8 mr-3">
+                                            <span class="font-medium text-gray-900">Przelew tradycyjny</span>
+                                        </div>
                                     </label>
                                 </div>
                             </div>
