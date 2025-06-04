@@ -124,7 +124,18 @@ if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         // Upewniamy się, że ścieżka do zdjęcia jest poprawna
         if (!empty($row['thumbnail'])) {
-            $row['thumbnail'] = '/' . ltrim($row['thumbnail'], '/');
+            $thumb = $row['thumbnail'];
+            // Zamień backslash na slash
+            $thumb = str_replace('\\', '/', $thumb);
+            // Zamień 'uploads/products/' na 'uploads/produkty/' jeśli katalog na serwerze jest po polsku
+            $thumb = str_replace('uploads/products/', 'uploads/produkty/', $thumb);
+            if (strpos($thumb, 'uploads/') === 0) {
+                $row['thumbnail'] = '/' . ltrim($thumb, '/');
+            } else if (strpos($thumb, '/') === false) {
+                $row['thumbnail'] = '/uploads/produkty/' . $thumb;
+            } else {
+                $row['thumbnail'] = '/' . ltrim($thumb, '/');
+            }
         }
         $products[] = $row;
     }
@@ -291,6 +302,9 @@ include 'includes/sidebar.php';
                                          src="<?php echo htmlspecialchars($product['thumbnail']); ?>" 
                                          alt="<?php echo htmlspecialchars($product['name']); ?>"
                                          onerror="this.onerror=null; this.src='/assets/images/no-image.png';">
+                                    <span style="font-size:10px; color:#888; word-break:break-all; display:block; max-width:80px;">
+                                        <?php echo htmlspecialchars($product['thumbnail']); ?>
+                                    </span>
                                     <?php else: ?>
                                     <div class="h-10 w-10 rounded-md bg-gray-200 flex items-center justify-center text-gray-400">
                                         <i class="ri-image-line"></i>
@@ -303,10 +317,14 @@ include 'includes/sidebar.php';
                                     </div>
                                     <div class="text-sm text-gray-500">
                                         ID: <?php echo $product['id']; ?> | 
-                                        <a href="/product.php?slug=<?php echo htmlspecialchars($product['slug']); ?>" target="_blank" class="text-blue-600 hover:underline">
+                                        <?php if (!empty($product['slug'])): ?>
+                                        <a href="/Sklep_mech_motocykl_Rodzinka_Rogoz/product.php?slug=<?php echo urlencode($product['slug']); ?>" target="_blank" class="text-blue-600 hover:underline">
                                             Podgląd 
                                             <i class="ri-external-link-line text-xs"></i>
                                         </a>
+                                        <?php else: ?>
+                                        <span class="text-gray-400 cursor-not-allowed">Brak podglądu</span>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>

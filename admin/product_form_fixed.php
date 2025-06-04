@@ -451,7 +451,15 @@ include 'includes/sidebar.php';
                             <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                                 <?php foreach ($images as $image): ?>
                                 <div class="relative">
-                                    <img src="/<?php echo htmlspecialchars($image['image_path']); ?>" alt="Zdjęcie produktu" class="w-full h-32 object-cover rounded-md">
+                                    <?php
+$image_path = $image['image_path'];
+if (strpos($image_path, '/') === false) {
+    $image_path = '/uploads/produkty/' . $image_path;
+} else {
+    $image_path = '/' . ltrim($image_path, '/');
+}
+?>
+                                    <img src="<?php echo htmlspecialchars($image_path); ?>" alt="Zdjęcie produktu" class="w-full h-32 object-cover rounded-md">
                                     <div class="absolute top-2 right-2">
                                         <a href="?id=<?php echo $product_id; ?>&action=delete_image&image_id=<?php echo $image['id']; ?>"
                                            onclick="return confirm('Czy na pewno chcesz usunąć to zdjęcie?')"
