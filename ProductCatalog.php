@@ -10,15 +10,18 @@ $brand = isset($_GET['brand']) ? (array)$_GET['brand'] : [];
 if (!is_array($brand)) {
     $brand = [];
 }
-$price_min = isset($_GET['price_min']) ? (int)$_GET['price_min'] : 0;
-$price_max = isset($_GET['price_max']) ? (int)$_GET['price_max'] : 0;
+$price_min = isset($_GET['price_min']) ? floatval($_GET['price_min']) : 0;
+$price_max = isset($_GET['price_max']) ? floatval($_GET['price_max']) : 0;
 $sort = isset($_GET['sort']) ? sanitize($_GET['sort']) : 'price_asc';
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $per_page = 12;
 $offset = ($page - 1) * $per_page;
 
 // Pobieranie marek dla filtrów
-$brands_query = "SELECT * FROM brands ORDER BY name";
+$brands_query = "SELECT DISTINCT b.* FROM brands b 
+                 INNER JOIN products p ON b.id = p.brand_id 
+                 WHERE p.status = 'published' 
+                 ORDER BY b.name";
 $brands = [];
 $brands_result = $conn->query($brands_query);
 
@@ -73,11 +76,11 @@ if (!empty($brand)) {
 }
 
 if ($price_min > 0) {
-    $query .= " AND p.price >= $price_min";
+    $query .= " AND p.price >= " . number_format($price_min, 2, '.', '');
 }
 
 if ($price_max > 0) {
-    $query .= " AND p.price <= $price_max";
+    $query .= " AND p.price <= " . number_format($price_max, 2, '.', '');
 }
 
 // Sortowanie
@@ -92,7 +95,7 @@ switch ($sort) {
         $query .= " ORDER BY p.created_at DESC";
         break;
     case 'popularity':
-        $query .= " ORDER BY p.popularity DESC";
+        $query .= " ORDER BY p.created_at DESC";
         break;
     default:
         $query .= " ORDER BY p.price ASC";

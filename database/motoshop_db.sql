@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Maj 26, 2025 at 11:50 PM
--- Wersja serwera: 10.4.28-MariaDB
--- Wersja PHP: 8.2.4
+-- Host: 127.0.0.1
+-- Generation Time: Cze 04, 2025 at 09:33 PM
+-- Wersja serwera: 10.4.32-MariaDB
+-- Wersja PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -59,7 +59,12 @@ INSERT INTO `brands` (`id`, `name`, `slug`, `logo`, `description`, `created_at`,
 (15, 'DID', 'did', NULL, NULL, '2025-05-21 21:08:54', '2025-05-21 21:08:54'),
 (16, 'Galfer', 'galfer', NULL, NULL, '2025-05-21 21:08:54', '2025-05-21 21:08:54'),
 (17, 'Shido', 'shido', NULL, NULL, '2025-05-21 21:08:54', '2025-05-21 21:08:54'),
-(18, 'Michelin', 'michelin', NULL, NULL, '2025-05-21 21:08:54', '2025-05-21 21:08:54');
+(18, 'Michelin', 'michelin', NULL, NULL, '2025-05-21 21:08:54', '2025-05-21 21:08:54'),
+(19, 'Yusa', 'yusa', NULL, NULL, '2025-06-04 19:19:53', '2025-06-04 19:19:53'),
+(20, 'Rk', 'rk', NULL, NULL, '2025-06-04 19:20:59', '2025-06-04 19:20:59'),
+(21, 'Sidi Mag', 'sidimag', NULL, NULL, '2025-06-04 19:21:55', '2025-06-04 19:21:55'),
+(22, 'Brembo', 'brembo', NULL, NULL, '2025-06-04 19:23:24', '2025-06-04 19:23:24'),
+(23, 'Pirelli', 'pirelli', NULL, NULL, '2025-06-04 19:24:14', '2025-06-04 19:24:14');
 
 -- --------------------------------------------------------
 
@@ -221,7 +226,7 @@ CREATE TABLE `motorcycle_images` (
 INSERT INTO `motorcycle_images` (`id`, `motorcycle_id`, `image_path`, `is_main`, `created_at`) VALUES
 (1, 2, 'uploads/motorcycles/mt07.jpg', 1, '2025-05-26 18:52:50'),
 (2, 1, 'uploads/motorcycles/cbr600rr.jpg', 1, '2025-05-26 18:53:47'),
-(3, 3, 'uploads/motorcycles/bmwr1250gs.jpg', 1, '2025-05-26 18:53:47'),
+(3, 3, 'uploads/motorcycles/bmwr1250gs.jpg', 1, '2025-05-26 18:53:47'),
 (4, 4, 'uploads/motorcycles/TriumphTripleRS.jpg', 1, '2025-05-26 19:10:54'),
 (5, 5, 'uploads/motorcycles/SuperDuke1290.jpg', 1, '2025-05-26 19:10:54'),
 (6, 6, 'uploads/motorcycles/GSXR-1000.jpg', 1, '2025-05-26 19:11:30'),
@@ -379,12 +384,12 @@ INSERT INTO `products` (`id`, `name`, `slug`, `description`, `short_description`
 (3, 'Rękawice motocyklowe Alpinestars GP Pro', 'r-kawice-motocyklowe-alpinestars-gp-pro', 'Rękawice motocyklowe Alpinestars GP Pro to profesjonalne rękawice sportowe. Wykonane ze skóry bydlęcej z dodatkowymi wzmocnieniami, posiadają system wentylacji i ochronę kostek.', 'Rękawice motocyklowe Alpinestars GP Pro - profesjonalna ochrona', 399.99, NULL, 74, 'ALP-GPP-001', 0, 'published', 2, 1, '2025-05-21 21:02:49', '2025-05-26 11:34:48'),
 (4, 'Kurtka motocyklowa Dainese Super Speed', 'kurtka-motocyklowa-dainese-super-speed', 'Kurtka motocyklowa Dainese Super Speed to lekka i przewiewna kurtka sportowa. Wykonana z materiału D-Skin, posiada system wentylacji i wymienne ochraniacze.', 'Kurtka motocyklowa Dainese Super Speed - lekkość i ochrona', 1499.99, 1399.99, 40, 'DAI-SS-001', 1, 'published', 2, 2, '2025-05-21 21:02:49', '2025-05-26 11:35:00'),
 (5, 'Spodnie motocyklowe Alpinestars Bionic Pro', 'spodnie-motocyklowe-alpinestars-bionic-pro', 'Spodnie motocyklowe Alpinestars Bionic Pro to spodnie z wbudowanymi ochraniaczami. Wykonane z materiału stretch, posiadają system wentylacji i wymienne ochraniacze.', 'Spodnie motocyklowe Alpinestars Bionic Pro - ochrona i komfort', 799.99, NULL, 60, 'ALP-BP-001', 0, 'published', 2, 1, '2025-05-21 21:02:49', '2025-05-26 11:35:13'),
-(6, 'Buty motocyklowe Sidi Mag-1', 'buty-motocyklowe-sidi-mag-1', 'Buty motocyklowe Sidi Mag-1 to profesjonalne buty sportowe. Wykonane ze skóry z dodatkowymi wzmocnieniami, posiadają podeszwę antypoślizgową i system zapięcia.', 'Buty motocyklowe Sidi Mag-1 - profesjonalna ochrona stóp', 599.99, 549.99, 45, 'SID-MAG1-001', 0, 'published', 2, 15, '2025-05-21 21:02:49', '2025-05-26 11:36:08'),
+(6, 'Buty motocyklowe Sidi Mag-1', 'buty-motocyklowe-sidi-mag-1', 'Buty motocyklowe Sidi Mag-1 to profesjonalne buty sportowe. Wykonane ze skóry z dodatkowymi wzmocnieniami, posiadają podeszwę antypoślizgową i system zapięcia.', 'Buty motocyklowe Sidi Mag-1 - profesjonalna ochrona stóp', 599.99, 549.99, 45, 'SID-MAG1-001', 0, 'published', 2, 21, '2025-05-21 21:02:49', '2025-06-04 19:22:33'),
 (7, 'Olej silnikowy Motul 300V 4T', 'olej-silnikowy-motul-300v-4t', 'Olej silnikowy Motul 300V 4T to olej syntetyczny najwyższej jakości. Wysoka wydajność i ochrona silnika, odpowiedni dla nowoczesnych motocykli sportowych.', 'Olej silnikowy Motul 300V 4T - najwyższa jakość', 129.99, NULL, 148, 'MOT-300V-001', 0, 'published', 4, 5, '2025-05-21 21:02:49', '2025-05-24 12:21:25'),
-(8, 'Łańcuch napędowy RK 520GXW', 'a-cuch-nap-dowy-rk-520gxw', 'Łańcuch napędowy RK 520GXW to łańcuch z powłoką X-Ring. Wysoka wytrzymałość i trwałość, odpowiedni dla motocykli sportowych i turystycznych.', 'Łańcuch napędowy RK 520GXW - trwałość i wydajność', 449.99, 399.99, 55, 'RK-520GXW-001', 0, 'published', 3, 6, '2025-05-21 21:02:49', '2025-05-21 21:21:14'),
-(9, 'Hamulce tarczowe Brembo Serie Oro', 'hamulce-tarczowe-brembo-serie-oro', 'Tarcze hamulcowe Brembo Serie Oro to profesjonalne tarcze sportowe. Wysoka wydajność hamowania, odpowiednie dla motocykli sportowych.', 'Hamulce tarczowe Brembo Serie Oro - profesjonalne hamowanie', 799.99, NULL, 30, 'BRE-SO-001', 1, 'published', 3, 7, '2025-05-21 21:02:49', '2025-05-21 21:21:14'),
-(10, 'Akumulator motocyklowy Yuasa YTX14-BS', 'akumulator-motocyklowy-yuasa-ytx14-bs', 'Akumulator motocyklowy Yuasa YTX14-BS to akumulator 12V 12Ah. Wysoka wydajność i trwałość, odpowiedni dla większych motocykli.', 'Akumulator motocyklowy Yuasa YTX14-BS - niezawodność', 299.99, 279.99, 64, 'YUA-YTX14-001', 0, 'published', 5, 8, '2025-05-21 21:02:49', '2025-05-21 21:49:21'),
-(11, 'Opony motocyklowe Pirelli Diablo Rosso IV', 'opony-motocyklowe-pirelli-diablo-rosso-iv', 'Opony motocyklowe Pirelli Diablo Rosso IV to opony sportowe z doskonałą przyczepnością. Długa żywotność, odpowiednie dla motocykli sportowych.', 'Opony motocyklowe Pirelli Diablo Rosso IV - sportowa przyczepność', 999.99, 949.99, 35, 'PIR-DR4-001', 1, 'published', 3, 9, '2025-05-21 21:02:49', '2025-05-21 21:21:14'),
+(8, 'Łańcuch napędowy RK 520GXW', 'a-cuch-nap-dowy-rk-520gxw', 'Łańcuch napędowy RK 520GXW to łańcuch z powłoką X-Ring. Wysoka wytrzymałość i trwałość, odpowiedni dla motocykli sportowych i turystycznych.', 'Łańcuch napędowy RK 520GXW - trwałość i wydajność', 449.99, 399.99, 55, 'RK-520GXW-001', 0, 'published', 3, 20, '2025-05-21 21:02:49', '2025-06-04 19:21:12'),
+(9, 'Hamulce tarczowe Brembo Serie Oro', 'hamulce-tarczowe-brembo-serie-oro', 'Tarcze hamulcowe Brembo Serie Oro to profesjonalne tarcze sportowe. Wysoka wydajność hamowania, odpowiednie dla motocykli sportowych.', 'Hamulce tarczowe Brembo Serie Oro - profesjonalne hamowanie', 799.99, NULL, 30, 'BRE-SO-001', 1, 'published', 3, 22, '2025-05-21 21:02:49', '2025-06-04 19:23:39'),
+(10, 'Akumulator motocyklowy Yuasa YTX14-BS', 'akumulator-motocyklowy-yuasa-ytx14-bs', 'Akumulator motocyklowy Yuasa YTX14-BS to akumulator 12V 12Ah. Wysoka wydajność i trwałość, odpowiedni dla większych motocykli.', 'Akumulator motocyklowy Yuasa YTX14-BS - niezawodność', 299.99, 279.99, 64, 'YUA-YTX14-001', 0, 'published', 5, 19, '2025-05-21 21:02:49', '2025-06-04 19:20:23'),
+(11, 'Opony motocyklowe Pirelli Diablo Rosso IV', 'opony-motocyklowe-pirelli-diablo-rosso-iv', 'Opony motocyklowe Pirelli Diablo Rosso IV to opony sportowe z doskonałą przyczepnością. Długa żywotność, odpowiednie dla motocykli sportowych.', 'Opony motocyklowe Pirelli Diablo Rosso IV - sportowa przyczepność', 999.99, 949.99, 35, 'PIR-DR4-001', 1, 'published', 3, 23, '2025-05-21 21:02:49', '2025-06-04 19:24:24'),
 (12, 'Kask motocyklowy AGV K6', 'kask-motocyklowy-agv-k6', 'Kask motocyklowy AGV K6 to nowoczesny kask sportowy z kompozytu włókna węglowego. Posiada system wentylacji, wyjmowaną wkładkę i jest kompatybilny z systemem komunikacji.', 'Kask motocyklowy AGV K6 - nowoczesność i bezpieczeństwo', 1499.99, 0.00, 25, 'AGV-K6-001', 1, 'published', 1, 1, '2025-05-21 21:07:05', '2025-05-21 21:21:38'),
 (13, 'Rękawice motocyklowe Dainese 4 Stroke Evo', 'r-kawice-motocyklowe-dainese-4-stroke-evo', 'Rękawice motocyklowe Dainese 4 Stroke Evo to uniwersalne rękawice sportowe. Wykonane ze skóry bydlęcej z dodatkowymi wzmocnieniami, posiadają system wentylacji i ochronę kostek.', 'Rękawice motocyklowe Dainese 4 Stroke Evo - uniwersalna ochrona', 349.99, NULL, 40, 'DAI-4SE-001', 0, 'published', 2, 2, '2025-05-21 21:07:05', '2025-05-21 21:21:38'),
 (14, 'Kurtka motocyklowa Alpinestars GP Plus R', 'kurtka-motocyklowa-alpinestars-gp-plus-r', 'Kurtka motocyklowa Alpinestars GP Plus R to profesjonalna kurtka sportowa. Wykonana z materiału 600D, posiada system wentylacji, wymienne ochraniacze i jest kompatybilna z systemem Airbag.', 'Kurtka motocyklowa Alpinestars GP Plus R - profesjonalna ochrona', 1999.99, 1899.99, 15, 'ALP-GPPR-001', 1, 'published', 2, 1, '2025-05-21 21:07:05', '2025-05-26 11:37:12'),
@@ -394,7 +399,7 @@ INSERT INTO `products` (`id`, `name`, `slug`, `description`, `short_description`
 (18, 'Łańcuch napędowy DID 520VX3', 'a-cuch-nap-dowy-did-520vx3', 'Łańcuch napędowy DID 520VX3 to łańcuch z powłoką X-Ring. Wysoka wytrzymałość i trwałość, odpowiedni dla motocykli sportowych i turystycznych.', 'Łańcuch napędowy DID 520VX3 - trwałość i wydajność', 499.99, 449.99, 45, 'DID-520VX3-001', 0, 'published', 3, 15, '2025-05-21 21:07:05', '2025-05-26 11:38:23'),
 (19, 'Hamulce tarczowe Galfer Wave', 'hamulce-tarczowe-galfer-wave-1', 'Tarcze hamulcowe Galfer Wave to profesjonalne tarcze sportowe. Wysoka wydajność hamowania, odpowiednie dla motocykli sportowych.', 'Hamulce tarczowe Galfer Wave - profesjonalne hamowanie', 899.99, NULL, 20, 'GAL-WAVE-001', 1, 'published', 3, 16, '2025-05-21 21:08:54', '2025-05-26 11:38:34'),
 (20, 'Akumulator motocyklowy Shido YTX14-BS', 'akumulator-motocyklowy-shido-ytx14-bs-1', 'Akumulator motocyklowy Shido YTX14-BS to akumulator 12V 12Ah. Wysoka wydajność i trwałość, odpowiedni dla większych motocykli.', 'Akumulator motocyklowy Shido YTX14-BS - niezawodność', 279.99, 249.99, 46, 'SHI-YTX14-001', 0, 'published', 5, 17, '2025-05-21 21:08:54', '2025-05-26 11:38:46'),
-(21, 'Opony motocyklowe Michelin Power 5', 'opony-motocyklowe-michelin-power-5-1', 'Opony motocyklowe Michelin Power 5 to opony sportowe z doskonałą przyczepnością. Długa żywotność, odpowiednie dla motocykli sportowych.', 'Opony motocyklowe Michelin Power 5 - sportowa przyczepność', 1099.99, 999.99, 25, 'MIC-P5-001', 1, 'published', 3, 8, '2025-05-21 21:08:54', '2025-05-21 21:21:47');
+(21, 'Opony motocyklowe Michelin Power 5', 'opony-motocyklowe-michelin-power-5-1', 'Opony motocyklowe Michelin Power 5 to opony sportowe z doskonałą przyczepnością. Długa żywotność, odpowiednie dla motocykli sportowych.', 'Opony motocyklowe Michelin Power 5 - sportowa przyczepność', 1099.99, 999.99, 25, 'MIC-P5-001', 1, 'published', 3, 18, '2025-05-21 21:08:54', '2025-06-04 19:24:57');
 
 -- --------------------------------------------------------
 
@@ -415,27 +420,27 @@ CREATE TABLE `product_images` (
 --
 
 INSERT INTO `product_images` (`id`, `product_id`, `image_path`, `is_main`, `created_at`) VALUES
-(1, 1, 'uploads/products/682b76cd26623_pol_pl_Kask-enduro-', 1, '2025-05-19 18:22:05'),
-(2, 2, 'uploads/products/nxr2-black_7Y2SW-9999x600-resize.', 1, '2025-05-26 12:32:59'),
-(3, 3, 'uploads/products/alpinestars-gp-pro-r4-3556724-10-', 1, '2025-05-26 12:35:07'),
-(4, 4, 'uploads/products/500_500_productGfx_00c0bf00c907ae', 1, '2025-05-26 12:35:07'),
-(5, 5, 'uploads/products/6507523-13-alpinestars-bionic-pro', 1, '2025-05-26 12:36:24'),
-(6, 6, 'uploads/products/pol_pm_Buty-motocyklowe-SIDI-MAG-', 1, '2025-05-26 12:36:24'),
-(7, 7, 'uploads/products/pol_pm_Olej-silnikowy-MOTUL-300V-', 1, '2025-05-26 12:37:55'),
+(1, 1, 'uploads\\products\\682b76cd26623_pol_pl_Kask-enduro-Leatt-Moto-3-5-V22-czerwony-153233_2.jpg', 1, '2025-05-19 18:22:05'),
+(2, 2, 'uploads\\products\\nxr2-black_7Y2SW-9999x600-resize.jpg', 1, '2025-05-26 12:32:59'),
+(3, 3, 'uploads\\products\\alpinestars-gp-pro-r4-3556724-10-1.jpg', 1, '2025-05-26 12:35:07'),
+(4, 4, 'uploads\\products\\500_500_productGfx_00c0bf00c907ae0157b5ed7135c7987a.jpg', 1, '2025-05-26 12:35:07'),
+(5, 5, 'uploads\\products\\6507523-13-alpinestars-bionic-pro-1.jpg', 1, '2025-05-26 12:36:24'),
+(6, 6, 'uploads\\products\\pol_pm_Buty-motocyklowe-SIDI-MAG-1-67763_2.jpg', 1, '2025-05-26 12:36:24'),
+(7, 7, 'uploads\\products\\pol_pm_Olej-silnikowy-MOTUL-300V-FACTORY-LINE-ROAD-10W-40-4T-1L-3345_1.jpg', 1, '2025-05-26 12:37:55'),
 (8, 8, 'uploads/products/eb6d05f44b249d9c2376d13642a4.jpg', 1, '2025-05-26 12:37:55'),
 (9, 9, 'uploads/products/LmpwZw.jpg', 1, '2025-05-26 12:39:00'),
 (10, 10, 'uploads/products/yuasa-ytx14-bs-12v-12ah.jpg', 1, '2025-05-26 12:39:00'),
-(11, 11, 'uploads/products/pirelli_moto_diablo_rosso_4base', 1, '2025-05-26 12:39:51'),
+(11, 11, 'uploads\\products\\pirelli_moto_diablo_rosso_4_base_992x992.png', 1, '2025-05-26 12:39:51'),
 (12, 12, 'uploads/products/Kask-AGV-K6-S-Black-Matt.jpg', 1, '2025-05-26 12:39:51'),
-(13, 13, 'uploads/products/Rekawice-DAINESE-4-Stroke-Evo-1-8', 1, '2025-05-26 12:41:00'),
-(14, 14, 'uploads/products/3100520-1100-alpinestars_gp-plus-', 1, '2025-05-26 12:41:00'),
-(15, 15, 'uploads/products/skorzane-spodnie-dainese-super-sp', 1, '2025-05-26 12:42:23'),
-(16, 16, 'uploads/products/pol_pm_Buty-sportowe-ALPINESTARS-', 1, '2025-05-26 12:42:23'),
+(13, 13, 'uploads\\products\\Rekawice-DAINESE-4-Stroke-Evo-1-800x800.jpg', 1, '2025-05-26 12:41:00'),
+(14, 14, 'uploads\\products\\3100520-1100-alpinestars_gp-plus-r-v3-1.jpg', 1, '2025-05-26 12:41:00'),
+(15, 15, 'uploads\\products\\skorzane-spodnie-dainese-super-speed-pants-perf.jpg', 1, '2025-05-26 12:42:23'),
+(16, 16, 'uploads\\products\\pol_pm_Buty-sportowe-ALPINESTARS-SMX-6-V2-BLACK-BLACK-czarny-13406_1.jpg', 1, '2025-05-26 12:42:23'),
 (17, 17, 'uploads/products/YmFjYzhiM2QuanBn.jpg', 1, '2025-05-26 12:43:18'),
 (18, 18, 'uploads/products/8.jpg', 1, '2025-05-26 12:43:18'),
-(19, 19, 'uploads/products/galfer-wave-mtb-2-216987-f-sk7-w7', 1, '2025-05-26 12:46:41'),
-(20, 20, 'uploads/products/akumulator-litowo-jonowy-shido-lt', 1, '2025-05-26 12:46:41'),
-(21, 21, 'uploads/products/1000x1000_michelin_power_5_607423', 1, '2025-05-26 12:47:08');
+(19, 19, 'uploads\\products\\galfer-wave-mtb-2-216987-f-sk7-w780-h554_1.jpg', 1, '2025-05-26 12:46:41'),
+(20, 20, 'uploads\\products\\akumulator-litowo-jonowy-shido-ltx14-bs-lion--s--li-ion-12v-4ah_2.jpg', 1, '2025-05-26 12:46:41'),
+(21, 21, 'uploads\\products\\1000x1000_michelin_power_5_6074238712e90.jpg', 1, '2025-05-26 12:47:08');
 
 -- --------------------------------------------------------
 
@@ -852,7 +857,7 @@ ALTER TABLE `wishlist_items`
 -- AUTO_INCREMENT for table `brands`
 --
 ALTER TABLE `brands`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `carts`

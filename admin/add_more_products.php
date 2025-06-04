@@ -16,6 +16,14 @@ if (!$conn->query($reset_query)) {
     echo "Auto-inkrement został zresetowany.<br>";
 }
 
+// Usunięcie istniejących produktów
+$delete_query = "DELETE FROM products";
+if (!$conn->query($delete_query)) {
+    echo "Błąd podczas usuwania istniejących produktów: " . $conn->error . "<br>";
+} else {
+    echo "Istniejące produkty zostały usunięte.<br>";
+}
+
 // Dodawanie nowych marek
 $brands = [
     ['name' => 'AGV', 'slug' => 'agv'],
@@ -133,7 +141,7 @@ $products = [
         'featured' => 1,
         'status' => 'published',
         'category_id' => 1, // Kaski
-        'brand_id' => 1 // AGV
+        'brand_id' => 13 // AGV
     ],
     [
         'name' => 'Rękawice motocyklowe Dainese 4 Stroke Evo',
@@ -159,7 +167,7 @@ $products = [
         'featured' => 1,
         'status' => 'published',
         'category_id' => 2, // Odzież
-        'brand_id' => 3 // Alpinestars
+        'brand_id' => 1 // Alpinestars
     ],
     [
         'name' => 'Spodnie motocyklowe Dainese Super Speed Textile',
@@ -185,7 +193,7 @@ $products = [
         'featured' => 0,
         'status' => 'published',
         'category_id' => 2, // Odzież
-        'brand_id' => 3 // Alpinestars
+        'brand_id' => 1 // Alpinestars
     ],
     [
         'name' => 'Olej silnikowy Castrol Power 1 Racing 4T',
@@ -198,7 +206,7 @@ $products = [
         'featured' => 0,
         'status' => 'published',
         'category_id' => 4, // Oleje i chemia
-        'brand_id' => 4 // Castrol
+        'brand_id' => 14 // Castrol
     ],
     [
         'name' => 'Łańcuch napędowy DID 520VX3',
@@ -211,7 +219,7 @@ $products = [
         'featured' => 0,
         'status' => 'published',
         'category_id' => 3, // Części
-        'brand_id' => 5 // DID
+        'brand_id' => 15 // DID
     ],
     [
         'name' => 'Hamulce tarczowe Galfer Wave',
@@ -224,7 +232,7 @@ $products = [
         'featured' => 1,
         'status' => 'published',
         'category_id' => 3, // Części
-        'brand_id' => 6 // Galfer
+        'brand_id' => 16 // Galfer
     ],
     [
         'name' => 'Akumulator motocyklowy Shido YTX14-BS',
@@ -237,7 +245,7 @@ $products = [
         'featured' => 0,
         'status' => 'published',
         'category_id' => 5, // Akumulatory
-        'brand_id' => 7 // Shido
+        'brand_id' => 17 // Shido
     ],
     [
         'name' => 'Opony motocyklowe Michelin Power 5',
@@ -250,7 +258,7 @@ $products = [
         'featured' => 1,
         'status' => 'published',
         'category_id' => 3, // Części
-        'brand_id' => 8 // Michelin
+        'brand_id' => 18 // Michelin
     ]
 ];
 
@@ -277,72 +285,29 @@ foreach ($products as $product) {
     // Generowanie unikalnego sluga
     $slug = generateUniqueSlug($conn, $product['name']);
     
-    // Sprawdzenie czy produkt już istnieje
-    $check_query = "SELECT id FROM products WHERE sku = ?";
-    $stmt = $conn->prepare($check_query);
-    $stmt->bind_param("s", $product['sku']);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    
-    if ($result->num_rows > 0) {
-        // Aktualizacja istniejącego produktu
-        $row = $result->fetch_assoc();
-        $product_id = $row['id'];
-        
-        $update_query = "UPDATE products SET 
-            name = ?, 
-            slug = ?,
-            description = ?,
-            short_description = ?,
-            price = ?,
-            sale_price = ?,
-            stock = ?,
-            featured = ?,
-            status = ?,
-            category_id = ?,
-            brand_id = ?
-            WHERE id = ?";
-            
-        $stmt = $conn->prepare($update_query);
-        $stmt->bind_param("ssssddiiisii", 
-            $product['name'],
-            $slug,
-            $product['description'],
-            $product['short_description'],
-            $product['price'],
-            $product['sale_price'],
-            $product['stock'],
-            $product['featured'],
-            $product['status'],
-            $product['category_id'],
-            $product['brand_id'],
-            $product_id
-        );
-    } else {
-        // Dodawanie nowego produktu
-        $insert_query = "INSERT INTO products (name, slug, description, short_description, price, sale_price, stock, sku, featured, status, category_id, brand_id) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $stmt = $conn->prepare($insert_query);
-        $stmt->bind_param("ssssddissiii", 
-            $product['name'], 
-            $slug, 
-            $product['description'], 
-            $product['short_description'],
-            $product['price'], 
-            $product['sale_price'], 
-            $product['stock'], 
-            $product['sku'], 
-            $product['featured'],
-            $product['status'],
-            $product['category_id'], 
-            $product['brand_id']
-        );
-    }
+    // Dodawanie nowego produktu
+    $insert_query = "INSERT INTO products (name, slug, description, short_description, price, sale_price, stock, sku, featured, status, category_id, brand_id) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($insert_query);
+    $stmt->bind_param("ssssddissiii", 
+        $product['name'], 
+        $slug, 
+        $product['description'], 
+        $product['short_description'],
+        $product['price'], 
+        $product['sale_price'], 
+        $product['stock'], 
+        $product['sku'], 
+        $product['featured'],
+        $product['status'],
+        $product['category_id'], 
+        $product['brand_id']
+    );
     
     if (!$stmt->execute()) {
         echo "Błąd podczas przetwarzania produktu {$product['name']}: " . $stmt->error . "<br>";
     } else {
-        echo "Produkt {$product['name']} został pomyślnie dodany/ zaktualizowany.<br>";
+        echo "Produkt {$product['name']} został pomyślnie dodany.<br>";
     }
 }
 
