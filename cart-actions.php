@@ -151,34 +151,49 @@ function addToCart() {
         $cart_items = &$_SESSION['cart_items'];
         $product_price = !empty($product['sale_price']) ? $product['sale_price'] : $product['price'];
         
-        // Sprawdzanie czy produkt jest już w koszyku
-        $item_exists = false;
-        foreach ($cart_items as &$item) {
+        // Sprawdzanie czy produkt jest już w koszyku i aktualizacja ilości lub dodanie nowego
+        $item_index = -1;
+        $total_quantity = $quantity; // Początkowa ilość do dodania
+        
+        // Przechodzimy przez koszyk, sumujemy ilości i znajdujemy pierwsze wystąpienie
+        foreach ($cart_items as $key => $item) {
             if ($item['product_id'] == $product_id) {
-                $item_exists = true;
-                $new_quantity = $item['quantity'] + $quantity;
-                
-                // Sprawdzenie czy nowa ilość nie przekracza dostępnej ilości
-                if ($new_quantity > $product['stock']) {
-                    echo json_encode(['success' => false, 'message' => 'Niewystarczająca ilość produktu w magazynie']);
-                    exit;
+                if ($item_index === -1) {
+                    $item_index = $key; // Zapamiętaj index pierwszego wystąpienia
                 }
-                
-                $item['quantity'] = $new_quantity;
-                break;
+                $total_quantity += $item['quantity']; // Sumuj ilości
             }
         }
         
-        if (!$item_exists) {
-            $cart_items[] = [
-                'product_id' => $product_id,
-                'name' => $product['name'],
-                'price' => $product_price,
-                'quantity' => $quantity
-            ];
+        // Sprawdzenie czy łączna ilość nie przekracza dostępnej ilości
+        if ($total_quantity > $product['stock']) {
+             echo json_encode(['success' => false, 'message' => 'Niewystarczająca ilość produktu w magazynie']);
+             exit;
         }
+
+        // Usuwamy wszystkie wystąpienia danego produktu przed dodaniem/aktualizacją
+        $updated_cart_items = [];
+        foreach ($cart_items as $key => $item) {
+            if ($item['product_id'] != $product_id) {
+                $updated_cart_items[] = $item;
+            }
+        }
+        $cart_items = $updated_cart_items;
+
+        // Dodajemy produkt z zaktualizowaną (lub początkową) ilością
+        $cart_items[] = [
+            'product_id' => $product_id,
+            'name' => $product['name'],
+            'price' => $product_price,
+            'quantity' => $total_quantity,
+            'image' => $product['image'] ?? null,
+            'stock' => $product['stock']
+        ];
         
-        // Obliczanie liczby produktów w koszyku
+        // Aktualizacja sesji
+        $_SESSION['cart_items'] = $cart_items;
+        
+        // Obliczanie liczby produktów w koszyku po zaktualizowaniu sesji
         $cart_count = 0;
         foreach ($cart_items as $item) {
             $cart_count += $item['quantity'];

@@ -108,10 +108,11 @@ $offset = ($page - 1) * $per_page;
 
 // Tworzenie zapytania - używamy bardziej solidnego zapytania, które będzie działać nawet jeśli nie ma zdjęć lub kolumny position
 $query = "SELECT p.*, c.name as category_name, b.name as brand_name,
-          (SELECT image_path FROM product_images WHERE product_id = p.id ORDER BY is_main DESC, id ASC LIMIT 1) as thumbnail
+          pi.image_path as thumbnail
           FROM products p
           LEFT JOIN categories c ON p.category_id = c.id
           LEFT JOIN brands b ON p.brand_id = b.id
+          LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_main = 1
           $where_clause
           $order_clause
           LIMIT $offset, $per_page";
@@ -299,7 +300,7 @@ include 'includes/sidebar.php';
                                 <div class="flex-shrink-0 h-10 w-10">
                                     <?php if (!empty($product['thumbnail'])): ?>
                                     <img class="h-10 w-10 object-cover rounded-md" 
-                                         src="<?php echo htmlspecialchars($product['thumbnail']); ?>" 
+                                         src="../<?php echo htmlspecialchars($product['thumbnail']); ?>" 
                                          alt="<?php echo htmlspecialchars($product['name']); ?>"
                                          onerror="this.onerror=null; this.src='/assets/images/no-image.png';">
                                     <span style="font-size:10px; color:#888; word-break:break-all; display:block; max-width:80px;">
