@@ -3,6 +3,9 @@
 $page_title = "Serwis Motocyklowy";
 require_once 'includes/config.php';
 
+// Sprawdzenie czy użytkownik jest zalogowany
+$is_logged_in = isLoggedIn();
+
 // Obsługa formularza rezerwacji
 $booking_success = false;
 $booking_error = '';
@@ -197,7 +200,7 @@ include 'includes/header.php';
     <!-- Lista mechaników -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
         <?php foreach ($mechanics as $mechanic): ?>
-        <div class="bg-white rounded-lg shadow-sm p-6">
+        <div class="bg-white rounded-lg shadow-sm p-6 flex flex-col">
             <div class="flex items-center mb-4">
                 <?php if (!empty($mechanic['image_path'])): ?>
                     <img src="<?php echo $mechanic['image_path']; ?>" 
@@ -228,10 +231,16 @@ include 'includes/header.php';
                 ?>
                 <span class="text-gray-600 ml-2">(<?php echo $rating; ?>/5)</span>
             </div>
-            <p class="text-gray-600 mb-4"><?php echo $mechanic['description']; ?></p>
-            <button onclick="showBookingModal(<?php echo $mechanic['id']; ?>, '<?php echo $mechanic['name']; ?>')" class="w-full bg-primary text-white py-2 rounded-button hover:bg-opacity-90 transition">
-                Umów wizytę
-            </button>
+            <p class="text-gray-600 mb-4 flex-grow"><?php echo $mechanic['description']; ?></p>
+            <?php if ($is_logged_in): ?>
+                <button onclick="showBookingModal(<?php echo $mechanic['id']; ?>, '<?php echo $mechanic['name']; ?>')" class="w-full bg-primary text-white py-2 rounded-button hover:bg-opacity-90 transition h-10 flex items-center justify-center">
+                    Umów wizytę
+                </button>
+            <?php else: ?>
+                <button onclick="showLoginRequiredModal()" class="w-full bg-gray-200 text-gray-600 py-2 rounded-button hover:bg-gray-300 transition h-10 flex items-center justify-center">
+                    Zaloguj się, aby umówić wizytę
+                </button>
+            <?php endif; ?>
         </div>
         <?php endforeach; ?>
     </div>
@@ -241,17 +250,25 @@ include 'includes/header.php';
         <h2 class="text-2xl font-bold text-center mb-8">Nasze usługi</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <?php foreach ($services as $service): ?>
-            <div class="bg-white rounded-lg shadow-sm p-6">
-                <h3 class="text-xl font-bold mb-2"><?php echo $service['name']; ?></h3>
-                <p class="text-gray-600 mb-4"><?php echo $service['description']; ?></p>
-                <div class="flex justify-between items-center">
+            <div class="bg-white rounded-lg shadow-sm p-6 flex flex-col">
+                <div class="flex-grow">
+                    <h3 class="text-xl font-bold mb-2"><?php echo $service['name']; ?></h3>
+                    <p class="text-gray-600 mb-4"><?php echo $service['description']; ?></p>
+                </div>
+                <div class="flex justify-between items-center mt-4">
                     <div>
                         <span class="text-primary font-bold text-xl"><?php echo number_format($service['price'], 2, ',', ' '); ?> zł</span>
                         <span class="text-gray-500 text-sm ml-2">Czas: ok. <?php echo $service['duration']; ?> min</span>
                     </div>
-                    <button onclick="showBookingModalWithService(null, null, <?php echo $service['id']; ?>)" class="bg-primary text-white px-4 py-2 rounded-button hover:bg-opacity-90 transition">
-                        Zarezerwuj
-                    </button>
+                    <?php if ($is_logged_in): ?>
+                        <button onclick="showBookingModalWithService(null, null, <?php echo $service['id']; ?>)" class="bg-primary text-white px-4 py-2 rounded-button hover:bg-opacity-90 transition h-10 flex items-center">
+                            Zarezerwuj
+                        </button>
+                    <?php else: ?>
+                        <button onclick="showLoginRequiredModal()" class="bg-gray-200 text-gray-600 px-4 py-2 rounded-button hover:bg-gray-300 transition h-10 flex items-center">
+                            Zaloguj się
+                        </button>
+                    <?php endif; ?>
                 </div>
             </div>
             <?php endforeach; ?>
@@ -495,6 +512,28 @@ include 'includes/header.php';
             </button>
         </div>
     </div>
+
+    <!-- Modal wymagający logowania -->
+    <div id="loginRequiredModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4 text-center relative">
+            <button onclick="hideLoginRequiredModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition">
+                <i class="ri-close-line text-2xl"></i>
+            </button>
+            <div class="text-yellow-500 mb-4">
+                <i class="ri-lock-line text-5xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold mb-4">Wymagane logowanie</h2>
+            <p class="text-gray-600 mb-6">Aby umówić wizytę w serwisie, musisz być zalogowany.</p>
+            <div class="flex gap-4">
+                <a href="login.php" class="flex-1 bg-primary text-white py-2 rounded-button hover:bg-opacity-90 transition">
+                    Zaloguj się
+                </a>
+                <a href="register.php" class="flex-1 bg-gray-200 text-gray-800 py-2 rounded-button hover:bg-gray-300 transition">
+                    Zarejestruj się
+                </a>
+            </div>
+        </div>
+    </div>
 </main>
 
 <?php
@@ -568,6 +607,18 @@ $extra_js = <<<'EOT'
     function hideConfirmationModal() {
         document.getElementById('confirmationModal').classList.remove('flex');
         document.getElementById('confirmationModal').classList.add('hidden');
+    }
+
+    // Funkcja do wyświetlania modalu wymagającego logowania
+    function showLoginRequiredModal() {
+        document.getElementById('loginRequiredModal').classList.remove('hidden');
+        document.getElementById('loginRequiredModal').classList.add('flex');
+    }
+
+    // Funkcja do ukrywania modalu wymagającego logowania
+    function hideLoginRequiredModal() {
+        document.getElementById('loginRequiredModal').classList.remove('flex');
+        document.getElementById('loginRequiredModal').classList.add('hidden');
     }
 
     // Automatyczne wyświetlanie modalu mechanika z URL
