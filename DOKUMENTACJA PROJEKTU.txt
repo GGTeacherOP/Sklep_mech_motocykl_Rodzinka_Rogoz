@@ -1,0 +1,62 @@
+PRZYGOTUJ PDFA 
+
+
+Strona 1 – Tytuł + imiona i nazwiska autorów
+Strona 2 – Spis treści (z linkami przenoszącymi do rozdziałów)
+DOKUMENTACJA PROJEKTU
+1. Wstęp
+1.1. Cel projektu
+1.2. Zakres projektu
+1.3. Użytkownicy systemu
+
+2. Opis ogólny
+2.1. Przeznaczenie witryny
+2.2. Główne funkcjonalności
+2.3. Wymagania techniczne (XAMPP, przeglądarka, MySQL itp.)
+2.4. Struktura katalogów i plików projektu
+
+3. Struktura strony internetowej
+3.1. Strona główna (index.html / index.php)
+3.2. Podstrona 1
+3.3. Podstrona 2
+3.4. Podstrona 3 itp
+3.5. Panel logowania i rejestracji (logowanie.php, admin.php)
+
+4. Elementy statyczne
+4.1. HTML – struktura dokumentów
+4.2. CSS – stylizacja (style.css)
+4.3. Biblioteki zewnętrzne …
+
+5. JavaScript
+5.1. Dynamiczne menu rozwijane
+5.2. Slider z aktualnościami (Swiper.js)
+5.3. Obsługa przycisków i efektów interaktywnych
+
+6. Elementy dynamiczne (PHP)
+6.1. Obsługa logowania i rejestracji użytkownika
+6.2. Pobieranie danych z bazy (katalog.php)
+6.3. Obsługa formularza kontaktowego
+6.4. Panel administracyjny (dodawanie/edycja/usuwanie wpisów)
+
+7. Baza danych
+7.1. Projekt struktury bazy danych
+7.2. Opis tabel i pól
+7.3. Relacje między tabelami
+7.4. Przykładowe zapytania SQL
+
+8. Bezpieczeństwo
+8.1. Walidacja danych wejściowych
+8.2. Obsługa sesji i uwierzytelnianie
+
+9. Możliwości rozbudowy 
+9.1. Dodanie wyszukiwarki (np. książek)
+9.2. System ocen i komentarzy
+9.3. System rezerwacji online
+9.4. Responsywność i aplikacja mobilna
+
+10. Załączniki
+10.1. Fragmenty kodu źródłowego (HTML/JS/PHP/CSS) z komentarzami
+10.2. Zrzuty ekranu działania systemu
+10.3. Diagram bazy danych
+np. https://dbdiagram.io/home
+10.4. Lista błędów/uwag i pomysłów na ulepszenia

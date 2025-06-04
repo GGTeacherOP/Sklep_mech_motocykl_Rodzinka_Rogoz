@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dokumentacja Projektu MotoShop</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .cover-page {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 50px 0;
+        }
+        .cover-page h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+        .cover-page .authors {
+            font-size: 1.5em;
+            margin-top: 50px;
+        }
+        .toc {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        .toc h2 {
+            margin-top: 0;
+        }
+        .toc ol {
+            padding-left: 20px;
+        }
+        .toc li {
+            margin-bottom: 5px;
+        }
+        h1, h2, h3, h4 {
+            color: #2c3e50;
+        }
+        h1 {
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-top: 40px;
+        }
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            margin-top: 25px;
+        }
+        code {
+            background-color: #f8f9fa;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            font-size: 0.9em;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            font-size: 0.9em;
+            border-left: 4px solid #3498db;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .code-block {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            font-size: 0.9em;
+            border-left: 4px solid #3498db;
+            white-space: pre;
+        }
+        .page-break {
+            page-break-after: always;
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .db-diagram {
+            font-family: monospace;
+            white-space: pre;
+        }
+        .footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #7f8c8d;
+            border-top: 1px solid #ecf0f1;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Strona tytułowa -->
+    <div class="cover-page">
+        <h1>Dokumentacja Projektu:<br>MotoShop - Sklep Internetowy</h1>
+        <div class="authors">
+            <p><strong>Autorzy:</strong></p>
+            <p>Maciej Rodzinka</p>
+            <p>Bartłomiej Rogóz</p>
+            <p>Klasa 3AP</p>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- Spis treści -->
+    <div class="toc">
+        <h2>Spis Treści</h2>
+        <ol>
+            <li><a href="#wstep">Wstęp</a>
+                <ol>
+                    <li><a href="#cel-projektu">Cel projektu</a></li>
+                    <li><a href="#zakres-projektu">Zakres projektu</a></li>
+                    <li><a href="#uzytkownicy-systemu">Użytkownicy systemu</a></li>
+                </ol>
+            </li>
+            <li><a href="#opis-ogolny">Opis ogólny</a>
+                <ol>
+                    <li><a href="#przeznaczenie-witryny">Przeznaczenie witryny</a></li>
+                    <li><a href="#glowne-funkcjonalnosci">Główne funkcjonalności</a></li>
+                    <li><a href="#wymagania-techniczne">Wymagania techniczne</a></li>
+                    <li><a href="#struktura-katalogow">Struktura katalogów i plików projektu</a></li>
+                </ol>
+            </li>
+            <li><a href="#struktura-strony">Struktura strony internetowej</a>
+                <ol>
+                    <li><a href="#strona-glowna">Strona główna</a></li>
+                    <li><a href="#katalog-produktow">Katalog produktów</a></li>
+                    <li><a href="#strona-produktu">Strona produktu</a></li>
+                    <li><a href="#koszyk">Koszyk zakupowy</a></li>
+                    <li><a href="#proces-zakupowy">Proces zakupowy</a></li>
+                    <li><a href="#panel-konta">Panel konta użytkownika</a></li>
+                    <li><a href="#system-logowania">System logowania i rejestracji</a></li>
+                    <li><a href="#panel-administracyjny">Panel administracyjny</a></li>
+                </ol>
+            </li>
+            <li><a href="#elementy-statyczne">Elementy statyczne</a>
+                <ol>
+                    <li><a href="#html">HTML – struktura dokumentów</a></li>
+                    <li><a href="#css">CSS – stylizacja</a></li>
+                    <li><a href="#biblioteki">Biblioteki zewnętrzne</a></li>
+                </ol>
+            </li>
+            <li><a href="#javascript">JavaScript</a>
+                <ol>
+                    <li><a href="#interakcje">Interakcje na stronie produktu</a></li>
+                    <li><a href="#dynamiczny-koszyk">Dynamiczny koszyk zakupowy</a></li>
+                    <li><a href="#walidacja">Walidacja formularzy</a></li>
+                    <li><a href="#recenzje-js">System recenzji produktów</a></li>
+                </ol>
+            </li>
+            <li><a href="#elementy-dynamiczne">Elementy dynamiczne (PHP)</a>
+                <ol>
+                    <li><a href="#obsluga-logowania">Obsługa logowania i rejestracji użytkownika</a></li>
+                    <li><a href="#pobieranie-danych">Pobieranie danych z bazy</a></li>
+                    <li><a href="#obsluga-koszyka">Obsługa koszyka i zamówień</a></li>
+                    <li><a href="#admin-panel">Panel administracyjny</a></li>
+                    <li><a href="#zarzadzanie-rolami">System zarządzania rolami użytkowników</a></li>
+                </ol>
+            </li>
+            <li><a href="#baza-danych">Baza danych</a>
+                <ol>
+                    <li><a href="#projekt-struktury">Projekt struktury bazy danych</a></li>
+                    <li><a href="#opis-tabel">Opis tabel i pól</a></li>
+                    <li><a href="#relacje">Relacje między tabelami</a></li>
+                    <li><a href="#zapytania">Przykładowe zapytania SQL</a></li>
+                </ol>
+            </li>
+            <li><a href="#bezpieczenstwo">Bezpieczeństwo</a>
+                <ol>
+                    <li><a href="#walidacja-danych">Walidacja danych wejściowych</a></li>
+                    <li><a href="#uwierzytelnianie">Obsługa sesji i uwierzytelnianie</a></li>
+                    <li><a href="#sql-injection">Zabezpieczenia przed atakami typu SQL Injection</a></li>
+                    <li><a href="#uprawnienia">Zarządzanie uprawnieniami użytkowników</a></li>
+                </ol>
+            </li>
+            <li><a href="#rozbudowa">Możliwości rozbudowy</a>
+                <ol>
+                    <li><a href="#integracja-platnosci">Integracja z systemami płatności</a></li>
+                    <li><a href="#powiadomienia">System powiadomień e-mail</a></li>
+                    <li><a href="#aplikacja-mobilna">Aplikacja mobilna</a></li>
+                    <li><a href="#analityka">Analityka i raportowanie</a></li>
+                </ol>
+            </li>
+            <li><a href="#zalaczniki">Załączniki</a>
+                <ol>
+                    <li><a href="#fragmenty-kodu">Fragmenty kodu źródłowego</a></li>
+                    <li><a href="#zrzuty-ekranu">Zrzuty ekranu działania systemu</a></li>
+                    <li><a href="#diagram-bazy">Diagram bazy danych</a></li>
+                    <li><a href="#lista-bledow">Lista błędów/uwag i pomysłów na ulepszenia</a></li>
+                </ol>
+            </li>
+        </ol>
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- Treść dokumentacji -->
+    <h1 id="wstep">1. Wstęp</h1>
+
+    <h2 id="cel-projektu">1.1. Cel projektu</h2>
+    <p>
+        Celem projektu było stworzenie w pełni funkcjonalnego sklepu internetowego dla warsztatu motocyklowego "Rodzinka & Rogóz". 
+        Aplikacja ma umożliwiać sprzedaż części motocyklowych, akcesoriów, odzieży oraz motocykli używanych, a także umożliwiać 
+        rezerwację usług serwisowych. System posiada rozbudowany panel administracyjny do zarządzania asortymentem, zamówieniami 
+        i użytkownikami.
+    </p>
+
+    <h2 id="zakres-projektu">1.2. Zakres projektu</h2>
+    <p>Projekt obejmuje:</p>
+    <ul>
+        <li>Stronę główną z prezentacją oferty</li>
+        <li>Katalog produktów z filtrowaniem i wyszukiwaniem</li>
+        <li>Szczegółowe strony produktów z możliwością dodania recenzji</li>
+        <li>System koszyka zakupowego</li>
+        <li>Proces składania zamówienia i płatności</li>
+        <li>Panel konta użytkownika z historią zamówień</li>
+        <li>System rezerwacji usług serwisowych</li>
+        <li>Panel administracyjny do zarządzania sklepem</li>
+        <li>System zarządzania rolami użytkowników</li>
+        <li>Moduł motocykli używanych z możliwością rezerwacji oględzin</li>
+    </ul>
+
+    <h2 id="uzytkownicy-systemu">1.3. Użytkownicy systemu</h2>
+    <p>System obsługuje następujące typy użytkowników:</p>
+    <ul>
+        <li><strong>Klienci niezarejestrowani</strong> - mogą przeglądać produkty, dodawać je do koszyka i składać zamówienia</li>
+        <li><strong>Klienci zarejestrowani</strong> - dodatkowo mogą zapisywać swoje dane, przeglądać historię zamówień, dodawać recenzje</li>
+        <li><strong>Administratorzy</strong> - mają pełny dostęp do panelu administracyjnego</li>
+        <li><strong>Mechanicy</strong> - mają dostęp do modułu zarządzania serwisem</li>
+        <li><strong>Właściciele</strong> - mają dostęp do wszystkich funkcji systemu wraz z modułem analityki</li>
+    </ul>
+
+    <h1 id="opis-ogolny">2. Opis ogólny</h1>
+
+    <h2 id="przeznaczenie-witryny">2.1. Przeznaczenie witryny</h2>
+    <p>
+        Witryna internetowa służy jako platforma sprzedażowa dla warsztatu motocyklowego, umożliwiająca:
+    </p>
+    <ul>
+        <li>Prezentację oferty części i akcesoriów motocyklowych</li>
+        <li>Sprzedaż produktów przez internet</li>
+        <li>Rezerwację usług serwisowych</li>
+        <li>Prezentację i sprzedaż motocykli używanych</li>
+        <li>Budowanie relacji z klientami poprzez system recenzji i opinii</li>
+    </ul>
+
+    <h2 id="glowne-funkcjonalnosci">2.2. Główne funkcjonalności</h2>
+    <p>Główne funkcjonalności systemu obejmują:</p>
+    <ul>
+        <li>Przeglądanie i wyszukiwanie produktów</li>
+        <li>Zarządzanie kontem użytkownika</li>
+        <li>Proces zakupowy (koszyk, checkout, płatności)</li>
+        <li>System recenzji produktów</li>
+        <li>Zarządzanie zamówieniami</li>
+        <li>Rezerwacja usług serwisowych</li>
+        <li>Zarządzanie motocyklami używanymi</li>
+        <li>Panel administracyjny z różnymi poziomami dostępu</li>
+    </ul>
